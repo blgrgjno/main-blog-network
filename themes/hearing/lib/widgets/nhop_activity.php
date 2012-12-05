@@ -585,7 +585,7 @@ class NHOP_activity extends WP_Widget {
 				if (strpos($authordata->display_name, "tdomf") === 0) {
 					$authorposts = sprintf('<span class="author_name author_%2$s"><span class="a_alt">%1$s</span></span>',
 //						tdomf_get_the_submitter(),
-						$user_type
+						$user_type 
 					);
 				}
 				else {

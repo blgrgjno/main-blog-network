@@ -285,7 +285,7 @@ class NHOP_activity extends WP_Widget {
 			}
 		}
 		else {
-			$this->print_latest($args, $instance);
+			$this->print_latest_front($args, $instance);
 			$this->print_commented($args, $instance);
 		}
 		
@@ -569,10 +569,11 @@ class NHOP_activity extends WP_Widget {
 		if ( $r->have_posts() ) {
 			while ( $r->have_posts() ) {
 				$r->the_post();
+
 				$bubble = get_comments_bubble();
 				if (!$bubble) break;
 				
-				$statement_meta = get_statement_meta(get_the_ID());
+				$the_post_url = home_url( '/?p=' . get_the_ID() );
 				$post_title = esc_attr(get_the_title() ? get_the_title() : get_the_ID());
 				
 				// Get user type
@@ -595,7 +596,9 @@ class NHOP_activity extends WP_Widget {
 						get_the_author()
 					);
 				}
-	
+
+				$authorposts = get_post_meta( get_the_ID(), 'Author Name', true );
+
 				$commentlist .= sprintf(
 					'<li>
 						<div class="author author_%s">%s</div>
@@ -603,7 +606,7 @@ class NHOP_activity extends WP_Widget {
 					</li>',
 					$user_type,
 					$authorposts,
-					$statement_meta->statement_url,
+					$the_post_url,
 					$post_title,
 					truncate($post_title, 80, $ending = ' (...)', false),
 					get_comments_bubble()

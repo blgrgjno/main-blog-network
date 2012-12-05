@@ -1,0 +1,22 @@
+/* Login page */
+#login h1 {
+	width: 150px;
+	margin: 0 auto;
+}
+#login h1 a {
+	background: url(mn_login.png) no-repeat;
+	height: 120px;
+}
+
+/* The logo in the top left */
+#wp-admin-bar-wp-logo > .ab-item .ab-icon {
+	background: url(mn-icon.png) 50% center no-repeat !important;
+}
+#wp-admin-bar-wp-logo:hover > .ab-item .ab-icon {
+	background: url(mn-icon-black.png) 50% center no-repeat !important;
+}
+
+/* Remove WP version number from footer */
+#footer-upgrade {
+	display: none;
+}

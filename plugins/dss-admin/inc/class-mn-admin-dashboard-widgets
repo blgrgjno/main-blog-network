@@ -1,0 +1,69 @@
+<?php
+/**
+ * @package WordPress
+ * @subpackage Metronet Admin
+ *
+ * @since 0.1
+ *
+ */
+
+
+/**
+ * Metronet Admin Dashboard widgets
+ * 
+ * @copyright Copyright (c), Metronet
+ * @author Ryan Hellyer <ryan@metronet.no>
+ * @since 0.1
+ */
+class Mn_Admin_Dashboard_Widgets {
+
+	/**
+	 * Constructor
+	 * Add methods to appropriate hooks
+	 * 
+	 * @since 0.1
+	 * @author Ryan Hellyer <ryan@metronet.no>
+	 */
+	public function __construct() {
+		add_action( 'wp_dashboard_setup', array( $this, 'admin_add_dashboard_widgets' ) );
+	}
+
+	/**
+	 * Add dashboard widgets
+	 * 
+	 * @since 0.1
+	 * @author Ryan Hellyer <ryan@metronet.no>
+	 */
+	public function admin_add_dashboard_widgets() {
+
+		// Add custom feed
+		wp_add_dashboard_widget(
+			'mn_dashboard_custom_feed',
+			__( 'Latest Posts from Metronet', 'mn_admin' ),
+			array( $this, 'dashboard_custom_feed_output' )
+		);
+	}
+	
+	/**
+	 * New dashboard widget
+	 * Creates the custom dashboard feed RSS box
+	 * 
+	 * @since 0.1
+	 * @author Ryan Hellyer <ryan@metronet.no>
+	 */
+	public function dashboard_custom_feed_output() {
+
+		echo '<div class="rss-widget" id="wppb-rss-widget">';
+		wp_widget_rss_output(
+			array(
+				'url'           => 'http://metronet.no/feed/',
+				'title'         => __( 'News from Metronet', 'mn_admin' ),
+				'items'         => 4,
+				'show_summary'  => 1,
+				'show_author'   => 0,
+				'show_date'     => 1
+			)
+		);
+		echo '</div>';
+	}
+}

@@ -1,0 +1,112 @@
+/*   
+Theme Name: Norge i Verden
+Theme URI: http://test.com/
+Description: Child theme for Norge i Verden
+Author: Ryan Hellyer
+Author URI: http://test.com/
+Template: dss-framework
+Version: 1.0
+
+*/
+
+@import url("../dss-framework/style.css"); 
+
+body {
+	background: #f4f7f3 url(images/kart-bakgrunn-grønn.jpg) 100% 100% no-repeat;
+	background-attachment: fixed;
+}
+#site-heading,
+.singular .entry-title,
+.entry-title,
+#site-title {
+	font-weight: normal;
+	font-family: Georgia, "Bitstream Charter", serif;
+}
+.entry-title a {
+	font-weight: normal;
+	color: #0431ae;
+}
+#header-content {
+	background: none; /* Getting rid of white lion */
+}
+#site-description {
+	display: none;
+}
+#site-title a {
+	position: relative;
+	top: 0.7em;
+	font-size: 1.8em;
+	color: #18453b;
+	text-transform: none;
+}
+#site-title a:hover {
+	color: #228873;
+}
+#branding {
+	border-top: 2px solid #ccc;
+}
+#page {
+	margin-top: 1.5em;
+	border-left: none;
+	border-right: none;
+}
+#logo {
+	width: 12%;
+	top: 0;
+	left: 0;
+}
+#colophon {
+	border-bottom: none;
+}
+.top-menu-link {
+	text-transform: none;
+	font-size: 0.85em;
+	left: 0;
+	color: #18453b;
+	background: #f4f7f3;
+	padding: 0.8em 1em;
+	margin: 0 0 0 1em;
+}
+div#site-heading-wrapper,
+#site-heading {
+	background: #006651;
+	color: #fff;
+	font-weight: normal !important;
+}
+.home #site-heading {
+	display: none;
+}
+
+/* Thumbnails */
+.post-thumbnail {
+	width: 90px;
+}
+.entry-header {
+	margin-left: 130px;
+	min-height: 90px;
+}
+.post-content {
+	margin-left: 0;
+}
+.singular .entry-header,
+.single .entry-header {
+	margin-left: 0;	
+}
+.entry-date {
+	display: block;
+}
+
+/* Search form */
+#searchform {
+	margin-top: 1.9em;
+}
+#searchform input {
+	padding-top: 1.9%;
+	padding-bottom: 1.9%;
+}
+
+/* Sidebar */
+.widget-title,
+.widget a {
+	font-weight: normal;
+}

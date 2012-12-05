@@ -1,0 +1,35 @@
+/*
+Theme Name:     NTP 2012
+Theme URI:      http: //blogg.regjeringen.no/regjeringskvartalet
+Description:    Child theme for the Twenty Eleven theme 
+Author:         DSS
+Author URI:     http: //example.com/about/
+Template:       twentyeleven
+Version:        0.1.0
+*/
+
+@import url("../twentyeleven/style.css");
+
+#watermarked-logo { width: 200px!important; position: absolute; right: 0px; top: 50px;}
+#.menu { display: center; }
+#access { background: #dddddd;background: -moz-linear-gradient(#eeeeee, #dddddd) repeat scroll 0 0 transparent; margin-top: 2px;}
+#access a { color: #333333; }
+#access ul li:first-child { padding-left: 10%; }
+#menu-meny.menu { 
+    display: inline; 
+}
+
+#site-title { display: none; }
+#regkvart-container { text-align: center;}
+#regkvart-container img { border: 1px solid #ccc; }
+
+#branding img#regjeringen_header {
+    margin-top: 20px;
+    border: none;
+    margin: 0auto;
+}
+#branding img { width: 69.9%; margin: 0 auto; }
+.singular.page .hentry { padding-top: 0px; }
+#searchform {display: none;} 
+
+.home h1.entry-title { font-size: 25px; }

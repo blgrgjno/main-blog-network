@@ -1,0 +1,409 @@
+/* 
+Theme Name: Connections Reloaded Beta fork
+Theme URI: http://ajaydsouza.com/wordpress/wpthemes/connections-reloaded/
+Version: 3.2
+Description: <a href="http://ajaydsouza.com/wordpress/wpthemes/connections-reloaded/" title="Powered by Connections Reloaded">Connections Reloaded</a> is a two column, fixed width theme derived from the <a href="http://vanillamist.com/blog/?page_id=81">Connections</a> theme by <a href="http://www.patriciamuller.com">Patricia M&uuml;ller</a>. The theme is gravatar ready, widget ready (with custom widgets) with support for custom header images and SEO titles and a options page for easy customisation.
+Author: Ajay D'Souza
+Author URI: http://ajaydsouza.com/
+Tags: fixed-width, two-columns, theme-options, green, custom-header, right-sidebar, threaded-comments, sticky-post
+*/
+a { color: #021B9A; text-decoration: none; }
+
+a img { border: none; }
+
+a:visited { color: #021B9A; }
+
+a:hover { color: #753206; text-decoration: underline; }
+
+acronym, abbr { border-bottom: 1px dotted #0C6BF0; }
+
+acronym, abbr, span.caps { cursor: help; letter-spacing: .07em; }
+
+blockquote, cite {
+	background: url(img/blockquote.gif) #F3F6ED no-repeat left top;
+	margin: 15px 30px 0 10px;
+	padding: 0 10px 20px 45px;
+}
+
+body {
+	background: #F3F6ED;
+	color: #29303B;
+	font: 0.9em/1.3em "Trebuchet MS",Georgia, Times, "Times New Roman", sans-serif;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+code { font-size: 1em; font-style: italic; }
+
+code {
+	color: #D48B00;
+	font-family: "Courier New", Courier, monospace;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+h1, h2, h3, h4 {
+	font-family: Georgia, "Lucida Sans Unicode", lucida, Verdana, sans-serif;
+	font-weight: normal;
+	letter-spacing: 1px;
+}
+
+h3 { font-size: 1.3em; margin: 0; padding: 0; }
+
+hr { border-top: #BBC4A3 1px solid; }
+
+img { border: none; }
+
+input, textarea { background: #F3F6ED; border: #E1D6C6 1px solid; }
+
+p { line-height: 1.5em; margin: 0 0 1em; padding: 0; }
+
+.commentlist { font-size: 1em; font-weight: normal; }
+
+.commentlist .alt, .commentlist .odd { border: #c8c6e1 1px solid; }
+
+.commentlist li {
+	background: url(img/comments_bottom.jpg) #F3F6ED repeat-x bottom;
+	border: #E1D6C6 1px solid;
+	margin: 5px 0;
+	padding: 10px 10px 20px 10px;
+}
+
+.commentlist li ul.children { list-style: none; margin: 1em 0 0; text-indent: 0; }
+
+ 
+.gravatar, .avatar { float: right; margin: 2px 2px 5px 5px; }
+
+.page { margin: 25px -5px 0 27px; }
+
+.page-content { }
+
+.page-info { text-align: center; }
+
+.page-title { font-size: 1.6em; font-weight: normal; }
+
+.post , .page { margin: 0 0 30px 0; }
+
+.post-content, .page-content {
+	border-top: #BBC4A3 1px solid;
+	font: 12px Georgia, Verdana, Arial, serif;
+	margin: 3px 0;
+	padding: 10px 0;
+}
+
+.post-date {
+	background: #E7EBDE;
+	color: #BBC4A3;
+	float: left;
+	font: bold 0.9em/1em Georgia,'Lucida sans ms', Verdana, Arial, Helvetica, sans-serif;
+	margin: 3px 10px 0 0;
+	padding: 8px 3px;
+	text-align: center;
+	width: 55px;
+}
+
+.postmeta {
+	background: url(img/comments_bottom.jpg) #F3F6ED repeat-x bottom;
+	border: #E1D6C6 1px solid;
+	margin: 40px 0px 40px 0px;
+	padding: 0 5px 30px 5px;
+}
+
+.postmeta h2 {
+	background: #E6EADB;
+	border: #E1D6C6 1px solid;
+	color: #676E04;
+	font-size: 1.2em;
+	font-weight: bold;
+	height: 1.2em;
+	margin: 0 -5px;
+	padding: 2px;
+}
+
+.post-footer {
+	background: url(img/divider.gif) no-repeat center;
+	padding-top: 20px;
+}
+
+.post-info a { color: #990000; }
+
+.post-info a:hover { color: #000000; }
+
+.post-info, .page-info {
+	color: #333333;
+	font: 0.85em Verdana, Arial, Sans-Serif;
+	margin: 0;
+	padding: 0;
+}
+
+.post-title, .page-title { font: bold 1.3em Georgia, Arial, Serif; margin: 0; }
+
+.sticky {
+	border-top: #FFCC99 1px solid;
+	border-bottom: #FFCC99 1px solid;
+}
+
+#header {
+	background: url(img/header.gif) #FFFFFF no-repeat bottom;
+	border: #FFCC99 0px solid;
+	height: 183px;
+	margin: 0 auto;
+	padding: 0;
+	width: 760px;
+}
+
+#headimg {
+	background: #7d8b5a url(img/train.jpg) center repeat-y;
+	height: 142px;
+	margin: 2px 0 0 10px;
+	width: 741px;
+}
+
+#header #desc {
+	color: #B5C09D;
+	font-size: 1em;
+	font-style: italic;
+	font-weight: normal;
+	margin: 0;
+	padding: 0 20px 0 0;
+	text-align: right;
+}
+
+#header h1 {
+	font-size: 1.6em;
+	margin: 0;
+	padding: 10px 20px 0 0;
+	text-align: right;
+}
+
+#header h1 a { color: #B5C09D; text-decoration: none; }
+
+#header h1 a:hover { color: #F7F3ED; }
+
+#topnav {
+	font: 0.9em Verdana, Arial, Sans-Serif;
+	height: 17px;
+	list-style: none;
+	margin: 0 auto;
+	padding: 15px 20px 0 0;
+	text-align: right;
+}
+
+#topnav li {
+	border-left: #BBC4A3 1px solid;
+	display: inline;
+	font-weight: bold;
+	list-style: none;
+}
+
+#topnav li a:link, #topnav li a:visited { color: #BBC4A3; padding: 0 5px; text-decoration: none; }
+
+#topnav li a:hover, #topnav li a:active { color: #F7F3ED; padding: 0 5px; }
+
+#main {
+	background: url(img/content_bg.gif) repeat;
+	margin: 0 auto;
+	padding: 0;
+	width: 740px;
+}
+
+#pagenav { list-style: none; }
+
+#rap {
+	background: url(img/rap.jpg) #FFFFFF center repeat-y;
+	font: 0.9em "Trebuchet MS",Georgia, Arial, serif;
+	margin: 0 auto;
+	padding: 0px 8px;
+	text-align: left;
+	width: 760px;
+}
+
+#content {
+	display: inline;
+	float: left;
+	margin: 0;
+	overflow: hidden;
+	padding: 5px;
+	width: 510px;
+}
+
+#content .page-title a, .post-title a:link, .post-title a:visited, .post-title a:hover, .post-title a:active { color: #676E04; text-decoration: none; }
+
+#content ul {
+	: ; /*	list-style-type: none;
+	margin-left: 0;
+	padding-left: 45px;
+*/
+}
+
+#content ul li {
+	: ; /*	background: url(img/bullet.gif) no-repeat 0 7px;
+	padding-left: 1.5em;
+*/
+}
+
+#commentform { margin: 0 0 0 40px; }
+
+#commentform p { margin: 0 0 1em; }
+
+#commentform textarea { width: 80%; }
+
+#comments,#respond {
+	color: #676E04;
+	font: 0.9em verdana, helvetica, sans-serif;
+	margin: 3em 0 1em 0;
+}
+
+#sidebar {
+	color: #333333;
+	display: inline;
+	float: right;
+	font-size: 1em;
+	margin: 0;
+	padding: 0px 8px 10px 8px;
+	width: 186px;
+}
+
+#sidebar ul { list-style-type: none; margin: 0; padding: 0px; }
+
+#sidebar ul h2 {
+	background: url(img/sidenav_top.jpg) no-repeat center;
+	border: #E1D6C6 1px solid;
+	border-bottom: #F3F6ED 0px solid;
+	color: #676E04;
+	font-size: 1em;
+	font-weight: bold;
+	height: 22px;
+	margin: 10px 0 0 0;
+	padding: 2px;
+	text-align: center;
+}
+
+#sidebar ul ul {
+	background: url(img/sidenav_bottom.jpg) #F3F6ED no-repeat bottom;
+	border: #E1D6C6 1px solid;
+	font-size: 0.9em;
+	list-style-type: none;
+	margin: 0;
+	padding: 5px;
+	padding-bottom: 3em;
+}
+
+#sidebar ul ul li { margin: 0.1em 0 0 0; padding: 0; }
+
+#sidebar ul ul li a { border: none; text-decoration: none; }
+
+#sidebar ul ul li a:link { color: #909D73; }
+
+#sidebar ul ul li a:visited { color: #999999; }
+
+#sidebar ul ul li a:hover, #sidebar ul ul li a:active { color: #990000; }
+
+#sidebar ul ul ul {
+	background: none;
+	border: none;
+	font-size: 1em;
+	list-style-type: none;
+	margin: 0;
+	padding: 5px;
+}
+
+#sidebar ul ul ul li {
+	background: url(img/subcat_bullet.gif) no-repeat 0 5px;
+	margin: 0 0 0 10px;
+	padding: 0 0 0 10px;
+}
+
+#footer {
+	border-top: #BBC4A3 1px solid;
+	clear: both;
+	color: #999999;
+	font-size: 0.8em;
+	margin: 0 auto;
+	padding: 7px 0;
+	text-align: center;
+	width: 740px;
+}
+
+#footer a { border: none; color: #7A7636; }
+
+/************/
+/* Calendar */
+/************/
+#calendar { margin: 10px 0px 0px 0px; position: inherit; }
+
+#wp-calendar {
+	background: url(img/sidenav_bottom.jpg) #F3F6ED no-repeat bottom;
+	border: #E1D6C6 1px solid;
+	border-top: #F3F6ED 1px solid;
+	empty-cells: show;
+	font-size: 0.9em;
+	margin: 0px;
+	padding: 3px;
+	padding-bottom: 3em;
+	text-align: center;
+	width: 100%;
+}
+
+#wp-calendar #next a { padding-right: 10px; text-align: right; }
+
+#wp-calendar #prev a { padding-left: 10px; text-align: left; }
+
+#wp-calendar .today { background: #EEEEEE; font-weight: bold; }
+
+#wp-calendar a { display: block; text-decoration: none; }
+
+#wp-calendar a:hover { background: #E0E6E0; color: #333333; }
+
+#wp-calendar caption {
+	background: url(img/sidenav_top.jpg) no-repeat center;
+	border: #E1D6C6 1px solid;
+	color: #676E04;
+	font-size: 1em;
+	font-weight: bold;
+	height: 22px;
+	margin: 10px 0 0 0;
+	padding: 2px;
+	text-align: center;
+}
+
+#wp-calendar caption a, #wp-calendar caption a:hover { background: transparent; color: #000000; }
+
+#wp-calendar td {
+	color: #CCCCCC;
+	letter-spacing: normal;
+	padding: 2px 0;
+	text-align: center;
+}
+
+#wp-calendar td.pad:hover { background: #FFFFFF; }
+
+#wp-calendar td:hover, #wp-calendar #today { background: #EEEEEE; color: #BBBBBB; }
+
+#wp-calendar th { font-style: normal; text-transform: capitalize; }
+
+/* Text and Image Alignment */ 
+img.alignleft, .left { float: left; }
+
+img.alignright, .right { float: right; }
+
+.alignleft { text-align: left; }
+
+.alignright { text-align: right; }
+
+.aligncenter, img.centered, .center { text-align: center; }
+
+.wp-caption { border: 1px dotted #0C6BF0; margin: 10px; }
+
+.wp-caption img { border: 0 none; margin: 0; padding: 0; }
+
+.wp-caption p.wp-caption-text {
+	font-size: 11px;
+	line-height: 17px;
+	margin: 0;
+	padding: 0 4px 5px;
+}
+
+.wp-post-image { float: left; border: 1px dotted #0C6BF0; margin: 0 20px 20px 0; }
+

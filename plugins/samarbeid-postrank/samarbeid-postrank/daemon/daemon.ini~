@@ -1,0 +1,45 @@
+; -----------------------------------------------------------------------------
+;
+;  Settings file for Samarbeid for Arbeid PostRank feed update daemon
+;
+;  PLEASE NOTE: All *string* fields must be quoted. Numeric and boolean
+;               fields should be written literally.
+;
+; -----------------------------------------------------------------------------
+
+; Security settings
+daemon_username     = "nobody"
+daemon_group        = "nobody"
+
+; DB access settings
+db_host             = "localhost"
+db_user             = "root"
+db_password         = "onetwo3"
+db_name             = "db_samarbeid"
+
+db_table_feeds      = "wp_samarbeid_feeds"
+db_table_feed_data  = "wp_samarbeid_feed_data"
+db_table_user_input = "wp_input_input"
+db_table_nonce      = "wp_samarbeid_nonce"
+db_table_nonce_vote = "wp_samarbeid_nonce_vote"
+
+; Timeout fetching feeds (seconds)
+timeout_feed        = 5
+
+; Timeout fetching postrank data (seconds)
+timeout_postrank    = 5
+
+; Seconds to wait between each DB check for stale data
+sleep_period        = 5
+
+; Linkback (trackbacks and pingbacks) options
+linkback_url                 = "http://127.0.0.1/?cat=%d&pr_post_id=%d"
+
+trackback_timeout            = 5
+trackback_autodiscover_lines = 1000
+trackback_blog_name          = "Samarbeid for Arbeid"
+trackback_title              = "Takk for ditt bidrag til debatten"
+trackback_excerpt            = "Ditt innspill har blitt synliggjort på samarbeidforarbeid.no"
+
+pingback_timeout             = 5
+pingback_size                = 150000

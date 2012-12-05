@@ -1,0 +1,211 @@
+/*   
+Theme Name: dss-loaded-sjomatmelding
+Theme URI: http://beta.regjeringen.no/wp/dss-loaded
+Description: DSS child theme for Sjømatmelding
+Author: Gorm Haug Eriksen
+Author URI: http://beta.regjeringen.no
+Template: connections-reloaded-sjomatmelding
+Version: 0.9
+.
+General comments/License Statement if any.
+.
+*/
+
+@import url("../connections-reloaded/style.css"); 
+
+/* CSS Mini Reset */
+/*
+html, body, div, form, fieldset, legend, label
+{
+ margin: 0;
+ padding: 0; 
+}
+
+table
+{
+ border-collapse: collapse;
+ border-spacing: 0;
+}
+
+th, td
+{
+ text-align: left;
+ vertical-align: top;
+}
+
+h1, h2, h3, h4, h5, h6, th, td, caption { font-weight:normal; }
+
+img { border: 0; }
+*/
+
+body {
+	xxfont: 0.9em/1.3em Georgia, Times, "Times New Roman", sans-serif;
+	xxfont: 0.9em/1.3em Verdana, Tahoma, Arial, sans-serif;
+	xxfont-family: Verdana, "Bitstream Vera Sans", "DejaVu Sans", Tahoma, Geneva, Arial, Sans-serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: Georgia;
+}
+
+#header {
+	xxbackground: none;
+}
+/* Vi viser ikke header her siden det ligger i bildet */
+#headimg h1, #desc { display:  none; }
+
+#header #desc {
+	font-weight: normal;
+	margin: 0;
+	padding: 20px 20px 0px 25px;
+	position:relative;
+	left: 310px;
+	text-align: left;
+}
+
+#header h1 {
+	font-size: 1.4em;
+	padding: 20px 20px 0 10px;
+	text-align: left;
+	color: #003a80;
+	font-weight: bold;
+}
+
+#header #headimg #desc {
+	color: #2d2d2c;
+	font-size: 2.5em;
+}
+
+#header #desc {
+	padding-top: 10px;
+}
+
+#header h1 a { color: #003a80; text-decoration: none; }
+
+#header h1 a:hover { color: #F7F3ED; }
+
+#sidebar ul ul ul {
+	padding:0px;
+	margin:0px;
+}
+
+#sidebar ul ul ul li {
+	margin:0px;
+	margin-bottom: 2px;
+}
+
+#rap {
+	xxbackground: #F6F3EC;
+	font-family: Verdana, "Bitstream Vera Sans", "DejaVu Sans", Tahoma, Geneva, Arial, Sans-serif;
+}
+
+#main { margin-top: 10px; }
+
+#content {
+	margin-left: 20px;
+}
+
+.post-title,.page-title { 
+    font: 1.3em Georgia;
+}
+
+#sidebar ul h2 {
+	text-align: left;
+	padding: 5px 5px 5px 10px;
+	background: rgb(194,244,242);
+	height: 1.5em;
+	line-height: 1.5em;
+}
+
+.post-info, .page-info { font: 1.1em/1.3em Georgia;}
+
+#sidebar ul ul {
+    background: rgb(234,244,242);
+	padding: 5px 5px 1em 10px;
+	font-size: 1em;
+}
+/*
+a, a:hover {
+	color: #021BB5;
+}
+
+a:visited {
+	color: #021BB5;
+}
+
+h1, h2, h3, h4 {
+	color: #7D8B58;
+}
+
+
+*/
+#topnav li { font-weight: normal; }
+#topnav li a:link, #topnav li a:visited { color: rgb(237,237,237); }
+
+.post-content, .page-content, #topnav {
+	font-family : Verdana, "Bitstream Vera Sans", "DejaVu Sans", Tahoma, Geneva, Arial, Sans-serif;
+}
+
+.post-date {
+	width: 67px;
+}
+
+.postmeta {
+	background: none;
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+.postmeta h2 {
+	background: #E6EADB;
+	border: #E1D6C6 1px solid;
+	color: #676E04;
+	font-size: 1.2em;
+	font-weight: bold;
+	height: 1.2em;
+	margin: 0 -5px;
+	padding: 2px;
+}
+
+.post-footer {
+	background: none;
+	padding:0px;
+}
+
+.boxcomments {
+	background: rgb(234,244,242);
+	border: 1px solid #cccccc;
+	padding: 5px;
+}
+
+#comments, #respond {
+	margin:1em 0 1em 48px;
+
+}
+.commentlist li {
+	background: rgb(234,244,242);
+	border:0px;
+}
+blockquote, cite {
+	background:#efefef;
+	margin:0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+.commentlist .alt, .commentlist .odd {
+	border:0px;
+}
+#commentform {
+	margin:0px;
+}
+#commentformtable {
+	width: 100%;
+	overflow:visible;
+}
+#commentformtable td {
+	vertical-align:top;
+}
+#commentformtable textarea {
+	width: 95%;
+}

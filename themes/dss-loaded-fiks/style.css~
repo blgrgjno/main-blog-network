@@ -1,0 +1,224 @@
+/*   
+Theme Name: dss-loaded-fiks
+Template: connections-reloaded-fiks
+Version: 0.8
+.
+General comments/License Statement if any.
+.
+*/
+
+@import url("../connections-reloaded-fiks/style.css"); 
+
+/* CSS Mini Reset */
+/*
+html, body, div, form, fieldset, legend, label
+{w
+ margin: 0;
+ padding: 0; 
+}
+
+table
+{
+ border-collapse: collapse;
+ border-spacing: 0;
+}
+
+th, td
+{
+ text-align: left;
+ vertical-align: top;
+}
+
+h1, h2, h3, h4, h5, h6, th, td, caption { font-weight:normal; }
+
+img { border: 0; }
+*/
+
+body {
+	xxfont: 0.9em/1.3em Georgia, Times, "Times New Roman", sans-serif;
+	xxfont: 0.9em/1.3em Verdana, Tahoma, Arial, sans-serif;
+	background-color: #f8faef;
+}
+
+h1, h2, h3, h4 {
+	xxfont-family: Georgia, "Lucida Sans Unicode", lucida, Verdana, sans-serif;
+	font-family: Georgia, Palatino, serif;
+}
+
+#header {
+	height:269px;
+	background-position-y: 0%;
+	background-position:top;
+}
+
+a { color: #0031BB; }
+
+.post-title,.page-title { font: bold 1.4em Georgia,Arial,Serif; }
+
+a,#content .page-title a, .post-title a:link, .post-title a:visited, .post-title a:hover, .post-title a:active { 
+	color: #0031BB; text-decoration: none; }
+
+.comments-link a { color: #0031BB; }
+
+.post-content a { text-decoration: underline; }
+
+#headimg {
+	height: 178px;
+}
+
+#header #desc {
+	font: 0.9em Georgia, Helvetica, serif;
+	font-size: 1em;
+	font-weight: normal;
+	margin: 0;
+	padding: 20px 20px 0px 25px;
+	text-align: left;
+}
+
+#header h1 {
+	font: 2em Verdana Arial sans-serif;
+	padding: 10px 20px 0px 25px;
+	text-align: left;
+	color: #003a80;
+	font-weight: bold;
+}
+
+#header #headimg #desc {
+	color: #2d2d2c;
+	font-size: 2.5em;
+}
+
+#header #desc {
+	padding-top: 0px;
+}
+
+#header h1 a { color: #003a80; text-decoration: none; }
+
+#header h1 a:hover { color:#0031BB;text-decoration: underline; }
+
+#sidebar { width: 206px; }
+
+#sidebar ul ul ul {
+	padding:0px;
+	margin:0px;
+}
+
+#sidebar ul ul ul li {
+	margin:0px;
+}
+
+#rap {
+	xxbackground: #F6F3EC;
+	font-family: Verdana, Tahoma, Arial, sans-serif;	
+}
+
+#content {
+	margin-left: 10px;
+}
+
+#sidebar ul h2 {
+	xxtext-align: left;
+	xxpadding: 5px 5px 5px 10px;
+	background: #e2e3e5;
+	xxheight: 1.5em;
+	xxline-height: 1.5em;
+}
+
+#sidebar ul ul {
+	xxpadding: 5px 5px 1em 10px;
+	font-size: 1.0em;
+	background-color: #ebecee;
+
+}
+
+form#searchform div input#s { width: 160px;}
+
+.post-info a { color: #0031BB; }
+#sidebar ul ul li a:visited { color: #551A8B; }
+#sidebar ul ul li a:hover, #sidebar ul ul li a:active { color: #2C5671; text-decoration: underline; }
+
+/*a, a:hover {
+	color: #021BB5;
+}*/
+
+/*a:visited {
+	color: #2200C1;
+}
+
+h1, h2, h3, h4 {
+	color: #7D8B58;
+}*/
+
+
+.post-content, .page-content {
+	font: 1em/1.3em Verdana, Tahoma, Arial, sans-serif;
+}
+
+.post-content img {padding:7px;}
+
+.thumblock { padding-top: 13px; }
+
+.post-date {
+	width: 67px;
+	color: #747f5c;
+}
+
+.postmeta {
+	background: none;
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+.postmeta h2 {
+	background: #E6EADB;
+	border: #E1D6C6 1px solid;
+	color: #676E04;
+	font-size: 1.2em;
+	font-weight: bold;
+	height: 1.2em;
+	margin: 0 -5px;
+	padding: 2px;
+}
+
+.post-footer {
+	background: none;
+	padding:0px;
+}
+
+.boxcomments {
+	background: #efefef;
+	border: 1px solid #cccccc;
+	padding: 5px;
+}
+
+#comments, #respond {
+	margin:1em 0 1em 48px;
+
+}
+.commentlist li {
+	background: #efefef;
+	border:0px;
+}
+blockquote, cite {
+	background:#efefef;
+	margin:0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+.commentlist .alt, .commentlist .odd {
+	border:0px;
+}
+#commentform {
+	margin:0px;
+}
+#commentformtable {
+	width: 100%;
+	overflow:visible;
+}
+#commentformtable td {
+	vertical-align:top;
+}
+#commentformtable textarea {
+	width: 95%;
+}

@@ -1,0 +1,81 @@
+/* Settings Page */
+.categoryList{
+	display:block;
+	padding:10px;
+	height:100px;
+	overflow:auto;
+	border:1px dashed #CCC;
+}
+.categoryList ul{
+	list-style:none;
+}
+.categoryList ul.children{
+	margin-left:20px;
+}
+.categoryList li{
+	background-color:#f8f8f8;
+}
+
+/* Reports Listing Page*/
+.wprp-pages{
+	display:block;
+	margin:20px 0;
+	overflow:auto;
+}
+.wprp-pages ul{
+	list-style:none;
+	padding:0; margin:0;
+	float:right;
+}
+.wprp-pages li{
+	padding:0; margin:0;
+	float:left;
+	display:inline;
+	margin:1px;
+}
+.wprp-pages li.current{
+	color:#666;
+	border:1px dashed #ccc;
+	background:#e8e8e8;
+	padding:3px 5px;
+}
+.wprp-pages li.pageinfo{
+	padding:3px 5px;
+	background-color:#fff;
+}
+.wprp-pages a, .wprp-pages a:visited{
+	display:block;
+	text-decoration:none;
+	padding:3px 5px;
+	background-color:#fff;
+	border:1px dashed #ccc;
+	color:#06C;
+}
+.wprp-pages a:hover{
+	color:#fff;
+	background-color:#ccc;
+}
+
+.wprp-info{
+	display:block;
+	margin:10px 0;
+	text-align:right;
+	position:relative;
+}
+.wprp-buttons{
+	position:absolute;
+	top:0; left:0;
+}
+
+.wprp-archive{
+	display: block;
+	background-color: #fff;
+	border-bottom: 1px dashed #ccc;
+	border-top: 1px dashed #ccc;
+	margin: 10px 0;
+	padding: 10px;
+}
+.wprp_wdg{
+	color: #f00;
+	font-weight: bold;
+}

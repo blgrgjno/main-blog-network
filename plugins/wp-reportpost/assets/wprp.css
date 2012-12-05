@@ -1,0 +1,33 @@
+.wprp_wrapper{
+	clear: both;
+	display: block;
+	margin: 5px 0;
+	padding: 10px;
+	color: #676d72;
+	
+	text-align: right;
+}
+.wprp_form{
+	background:#f0f4f7;
+	border:1px solid #d9e4ef;
+	margin: 5px 0 0;
+	
+	display: none;
+}
+.wprp_form form{
+	margin: 0;
+	padding: 0;
+}
+
+.wprp_message{
+	text-align: center;
+	padding: 5px;
+	border:1px solid #d9e4ef;
+	background-color: #fff;
+	display: none;
+}
+
+.wprp_clear{
+	clear: both;
+	display: block;
+}

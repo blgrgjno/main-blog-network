@@ -1,0 +1,463 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Subscribe to Comments 2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-12-30 12:54+0100\n"
+"PO-Revision-Date: 2010-12-30 13:01+0100\n"
+"Last-Translator: Martin Klíma <martin.klima@mymail.cz>\n"
+"Language-Team: Mark Jaquith <mark.wordpress@txfx.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+": \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;__ngettext_noop:1,2;_c\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: gurken-subscribe-to-comments.php:74
+msgid "<strong>Error: </strong>"
+msgstr "<strong>Chyba: </strong>"
+
+#: gurken-subscribe-to-comments.php:88
+msgid "Subscribe without commenting"
+msgstr "Přihlásit k odběru nových komentářů bez přidání vlastního komentáře:"
+
+#: gurken-subscribe-to-comments.php:90
+msgid "E-Mail:"
+msgstr "E-Mail:"
+
+#: gurken-subscribe-to-comments.php:92
+msgid "Subscribe"
+msgstr "Přihlásit"
+
+#: gurken-subscribe-to-comments.php:215
+msgid "You may not access this page without a valid key."
+msgstr "Na tuto stránku nemáte přístup bez platného klíče."
+
+#: gurken-subscribe-to-comments.php:224
+#, php-format
+msgid "All notifications that were formerly sent to <strong>%1$s</strong> will now be sent to <strong>%2$s</strong>!"
+msgstr "Všechna upozornění, která byla zaslána na <strong>%1$s</strong> budou nyní posílána na <strong>%2$s</strong>!"
+
+#: gurken-subscribe-to-comments.php:236
+#, php-format
+msgid "<strong>%1$s</strong> %2$s removed successfully."
+msgstr "<strong>%1$s</strong> %2$s úspěšně odstraněn."
+
+#: gurken-subscribe-to-comments.php:236
+msgid "subscriptions"
+msgstr "Objednané odběry"
+
+#: gurken-subscribe-to-comments.php:236
+msgid "subscription"
+msgstr "Objednaný odběr"
+
+#: gurken-subscribe-to-comments.php:241
+#, php-format
+msgid "The block on <strong>%s</strong> has been successfully removed."
+msgstr "Blokace <strong>%s</strong> byla úspěšně odstraněna."
+
+#: gurken-subscribe-to-comments.php:243
+#, php-format
+msgid "<strong>%s</strong> isn't blocked!"
+msgstr "<strong>%s</strong> není blokován!"
+
+#: gurken-subscribe-to-comments.php:248
+#, php-format
+msgid "<strong>%s</strong> has been blocked from receiving notifications.  You will have to have the administrator remove the block before you will be able to change your notification address."
+msgstr "<strong>%s</strong> byl zablokován pro přijímání upozornění. Před změnou adresy pro upozornění budete muset nejdříve požádat administrátora o odstranění bloku."
+
+#: gurken-subscribe-to-comments.php:251
+#, php-format
+msgid "Your change of e-mail request was successfully received.  Please check your new account (<strong>%s</strong>) in order to confirm the change."
+msgstr "Byla obdržena Vaše žádost o změnu emailu. Zkontrolujte prosím Váš nový účet (<strong>%s</strong>) pro potvrzení změny."
+
+#: gurken-subscribe-to-comments.php:256
+#, php-format
+msgid "Your request to block <strong>%s</strong> from receiving any further notifications has been received.  In order for you to complete the block, please check your e-mail and click on the link in the message that has been sent to you."
+msgstr "Byla obdržena Vaše žádost o blokování <strong>%s</strong> pro přijímání budoucích informací o nových komentářích. Pro dokončení blokace prosím zkontrolujte Vaši emailovou schránku a klikněte na odkaz ve zprávě, která Vám byla zaslána."
+
+#: gurken-subscribe-to-comments.php:260
+#: Subscribe.class.php:202
+msgid "Please check your emails and click on the confirmation link."
+msgstr "Zkontrolujte prosím svůj email a klikněte na potvrzovací odkaz."
+
+#: gurken-subscribe-to-comments.php:266
+#, php-format
+msgid "<strong>%1$s</strong> has been added to the \"do not mail\" list. You will no longer receive any notifications from this site. If this was done in error, please contact the <a href=\"mailto:%2$s\">site administrator</a> to remove this block."
+msgstr "Emailová adresa <strong>%1$s</strong> byla přidána na seznam \"Žádné emaily\".Z těchto stránek již nebudete dostávat žádné informační emaily. Pokud bylo toto nastaveno omylem, kontaktujte prosím<a href=\"mailto:%2$s\">Administrátora</a>, s žádostí o odstranění blokace."
+
+#: gurken-subscribe-to-comments.php:268
+#, php-format
+msgid "<strong>%s</strong> has already been blocked!"
+msgstr "<strong>%s</strong> byl úspěšně zablokován!"
+
+#: gurken-subscribe-to-comments.php:293
+#: gurken-subscribe-to-comments.php:329
+#, php-format
+msgid "%s Comment Subscription Manager"
+msgstr "%s správce přihlášení k odběru komentářů"
+
+#: gurken-subscribe-to-comments.php:332
+#, php-format
+msgid "Return to the page you were viewing: %s"
+msgstr "Zpět na stránku: %s"
+
+#: gurken-subscribe-to-comments.php:343
+msgid "Remove Block"
+msgstr "Odstranit blokaci"
+
+#: gurken-subscribe-to-comments.php:346
+#, php-format
+msgid "Click the button below to remove the block on <strong>%s</strong>.  This should only be done if the user has specifically requested it."
+msgstr "Pro odstranění blokace na <strong>%s</strong> klikněte prosím na tlačítko níže. Toto by mělo být provedeno pouze na výslovnou žádost uživatele."
+
+#: gurken-subscribe-to-comments.php:354
+msgid "Remove Block &raquo;"
+msgstr "Odstranit blokaci &raquo;"
+
+#: gurken-subscribe-to-comments.php:362
+msgid "Blocked"
+msgstr "Zablokováno"
+
+#: gurken-subscribe-to-comments.php:365
+#, php-format
+msgid "You have indicated that you do not wish to receive any notifications at <strong>%1$s</strong> from this site. If this is incorrect, or if you wish to have the block removed, please contact the <a href=\"mailto:%2$s\">site administrator</a>."
+msgstr "Zadali jste, že si nepřejete z těchto stránek dostávat žádná upozornění na <strong>%1$s</strong>. Pokud se jedná o nedopatření, nebo si přejete tuto blokaci zrušit, kontaktujte prosím <a href=\"mailto:%2$s\">Administrátora</a>."
+
+#: gurken-subscribe-to-comments.php:386
+#, php-format
+msgid "<strong>%s</strong> is subscribed but the comment has not been approved yet."
+msgstr "Pro <strong>%s</strong> existuje přihlášení k odběru, které však není zatím potvrzené."
+
+#: gurken-subscribe-to-comments.php:391
+#, php-format
+msgid "<strong>%s</strong> is not subscribed to any posts on this site."
+msgstr "<strong>%s</strong> není přihlášen pro žádný odběr z těchto stránek."
+
+#: gurken-subscribe-to-comments.php:395
+msgid "You have a pending subscription, please check your emails and click on the confirmation link."
+msgstr "Přihlášení k odběru čeká na Vaše potvrzení. Zkontrolujte prosím Váš email a klikněte na potvrzovací odkaz."
+
+#: gurken-subscribe-to-comments.php:399
+#: Subscribe.class.php:214
+#, php-format
+msgid "<strong>%s</strong> is not a valid e-mail address."
+msgstr "<strong>%s</strong> není platná emailová adresa."
+
+#: gurken-subscribe-to-comments.php:413
+msgid "&laquo; Back"
+msgstr "&laquo; Zpět"
+
+#: gurken-subscribe-to-comments.php:416
+msgid "Find Subscriptions"
+msgstr "Najít přihlášené odběry"
+
+#: gurken-subscribe-to-comments.php:419
+msgid "Enter an e-mail address to view its subscriptions or undo a block."
+msgstr "Zadejte e-mailovou adresu pro zobrazení příslušných odběrů nebo zrušení blokace."
+
+#: gurken-subscribe-to-comments.php:427
+msgid "Search &raquo;"
+msgstr "Hledat &raquo;"
+
+#: gurken-subscribe-to-comments.php:435
+msgid "Top Subscriber List"
+msgstr "Top odběratelé"
+
+#: gurken-subscribe-to-comments.php:437
+msgid "Subscriber List"
+msgstr "Seznam odběratelů komentářů"
+
+#: gurken-subscribe-to-comments.php:456
+msgid "Show all subscribers"
+msgstr "Zobrazit všechny odběratele"
+
+#: gurken-subscribe-to-comments.php:458
+msgid "Show list of subscribers in <code>CC:</code>-field format (for bulk e-mailing)"
+msgstr "Zobrazit seznam odběratelů v <code>CC:</code>-formátu (pro E-Mail-odpovědi)"
+
+#: gurken-subscribe-to-comments.php:460
+msgid "&laquo; Back to regular view"
+msgstr "&laquo; Zpět na standardní zobrazení"
+
+#: gurken-subscribe-to-comments.php:475
+msgid "Top Subscribed Posts"
+msgstr "Top odebírané příspěvky"
+
+#: gurken-subscribe-to-comments.php:525
+#: Subscribe.class.php:895
+msgid "Subscriptions"
+msgstr "Odběry"
+
+#: gurken-subscribe-to-comments.php:528
+#, php-format
+msgid "<strong>%s</strong> is subscribed to the posts listed below. To unsubscribe to one or more posts, click the checkbox next to the title, then click \"Remove Selected Subscription(s)\" at the bottom of the list."
+msgstr "<strong>%s</strong> je přihlášen k odběru u příspěvků uvedených níže. Pro odhlášení jednoho nebo více příspěvků označte zaškrtávací políčko vedle názvu a pak klikněte \"Odstranit zvolené odběry\" na konci seznamu."
+
+#: gurken-subscribe-to-comments.php:542
+msgid "Invert Checkbox Selection"
+msgstr "Invertovat výběr políček"
+
+#: gurken-subscribe-to-comments.php:546
+msgid "Remove Selected Subscription(s) &raquo;"
+msgstr "Odstranit zvolené odběry &raquo;"
+
+#: gurken-subscribe-to-comments.php:553
+msgid "Advanced Options"
+msgstr "Podrobné nastavení"
+
+#: gurken-subscribe-to-comments.php:556
+msgid "Block All Notifications"
+msgstr "Blokovat všechna upozornění"
+
+#: gurken-subscribe-to-comments.php:563
+#, php-format
+msgid "If you would like <strong>%s</strong> to be blocked from receiving any notifications from this site, click the button below.  This should be reserved for cases where someone is signing you up for notifications without your consent."
+msgstr "Pokud si přejete emailovou adresu <strong>%s</strong> zablokovat pro přijímání upozornění z této stránky, klikněte na níže uvedené tlačítko. Tato funkce by měla být použita pouze tehdy, když Vás někdo přihlásí k odběru bez Vašeho vědomí."
+
+#: gurken-subscribe-to-comments.php:567
+msgid "Block Notifications &raquo;"
+msgstr "Blokovat upozornění &raquo;"
+
+#: gurken-subscribe-to-comments.php:573
+msgid "Change E-mail Address"
+msgstr "Změnit email"
+
+#: gurken-subscribe-to-comments.php:580
+msgid "If you would like to change the e-mail address for your subscriptions, enter the new address below.  You will be required to verify this request by clicking a special link sent to your new address."
+msgstr "Pokud chcete změnit emailovou adresu pro přihlášení k odběru komentářů, napište novou adresu níže. Následně bude nutné volbu potvrdit kliknutím na odkaz, která obdržíte na vaši novou emailovou adresu (<strong>%s</strong>)."
+
+#: gurken-subscribe-to-comments.php:584
+msgid "New E-mail Address:"
+msgstr "Nový email:"
+
+#: gurken-subscribe-to-comments.php:589
+msgid "Change E-mail Address &raquo;"
+msgstr "Změnit email &raquo;"
+
+#: Subscribe.class.php:160
+msgid "Please provide a valid e-mail address."
+msgstr "Zadejte prosím platnou emailovou adresu."
+
+#: Subscribe.class.php:164
+msgid "This e-mail address may not be subscribed"
+msgstr "Tato emailová adresa nemůže být zadána pro přihlášení odběru."
+
+#: Subscribe.class.php:170
+#: Subscribe.class.php:186
+#: Subscribe.class.php:370
+msgid "You appear to be already subscribed to this entry."
+msgstr "Vaše emailová adresa již je registrována pro tento odběr."
+
+#: Subscribe.class.php:176
+msgid "Comments are not allowed on this entry."
+msgstr "U tohoto příspěvku nejsou povoleny komentáře."
+
+#: Subscribe.class.php:365
+msgid "Error while fetching database record"
+msgstr "Chyba načtení dat z databáze"
+
+#: Subscribe.class.php:378
+#: Subscribe.class.php:404
+msgid "Successfully subscribed"
+msgstr "Úspěšně přihlášen k odběru!"
+
+#: Subscribe.class.php:389
+msgid "Post doesn't exist or comments are not allowed on this entry."
+msgstr "Příspěvek neexistuje nebo nejsou u tohoto příspěvku povolené komentáře."
+
+#: Subscribe.class.php:409
+msgid "Unknown error"
+msgstr "Neznámá chyba"
+
+#: Subscribe.class.php:633
+#, php-format
+msgid "There is a new comment on the post \"%s\""
+msgstr "Existuje nový komentář u příspěvku \"%s\""
+
+#: Subscribe.class.php:634
+#, php-format
+msgid "Author: %s\n"
+msgstr "Autor: %s\n"
+
+#: Subscribe.class.php:635
+msgid "Comment:\n"
+msgstr "Komentář:\n"
+
+#: Subscribe.class.php:636
+msgid "See all comments on this post here:\n"
+msgstr "Zobrazit všechny komentáře k tomuto příspěvku:\n"
+
+#: Subscribe.class.php:639
+msgid "To manage your subscriptions or to block all notifications from this site, click the link below:\n"
+msgstr "Pro správu Vašich přihlášení k odběrům, nebo pro blokaci všech upozornění z této stránky, klikněte na níže uvedený odkaz:\n"
+
+#: Subscribe.class.php:642
+#, php-format
+msgid "New Comment On: %s"
+msgstr "Nový komentář u: %s"
+
+#: Subscribe.class.php:661
+msgid "E-mail change confirmation"
+msgstr "Potvrzení změny e-mailové adresy"
+
+#: Subscribe.class.php:662
+#, php-format
+msgid ""
+"You are receiving this message to confirm a change of e-mail address for your subscriptions at \"%s\"\n"
+"\n"
+msgstr ""
+"Tento email jste obdrželi pro potvrzení, že si přejete změnit email pro odběry komentářů na \"%s\"\n"
+"\n"
+
+#: Subscribe.class.php:663
+#, php-format
+msgid ""
+"To change your e-mail address from %s to %s, click this link:\n"
+"\n"
+msgstr ""
+"Pro změnu emailové adresy od %s do %s klikněte na tento odkaz:\n"
+"\n"
+
+#: Subscribe.class.php:665
+#: Subscribe.class.php:677
+msgid "If you did not request this action, please disregard this message."
+msgstr "Pokud jste nepožadovali tuto akci, neberte prosím tuto zprávu v potaz."
+
+#: Subscribe.class.php:673
+msgid "E-mail block confirmation"
+msgstr "Potvrzení blokování emailu"
+
+#: Subscribe.class.php:674
+#, php-format
+msgid ""
+"You are receiving this message to confirm that you no longer wish to receive e-mail comment notifications from \"%s\"\n"
+"\n"
+msgstr ""
+"Tento email jste obdrželi pro potvrzení, že si již dále nepřejete přijímat upozornění na nové komentáře emailem z \"%s\"\n"
+"\n"
+
+#: Subscribe.class.php:675
+msgid ""
+"To cancel all future notifications for this address, click this link:\n"
+"\n"
+msgstr ""
+"Pro zrušení všech budoucích oznámení pro tuto adresu klikněte na tento odkaz:\n"
+"\n"
+
+#: Subscribe.class.php:715
+msgid "click here"
+msgstr "klikněte zde"
+
+#: Subscribe.class.php:744
+msgid "Notify me of followup comments via e-mail"
+msgstr "Informovat emailem o následných komentářích "
+
+#: Subscribe.class.php:745
+msgid "You are subscribed to this entry.  <a href=\"[manager_link]\">Manage your subscriptions</a>."
+msgstr "Jste autorem tohoto příspěvku. <a href=\"[manager_link]\">Změnit přihlášky odběrů</a>."
+
+#: Subscribe.class.php:746
+msgid "You are the author of this entry.  <a href=\"[manager_link]\">Manage subscriptions</a>."
+msgstr "Jste autorem tohoto příspěvku. <a href=\"[manager_link]\">Nastavit odběry</a>."
+
+#: Subscribe.class.php:748
+#: Subscribe.class.php:784
+msgid "Please confirm your subscribtion"
+msgstr "Prosím, potvrďte Vaše přihlášení k odběru"
+
+#: Subscribe.class.php:749
+#: Subscribe.class.php:785
+msgid "Click on the following link: [link]"
+msgstr "Klikněte na následující odkaz: [link]"
+
+#: Subscribe.class.php:895
+msgid "Comment Subscription Manager"
+msgstr "Nastavení odběrů"
+
+#: Subscribe.class.php:897
+msgid "Subscribe to Comments"
+msgstr "Gurken Subscribe to comments"
+
+#~ msgid "Subscribe to Comments Options"
+#~ msgstr "Gurken Subscribe to Comments - nastavení"
+
+#~ msgid "\"From\" name for notifications:"
+#~ msgstr "\"Od\" jméno pro upozornění"
+
+#~ msgid "\"From\" e-mail addresss for notifications:"
+#~ msgstr "\"Od\" E-Mailové adresy pro upozornění:"
+
+#~ msgid ""
+#~ "Do a CSS \"clear\" on the subscription checkbox/message (uncheck this if "
+#~ "the checkbox/message appears in a strange location in your theme)"
+#~ msgstr ""
+#~ "Použít CSS \"clear\" pro políčko přihlášení k odběru (deaktivujte, pokud "
+#~ "se políčko zobrazuje na špatném, zmateném místě)"
+
+#~ msgid "Custom CSS url:"
+#~ msgstr "Url vlastního CSS:"
+
+#~ msgid "Comment Form Text"
+#~ msgstr "Pokyny u komentářů"
+
+#~ msgid ""
+#~ "Customize the messages shown to different people.  Use <code>"
+#~ "[manager_link]</code> to insert the URI to the Subscription Manager."
+#~ msgstr ""
+#~ "Nastavte zprávu pro odběratele. Použijte <code>[manager_link]</code> pro "
+#~ "vložení URI do správce přihlášení."
+
+#~ msgid "Not subscribed"
+#~ msgstr "Nepřihlášen k odběru"
+
+#~ msgid "Subscribed"
+#~ msgstr "Přihlášen k odběru"
+
+#~ msgid "Entry Author"
+#~ msgstr "Pro autora příspěvku"
+
+#~ msgid "Enable Double Opt-In:"
+#~ msgstr "Aktivovat potvrzovací email:"
+
+#~ msgid "Double Opt-In Subject:"
+#~ msgstr "Předmět potvrzovacího emailu:"
+
+#~ msgid "Double Opt-In"
+#~ msgstr "Text pro potvrzovací email"
+
+#~ msgid "Use custom style for Subscription Manager"
+#~ msgstr "Použít vlastní styly pro správce přihlášení k odběrům"
+
+#~ msgid ""
+#~ "These settings only matter if you are using a custom style.  <code>"
+#~ "[theme_path]</code> will be replaced with the path to your current theme."
+#~ msgstr ""
+#~ "Tato nastavení jsou platná pouze při použití vlastních stylů. <code>"
+#~ "[theme_path]</code> bude nahrazen cestou k vašemu aktuálnímu vzhledu "
+#~ "(theme) (např. \"<code>[theme_path]/header.php</code>\")."
+
+#~ msgid "Path to header:"
+#~ msgstr "cesta k hlavičce:"
+
+#~ msgid "Path to sidebar:"
+#~ msgstr "cesta k boční liště (Sidebaru):"
+
+#~ msgid "Path to footer:"
+#~ msgstr "cesta k patičce:"
+
+#~ msgid "HTML for before the subscription manager:"
+#~ msgstr "HTML před nastaveními správce objednávek:"
+
+#~ msgid "HTML for after the subscription manager:"
+#~ msgstr "HTML po nastaveních správce objednávek:"
+
+#~ msgid "Options saved."
+#~ msgstr "Nastavení uložena."
+
+#~ msgid "Update Options &raquo;"
+#~ msgstr "Aktualizovat nastavení &raquo;"
+
+#~ msgid "E-Mail Text"
+#~ msgstr "E-Mail Text für Bestätigungsmail"

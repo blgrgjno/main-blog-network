@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<default_email_text>
+    <lang code="de_DE">
+        <subject>Benachrichtigung freischalten</subject>
+        <text>Hallo!
+
+Bevor Du über weitere Kommentare informiert wirst, musst Du Deine E-Mail-Adresse für die Benachrichtigungsfunktion freischalten. Das ist einmalig und gilt auch für alle künftigen Kommentare.
+Klicke dazu einfach auf den nachfolgenden Link:
+
+[link]
+
+Damit wird verhindert, dass jemand Deine E-Mail-Adresse ohne Dein Einverständnis verwendet.
+
+Solltest Du diese E-Mail nicht angefordert haben, setze Dich bitte mit mir in Verbindung: MAIL
+
+Um Dein Kommentar-Abonnement ändern, löschen bzw. deine Adresse komplett für diesen Dienst sperren zu können, klicke auf den nachfolgenden Link:
+
+[manager_link]
+
+Dieser Link funktioniert allerdings erst, wenn du die Benachrichtigung freigeschaltet hast.
+
+Vielen Dank für Deinen Beitrag und bis bald,
+NAME
+        </text>
+    </lang>
+</default_email_text>

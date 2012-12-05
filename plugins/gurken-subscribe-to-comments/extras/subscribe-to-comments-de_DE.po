@@ -1,0 +1,464 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Subscribe to Comments 2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-12-30 12:52+0100\n"
+"PO-Revision-Date: 2010-12-30 12:52+0100\n"
+"Last-Translator: \n"
+"Language-Team: Mark Jaquith <mark.wordpress@txfx.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+": \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;__ngettext_noop:1,2;_c\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: gurken-subscribe-to-comments.php:74
+msgid "<strong>Error: </strong>"
+msgstr "<strong>Fehler: </strong>"
+
+#: gurken-subscribe-to-comments.php:88
+msgid "Subscribe without commenting"
+msgstr "Abonnieren ohne einen Kommentar abzugeben"
+
+#: gurken-subscribe-to-comments.php:90
+msgid "E-Mail:"
+msgstr "E-Mail:"
+
+#: gurken-subscribe-to-comments.php:92
+msgid "Subscribe"
+msgstr "Abonnieren"
+
+#: gurken-subscribe-to-comments.php:215
+msgid "You may not access this page without a valid key."
+msgstr "Keine gültiger Schlüssel, um auf diese Seite zugreifen zu können. "
+
+#: gurken-subscribe-to-comments.php:224
+#, php-format
+msgid "All notifications that were formerly sent to <strong>%1$s</strong> will now be sent to <strong>%2$s</strong>!"
+msgstr "Alle Benachrichtigungen, die bisher an <strong>%1$s</strong> gesendet wurden, werden zukünftig an <strong>%2$s</strong> gesendet!"
+
+#: gurken-subscribe-to-comments.php:236
+#, php-format
+msgid "<strong>%1$s</strong> %2$s removed successfully."
+msgstr "<strong>%1$s</strong> %2$s wurde erfolgreich gelöscht."
+
+#: gurken-subscribe-to-comments.php:236
+msgid "subscriptions"
+msgstr "Abonnements"
+
+#: gurken-subscribe-to-comments.php:236
+msgid "subscription"
+msgstr "Abonnement"
+
+#: gurken-subscribe-to-comments.php:241
+#, php-format
+msgid "The block on <strong>%s</strong> has been successfully removed."
+msgstr "Die Sperre auf <strong>%s</strong> wurde erfolgreich aufgehoben."
+
+#: gurken-subscribe-to-comments.php:243
+#, php-format
+msgid "<strong>%s</strong> isn't blocked!"
+msgstr "<strong>%s</strong> ist nicht gesperrt!"
+
+#: gurken-subscribe-to-comments.php:248
+#, php-format
+msgid "<strong>%s</strong> has been blocked from receiving notifications.  You will have to have the administrator remove the block before you will be able to change your notification address."
+msgstr "<strong>%s</strong> ist für die Benachrichtigung gesperrt. Sie müssen den Betreiber des Blog darüber informieren, damit dieser die Sperre wieder aufhebt."
+
+#: gurken-subscribe-to-comments.php:251
+#, php-format
+msgid "Your change of e-mail request was successfully received.  Please check your new account (<strong>%s</strong>) in order to confirm the change."
+msgstr "Die Änderung der E-Mail Adresse wurde durchgeführt. Um diese zu aktivieren, erhalten Sie an Ihre neue E-Mail Adresse (<strong>%s</strong>) eine Nachricht. Bitte klicken Sie auf den darin enthaltenen Link, um die Änderung zu betätigen und abzuschließen."
+
+#: gurken-subscribe-to-comments.php:256
+#, php-format
+msgid "Your request to block <strong>%s</strong> from receiving any further notifications has been received.  In order for you to complete the block, please check your e-mail and click on the link in the message that has been sent to you."
+msgstr "Ihre Anfrage, künftige keine weiteren Benachrichtigung bei neuen Kommentaren an <strong>%s</strong> zu erhalten, wurde emfpangen. Um die Benachrichtigung zu deaktivieren, prüfen Sie bitte Ihre E-Mail und klicken Sie den Link, der Ihnen von dieser Site zugestellt wurde."
+
+#: gurken-subscribe-to-comments.php:260
+#: Subscribe.class.php:202
+msgid "Please check your emails and click on the confirmation link."
+msgstr "Bitte überprüfen Sie Ihre E-Mails und bestätigen Sie die Kommentar-Benachrichtigung."
+
+#: gurken-subscribe-to-comments.php:266
+#, php-format
+msgid "<strong>%1$s</strong> has been added to the \"do not mail\" list. You will no longer receive any notifications from this site. If this was done in error, please contact the <a href=\"mailto:%2$s\">site administrator</a> to remove this block."
+msgstr "Die E-Mail-Adresse <strong>%1$s</strong> wurde der Liste \"Keine E-Mails\" hinzugefügt. An diese Adresse werden zukünftig keine E-Mails von dieser Seite mehr gesendet. Sollte es sich dabei um ein Missverständnis handeln, kontaktieren Sie bitte den <a href=\"mailto:%2$s\">Blogbetreiber</a>, um den Eintrag wieder von der Liste zu streichen."
+
+#: gurken-subscribe-to-comments.php:268
+#, php-format
+msgid "<strong>%s</strong> has already been blocked!"
+msgstr "<strong>%s</strong> wird bereits gesperrt!"
+
+#: gurken-subscribe-to-comments.php:293
+#: gurken-subscribe-to-comments.php:329
+#, php-format
+msgid "%s Comment Subscription Manager"
+msgstr "%s Einstellungen für Benachrichtigung"
+
+#: gurken-subscribe-to-comments.php:332
+#, php-format
+msgid "Return to the page you were viewing: %s"
+msgstr "Zurück zur Seite: %s"
+
+#: gurken-subscribe-to-comments.php:343
+msgid "Remove Block"
+msgstr "Sperre entfernen"
+
+#: gurken-subscribe-to-comments.php:346
+#, php-format
+msgid "Click the button below to remove the block on <strong>%s</strong>.  This should only be done if the user has specifically requested it."
+msgstr "Klicke den Button, um die Sperre für <strong>%s</strong> aufzuheben. Dies sollte nur durchgeführt werden, wenn der Benutzer dies ausdrücklich angefordert hat."
+
+#: gurken-subscribe-to-comments.php:354
+msgid "Remove Block &raquo;"
+msgstr "Sperre entfernen &raquo;"
+
+#: gurken-subscribe-to-comments.php:362
+msgid "Blocked"
+msgstr "Gesperrt"
+
+#: gurken-subscribe-to-comments.php:365
+#, php-format
+msgid "You have indicated that you do not wish to receive any notifications at <strong>%1$s</strong> from this site. If this is incorrect, or if you wish to have the block removed, please contact the <a href=\"mailto:%2$s\">site administrator</a>."
+msgstr "Du hast veranlasst, dass von diesem Blog keine E-Mails mehr an die Adresse <strong>%1$s</strong> gesendet werden. Sollte es sich dabei um einen Fehler oder ein Missverständnis handeln und Du doch wieder Benachrichtigungen per E-Mails für neue Kommentare erhalten möchtest kontaktiere bitte den <a href=\"mailto:%2$s\">Blogbetreiber</a>."
+
+#: gurken-subscribe-to-comments.php:386
+#, php-format
+msgid "<strong>%s</strong> is subscribed but the comment has not been approved yet."
+msgstr "Für <strong>%s</strong> gibt es <strong>eine</strong> Anmeldung, allerdings wurde der Kommentar vom Administrator noch nicht genehmigt."
+
+#: gurken-subscribe-to-comments.php:391
+#, php-format
+msgid "<strong>%s</strong> is not subscribed to any posts on this site."
+msgstr "Für <strong>%s</strong> gibt es keine Anmeldung für diesen Blog."
+
+#: gurken-subscribe-to-comments.php:395
+msgid "You have a pending subscription, please check your emails and click on the confirmation link."
+msgstr "Es existiert bereits eine Benachrichtigung, bitte überprüfen Sie Ihre E-Mails und bestätigen Sie diese."
+
+#: gurken-subscribe-to-comments.php:399
+#: Subscribe.class.php:214
+#, php-format
+msgid "<strong>%s</strong> is not a valid e-mail address."
+msgstr "<strong>%s</strong> ist keine gültige E-Mail Adresse."
+
+#: gurken-subscribe-to-comments.php:413
+msgid "&laquo; Back"
+msgstr "&laquo; Zurück"
+
+#: gurken-subscribe-to-comments.php:416
+msgid "Find Subscriptions"
+msgstr "Abonnements suchen"
+
+#: gurken-subscribe-to-comments.php:419
+msgid "Enter an e-mail address to view its subscriptions or undo a block."
+msgstr "Geben Sie eine E-Mail Adresse ein, um deren Abonnements zu sehen oder eine Sperre aufzuheben."
+
+#: gurken-subscribe-to-comments.php:427
+msgid "Search &raquo;"
+msgstr "Suchen &raquo;"
+
+#: gurken-subscribe-to-comments.php:435
+msgid "Top Subscriber List"
+msgstr "Top Abonnenten"
+
+#: gurken-subscribe-to-comments.php:437
+msgid "Subscriber List"
+msgstr "Liste der Abonnenten"
+
+#: gurken-subscribe-to-comments.php:456
+msgid "Show all subscribers"
+msgstr "Zeige alle Abonnenten"
+
+#: gurken-subscribe-to-comments.php:458
+msgid "Show list of subscribers in <code>CC:</code>-field format (for bulk e-mailing)"
+msgstr "Zeige Liste der Abonnementen im <code>CC:</code>-Feld (bei E-Mail-Rundschreiben)"
+
+#: gurken-subscribe-to-comments.php:460
+msgid "&laquo; Back to regular view"
+msgstr "&laquo; Zurück zur normalen Ansicht"
+
+#: gurken-subscribe-to-comments.php:475
+msgid "Top Subscribed Posts"
+msgstr "Top Beiträge"
+
+#: gurken-subscribe-to-comments.php:525
+#: Subscribe.class.php:895
+msgid "Subscriptions"
+msgstr "Subscribe to Comments"
+
+#: gurken-subscribe-to-comments.php:528
+#, php-format
+msgid "<strong>%s</strong> is subscribed to the posts listed below. To unsubscribe to one or more posts, click the checkbox next to the title, then click \"Remove Selected Subscription(s)\" at the bottom of the list."
+msgstr "Für <strong>%s</strong> wurde die Benachrichtigung bei neuen Kommentaren für folgende Beiträge aktiviert. Um einen oder mehrere Beiträge abzumelden, wählen Sie den Beitrag über die Checkbox neben dem Titel aus und klicken dann \"Markierte Abos entfernen\" am Ende der Liste."
+
+#: gurken-subscribe-to-comments.php:542
+msgid "Invert Checkbox Selection"
+msgstr "Auswahl umkehren"
+
+#: gurken-subscribe-to-comments.php:546
+msgid "Remove Selected Subscription(s) &raquo;"
+msgstr "Ausgewählte Abos löschen &raquo;"
+
+#: gurken-subscribe-to-comments.php:553
+msgid "Advanced Options"
+msgstr "Erweiterte Einstellungen"
+
+#: gurken-subscribe-to-comments.php:556
+msgid "Block All Notifications"
+msgstr "Alle Benachrichtigungen sperren"
+
+#: gurken-subscribe-to-comments.php:563
+#, php-format
+msgid "If you would like <strong>%s</strong> to be blocked from receiving any notifications from this site, click the button below.  This should be reserved for cases where someone is signing you up for notifications without your consent."
+msgstr "Wenn Sie wünschen, dass die E-Mail Adresse <strong>%s</strong> für den Empfang von Benachrichtigungen von dieser Site gesperrt wird, klicken Sie die folgende Schaltfläche.  Diese Funktion sollte nur genutzt werden, wenn Sie ganz sicher sind, dass Sie auch zukünftig keine Benachrichtigungen über neue Kommentare von dieser Site mehr erhalten möchte. Eine versehentlich gesetzte Sperre kann nur vom Administrator des Blogs wieder rückgängig gemacht werden."
+
+#: gurken-subscribe-to-comments.php:567
+msgid "Block Notifications &raquo;"
+msgstr "Benachrichtigungen sperren &raquo;"
+
+#: gurken-subscribe-to-comments.php:573
+msgid "Change E-mail Address"
+msgstr "Ändern E-Mail Adresse"
+
+#: gurken-subscribe-to-comments.php:580
+msgid "If you would like to change the e-mail address for your subscriptions, enter the new address below.  You will be required to verify this request by clicking a special link sent to your new address."
+msgstr "Um die E-Mail Adresse für die Benachrichtigung bei neuen Kommentaren zu ändern, geben Sie hier die neue Adresse ein. Sie werden dann aufgefordert, Ihre Anfrage mit dem Klick auf einen dafür vorgesehenen Link zu bestätigen, die wir an Ihre neue E-Mail Adresse (<strong>%s</strong>) senden."
+
+#: gurken-subscribe-to-comments.php:584
+msgid "New E-mail Address:"
+msgstr "Neue E-Mail Adresse:"
+
+#: gurken-subscribe-to-comments.php:589
+msgid "Change E-mail Address &raquo;"
+msgstr "E-Mail Adresse ändern &raquo;"
+
+#: Subscribe.class.php:160
+msgid "Please provide a valid e-mail address."
+msgstr "Bitte geben Sie eine korrekte E-Mail Adresse an."
+
+#: Subscribe.class.php:164
+msgid "This e-mail address may not be subscribed"
+msgstr "Für diese E-Mail Adresse liegt kein Abo vor."
+
+#: Subscribe.class.php:170
+#: Subscribe.class.php:186
+#: Subscribe.class.php:370
+msgid "You appear to be already subscribed to this entry."
+msgstr "Für diese E-Mail Adresse wurde die Benachrichtigung für diesen Beitrag bereits aktiviert."
+
+#: Subscribe.class.php:176
+msgid "Comments are not allowed on this entry."
+msgstr "Für diesen Beitrag sind keine Kommentare zugelassen."
+
+#: Subscribe.class.php:365
+msgid "Error while fetching database record"
+msgstr "Fehler beim Lesen der Datenbank!"
+
+#: Subscribe.class.php:378
+#: Subscribe.class.php:404
+msgid "Successfully subscribed"
+msgstr "Erfolgreich registriert!"
+
+#: Subscribe.class.php:389
+msgid "Post doesn't exist or comments are not allowed on this entry."
+msgstr "Für diesen Beitrag sind keine Kommentare zugelassen."
+
+#: Subscribe.class.php:409
+msgid "Unknown error"
+msgstr "Es ist ein unbekannter Fehler aufgetreten."
+
+#: Subscribe.class.php:633
+#, php-format
+msgid "There is a new comment on the post \"%s\""
+msgstr "Es gibt einen neuen Kommentar für den Beitrag \"%s\""
+
+#: Subscribe.class.php:634
+#, php-format
+msgid "Author: %s\n"
+msgstr "Autor: %s\n"
+
+#: Subscribe.class.php:635
+msgid "Comment:\n"
+msgstr "Kommentar:\n"
+
+#: Subscribe.class.php:636
+msgid "See all comments on this post here:\n"
+msgstr "Lesen Sie alle Kommentare für diesen Beitrag hier:\n"
+
+#: Subscribe.class.php:639
+msgid "To manage your subscriptions or to block all notifications from this site, click the link below:\n"
+msgstr "Für die Einstellungen der Benachrichtigungen oder zum Deaktivieren aller weiteren Benachrichtigungen von diesem Blog, klicke bitte auf den nachfolgenden Link:\n"
+
+#: Subscribe.class.php:642
+#, php-format
+msgid "New Comment On: %s"
+msgstr "Neuer Kommentar für: %s"
+
+#: Subscribe.class.php:661
+msgid "E-mail change confirmation"
+msgstr "Bestätigung der Änderung der E-Mail Adresse"
+
+#: Subscribe.class.php:662
+#, php-format
+msgid ""
+"You are receiving this message to confirm a change of e-mail address for your subscriptions at \"%s\"\n"
+"\n"
+msgstr ""
+"Sie erhalten diese Nachricht, um die Änderung Ihrer E-Mail Adresse zu bestätigen, mit der Sie sich für die Benachrichtung neuer Kommentare bei \"%s\" angemeldet haben.\n"
+"\n"
+
+#: Subscribe.class.php:663
+#, php-format
+msgid ""
+"To change your e-mail address from %s to %s, click this link:\n"
+"\n"
+msgstr ""
+"Um die E-Mail Adresse von %s auf %s zu ändern, klicken Sie diesen Link:\n"
+"\n"
+
+#: Subscribe.class.php:665
+#: Subscribe.class.php:677
+msgid "If you did not request this action, please disregard this message."
+msgstr "Wenn Sie diese Aktion nicht ausgeführt haben, ignorieren Sie diese Meldung."
+
+#: Subscribe.class.php:673
+msgid "E-mail block confirmation"
+msgstr "E-Mail Bestätigung sperren (E-mail block confirmation)"
+
+#: Subscribe.class.php:674
+#, php-format
+msgid ""
+"You are receiving this message to confirm that you no longer wish to receive e-mail comment notifications from \"%s\"\n"
+"\n"
+msgstr ""
+"Sie erhalten diese Nachricht, um zu bestätigen, dass Sie zukünftig keine E-Mail-Benachrichtigungen mehr von \"%s\" wünschen.\n"
+"\n"
+
+#: Subscribe.class.php:675
+msgid ""
+"To cancel all future notifications for this address, click this link:\n"
+"\n"
+msgstr ""
+"Um die Benachrichtigungen an diese Adresse zu unterbinden, klicken Sie diesen Link:\n"
+"\n"
+
+#: Subscribe.class.php:715
+msgid "click here"
+msgstr "Hier klicken"
+
+#: Subscribe.class.php:744
+msgid "Notify me of followup comments via e-mail"
+msgstr "Benachrichtigung bei weiteren Kommentaren per E-Mail senden."
+
+#: Subscribe.class.php:745
+msgid "You are subscribed to this entry.  <a href=\"[manager_link]\">Manage your subscriptions</a>."
+msgstr "Sie haben diesen Beitrag abonniert. <a href=\"[manager_link]\">Einstellungen ändern</a>."
+
+#: Subscribe.class.php:746
+msgid "You are the author of this entry.  <a href=\"[manager_link]\">Manage subscriptions</a>."
+msgstr "Sie sind der Autor dieses Beitrags. <a href=\"[manager_link]\">Einstellungen ändern</a>."
+
+#: Subscribe.class.php:748
+#: Subscribe.class.php:784
+msgid "Please confirm your subscribtion"
+msgstr "Kommentar-Benachrichtigung bestätigen"
+
+#: Subscribe.class.php:749
+#: Subscribe.class.php:785
+msgid "Click on the following link: [link]"
+msgstr "Bitte klicken Sie auf folgenden Link: [link]"
+
+#: Subscribe.class.php:895
+msgid "Comment Subscription Manager"
+msgstr "Einstellungen für Benachrichtigung"
+
+#: Subscribe.class.php:897
+msgid "Subscribe to Comments"
+msgstr "Subscribe to Comments"
+
+#~ msgid "Subscribe to Comments Options"
+#~ msgstr "Subscribe to Comments Einstellungen"
+
+#~ msgid "\"From\" name for notifications:"
+#~ msgstr "\"Von\" Name für Benachrichtigungen:"
+
+#~ msgid "\"From\" e-mail addresss for notifications:"
+#~ msgstr "\"Von\" E-Mail Adresse für Benachrichtigungen:"
+
+#~ msgid ""
+#~ "Do a CSS \"clear\" on the subscription checkbox/message (uncheck this if "
+#~ "the checkbox/message appears in a strange location in your theme)"
+#~ msgstr ""
+#~ "CSS \"clear\" für Abonnieren-Checkbox anwenden (deaktivieren, wenn die "
+#~ "Checkbox innerhalb des Themes nicht korrekt positioniert wird.)"
+
+#~ msgid "Custom CSS url:"
+#~ msgstr "Pfad zur eigenen CSS-Datei:"
+
+#~ msgid "Comment Form Text"
+#~ msgstr "Hinweise bei Kommentar"
+
+#~ msgid ""
+#~ "Customize the messages shown to different people.  Use <code>"
+#~ "[manager_link]</code> to insert the URI to the Subscription Manager."
+#~ msgstr ""
+#~ "Hinweis für Anmeldung zur Benachrichtigung. Verwende <code>[manager_link]"
+#~ "</code> um die URI in den Text einzubinden."
+
+#~ msgid "Not subscribed"
+#~ msgstr "Nicht abonniert"
+
+#~ msgid "Subscribed"
+#~ msgstr "Abonniert"
+
+#~ msgid "Entry Author"
+#~ msgstr "Für Autor des Beitrags"
+
+#~ msgid "Enable Double Opt-In:"
+#~ msgstr "Bestätigungsmail aktivieren"
+
+#~ msgid "Double Opt-In Subject:"
+#~ msgstr "Betreff für Bestätigungsmail:"
+
+#~ msgid "Double Opt-In"
+#~ msgstr "Text für Bestätigungsmail:"
+
+#~ msgid "Use custom style for Subscription Manager"
+#~ msgstr ""
+#~ "Individuelle Anpassung \"Einstellungen für Benachrichtigungen\" im Blog"
+
+#~ msgid ""
+#~ "These settings only matter if you are using a custom style.  <code>"
+#~ "[theme_path]</code> will be replaced with the path to your current theme."
+#~ msgstr ""
+#~ "Benutze diese Einstellungen, um die \"Einstellungen für Benachrichtigungen"
+#~ "\" im Blog einzubinden. Trage mit <code>[theme_path]</code> den Pfad zum "
+#~ "aktuellen Theme ein (z.B. \"<code>[theme_path]/header.php</code>\")."
+
+#~ msgid "Path to header:"
+#~ msgstr "Pfad zum Header:"
+
+#~ msgid "Path to sidebar:"
+#~ msgstr "Pfad zur Sidebar:"
+
+#~ msgid "Path to footer:"
+#~ msgstr "Pfad zum Footer:"
+
+#~ msgid "HTML for before the subscription manager:"
+#~ msgstr "HTML vor den Einstellungen für Benachrichtigung:"
+
+#~ msgid "HTML for after the subscription manager:"
+#~ msgstr "HTML nach den Einstellungen für Benachrichtigung:"
+
+#~ msgid "Options saved."
+#~ msgstr "Einstellungen gesichert."
+
+#~ msgid "Update Options &raquo;"
+#~ msgstr "Einstellungen übernehmen &raquo;"
+
+#~ msgid "E-Mail Text"
+#~ msgstr "E-Mail Text für Bestätigungsmail"

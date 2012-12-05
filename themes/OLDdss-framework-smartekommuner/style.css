@@ -1,0 +1,38 @@
+/*
+Theme Name:     dss framework smartekommuner
+Description:    
+Author:         dssmo
+Template:       dss-framework
+
+(optional values you can add: Theme URI, Author URI, Version)
+*/
+
+@import url("../dss-framework/style.css");
+
+div#site-heading-wrapper {
+
+	background: rgb(176,203,234); /* Old browsers */
+
+	background: -moz-linear-gradient(left,  rgba(176,203,234,1) 0%, rgba(75,62,89,1) 0%, rgba(125,185,232,1) 100%); /* FF3.6+ */
+
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(176,203,234,1)), color-stop(0%,rgba(75,62,89,1)), color-stop(100%,rgba(125,185,232,1))); /* Chrome,Safari4+ */
+
+	background: -webkit-linear-gradient(left,  rgba(176,203,234,1) 0%,rgba(75,62,89,1) 0%,rgba(125,185,232,1) 100%); /* Chrome10+,Safari5.1+ */
+
+	background: -o-linear-gradient(left,  rgba(176,203,234,1) 0%,rgba(75,62,89,1) 0%,rgba(125,185,232,1) 100%); /* Opera 11.10+ */
+
+	background: -ms-linear-gradient(left,  rgba(176,203,234,1) 0%,rgba(75,62,89,1) 0%,rgba(125,185,232,1) 100%); /* IE10+ */
+
+	background: linear-gradient(to right,  rgba(176,203,234,1) 0%,rgba(75,62,89,1) 0%,rgba(125,185,232,1) 100%); /* W3C */
+
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4B3E59', endColorstr='#7db9e8',GradientType=1 ); /* IE6-9 */
+
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+
+}
+
+#site-heading {
+	color: #e6e7e8;
+}

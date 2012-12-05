@@ -1,0 +1,198 @@
+html,body,div,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,p,blockquote,fieldset,input,hr
+{
+	margin:0;
+	padding:0;
+}
+
+pre,code,address,caption,cite,code,em,strong,th
+{
+	font-size:1em;
+	font-weight:400;
+	font-style:normal;
+}
+
+fieldset,img,hr
+{
+	border:none;
+}
+
+caption,th
+{
+	text-align:left;
+}
+
+table
+{
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+td
+{
+	vertical-align:top;
+}
+
+input
+{
+	padding:3px 5px;
+}
+
+.description
+{
+	font-family:Arial, sans-serif;
+	font-size:10px;
+	color:#444;
+	display:block;
+	padding:2px 0;
+}
+
+.textarea,.text,.checkbox
+{
+	background:#eee;
+	border-bottom:1px solid #ddd;
+	margin:0 0 5px;
+	padding:0 0 5px;
+}
+
+.textarea textarea
+{
+	height:150px;
+	overflow:scroll;
+	margin-bottom:10px;
+}
+
+.cb
+{
+	float:left;
+	margin:8px 10px;
+}
+
+span.title,.title
+{
+	font-family:Arial, sans-serif;
+	font-size:12px;
+	font-weight:700;
+	color:#444;
+	display:block;
+	padding:5px 0;
+}
+
+#header-wrap
+{
+	width:940px;
+}
+
+#options-div
+{
+	width:570px;
+	overflow:hidden;
+	display:block;
+	float:left;
+	margin:0;
+	padding:10px;
+}
+
+#side
+{
+	width:300px;
+	min-height:440px;
+	margin-left:610px;
+	padding:10px;
+}
+
+#side .side-widget
+{
+	background:#FFF;
+	border:solid 1px #DDD;
+	margin-bottom:10px;
+	border-width:0 1px 1px;
+}
+
+.side-widget span.title
+{
+	background: #E6EADB;
+	border: #E1D6C6 1px solid;
+	border-bottom: #F3F6ED 0px solid;
+	color: #676E04;
+	font-size: 1em;
+	font-weight: bold;
+	height: 22px;
+	padding: 2px;
+	text-align: center;
+}
+
+.side-widget p
+{
+	padding:10px;
+}
+
+.side-widget ul
+{
+	margin:10px 5px 5px;
+}
+
+.side-widget ul li
+{
+	list-style:square;
+	padding-bottom:3px;
+	margin-left:20px;
+}
+
+.side-widget span.rss-date
+{
+	color:#999;
+	font:normal normal 10px/12px Georgia, "Times New Roman", Times, serif;
+}
+
+.open
+{
+	background:#eee;
+	border:solid #ddd;
+	overflow:hidden;
+	display:block;
+	border-width:0 1px;
+	margin:0;
+	padding:10px;
+}
+
+.open input.width
+{
+	width:400px;
+}
+.misc
+{
+	background:#fffde2;
+	border:1px solid #ddd;
+	overflow:hidden;
+	display:block;
+	margin:0 0 30px;
+	padding:20px;
+}
+
+input.save
+{
+	border: green 2px solid;
+	font-weight:bold;
+	font-size:1.2em;
+	margin: 0;
+}
+
+input.reset
+{
+	border: red 2px solid;
+	font-weight:bold;
+	font-size:1.2em;
+	margin:-20px 0 0 0;
+}
+
+div.clear
+{
+	clear:both;
+}
+
+#donate-form
+{
+	background:#c9defa;
+	padding:10px;
+	text-align: center;
+}

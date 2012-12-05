@@ -1,0 +1,157 @@
+@charset "UTF-8";
+
+
+/* ### SKIN - General Styles ###################################################
+
+   This section sets up basic typography and colors for the site; it should
+   only define the defaults for elements.
+*/
+
+/* --- Print reset ----------------- */
+
+* {
+    background-color: transparent !important;
+    background-image: none !important;
+    position: static !important;    
+}
+
+/* --- Body ------------------------ */
+
+html {
+    background-color: #FFF;
+    color: #000;
+}
+
+/* --- Lists ----------------------- */
+
+ul, ol{
+  margin-bottom: 0.775em;
+}
+
+ul li {
+    background-image: none;
+    list-style-type: disc;
+    padding-left: 0.5em;
+    margin-left: 1.75em;
+   
+}
+
+/* --- Paragraphs, blocks ---------- */
+p{
+  margin-bottom: 0.775em;   
+}
+
+/* --- Forms (layout) -------------- */
+
+form {
+    orphans: 3;
+    widows: 3;
+}
+
+label {
+    orphans: 3;
+    widows: 3;
+}
+
+fieldset {
+    orphans: 3;
+    widows: 3;
+}
+
+/* --- Links ----------------------- */
+
+a:link, a:visited, a:hover {
+    color: #005481 !important;
+    background: transparent;
+    font-weight: bold;
+    border-bottom: 0.1em dotted #005481;
+}
+
+a:link:after, a:visited:after {
+   content: " (" attr(href) ") ";
+   font-size: 90%;
+   text-decoration: none;
+}
+
+a.moreLink {
+
+}
+
+/* --- Utilities ------------------- */
+
+.printOnly {
+    display: inline;
+}
+
+/* ### Page structure ##########################################################
+
+   Layout of page elements; this should only define the template and grid,
+   not the positioning of specific components.
+*/
+
+h1, h2, h3, h4,
+.h1, .h2, .h3, .h4 {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#center-column, 
+.unit, 
+#section-featured{
+  width: 100% !important;
+}
+
+#section-main{
+  height: auto !important;
+}
+
+.accessibilityHidden,
+#global_admin_panel,
+#portal-search,
+#secondaryNav,
+#primaryNav,
+.thumbnail,
+#header,
+.categorization-list,
+.featured-nav,
+.share-on-social-media,
+#left-side-outer,
+#right-side-outer,
+#section-contextual,
+#section-main-bottom,
+.btn,
+#footer,
+.global_admin_panel_line
+{
+  display: none !important;
+}
+#global_admin_panel{
+  border: none;
+}
+#portalTopTools .lastUnit{
+  width: 0;
+}
+#section-featured {
+  
+}
+#section-featured .condensed-articles{  
+  height: auto !important;  
+}
+
+#section-featured .condensed-articles .text-container p{
+  color: #000;
+}
+#section-featured .condensed-articles .text-container h2{
+  color: #000;
+}
+.has-navigation .text-container{
+  height: auto;
+}
+.unit{
+  
+  float: none;
+}
+.article{
+  border: none;
+}
+
+

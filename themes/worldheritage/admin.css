@@ -1,0 +1,35 @@
+#post-list {
+	margin-top: 20px;
+}
+
+#post-list li {
+	padding: 10px;
+	width: 50%;
+	font-weight: bold;
+	background: #f0f0f0; /* for non-css3 browsers */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#e7e7e7'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#e7e7e7)); /* for webkit browsers */
+	background: -moz-linear-gradient(top, #f7f7f7, #e7e7e7); /* for firefox 3.6+ */
+	cursor: move;
+	border: 1px solid #ddd;
+	border-raidus: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+#post-list li img {
+	vertical-align: middle;
+	margin: 0 12px 0 0;
+	border: 2px solid #ddd;
+}
+
+.ui-sortable-placeholder {
+	border-radius: 0 !important;
+	background: transparent !important;
+	border: 2px dashed #ddd !important;
+	visibility: visible !important;
+}
+
+#loading-animation {
+	display: none;
+}

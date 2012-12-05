@@ -1,0 +1,13 @@
+.toplevel_page_bvt_sfa_feed_gui_admin table{
+  border-collapse: collapse;
+}
+.toplevel_page_bvt_sfa_feed_gui_admin .active td{
+  background-color: #99cc99;
+}
+.toplevel_page_bvt_sfa_feed_gui_admin .inactive td{
+  background-color: #cc9999;
+}
+.toplevel_page_bvt_sfa_feed_gui_admin a{
+  color: black;
+  text-decoration: underline;
+}

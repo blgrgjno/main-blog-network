@@ -1,0 +1,8 @@
+#comments-error-message {
+	margin: 1em 0;
+	padding: 0 1em;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	border: 1px solid #C00;
+	background: #FFEBE8;
+}

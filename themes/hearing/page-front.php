@@ -1,0 +1,138 @@
+<?php
+/**
+ * Template Name: Forside
+ *
+ * HOD forside med temalisting
+ */
+?>
+<?php
+
+	function nhop_page_header() {
+?>
+		<div id="c_front_header" class="page_header_front">
+			<div class="page_header">
+				<div class="front_intro">
+					<?php thematic_postheader(); ?>
+					<div class="entry-content">
+						<?php the_content(); ?>
+					</div>
+				</div>
+				<div class="front_ill">
+					<?php
+					if (has_post_thumbnail()) {
+						global $post;
+						$video_link = get_post_meta($post->ID, 'video_link', true);
+						if ($video_link) echo '<a id="videolink" href="'.$video_link.'" title="'.get_the_title().'" target="_blank">';
+						the_post_thumbnail();
+						if ($video_link) echo '</a>';
+					}
+					?>
+					<?php /* <div class="front_ill_caption"><a href="/alle-eldre-skal-ha-et-godt-og-trygt-omsorgstilbud"><strong>Statsministeren:</strong> Alle eldre skal ha et godt og trygt omsorgstilbud</a></div> */ ?>
+				</div>
+			</div>
+		</div>
+<?php
+	}
+	add_action('thematic_belowheader','nhop_page_header');
+	
+	// Enable thickbox
+	wp_enqueue_style('thickbox');
+	wp_enqueue_script('jquery');
+	wp_enqueue_script('thickbox');
+
+    // calling the header.php
+    get_header();
+
+    // action hook for placing content above #container
+    thematic_abovecontainer();
+
+?>
+	<div id="container">
+		<div id="content">
+
+            <?php
+        
+            // calling the widget area 'page-top'
+            get_sidebar('page-top');
+
+            the_post();
+        
+            ?>
+			
+			<div id="post-<?php the_ID(); ?>" class="<?php thematic_post_class() ?>">
+            
+                    <?php
+                    
+					// Render topic groups and topics
+					if (class_exists('Walker_Front_Page')) {
+						wp_nav_menu_no_ul(array(
+							'menu' => get_theme_option('topicmenu_slug'),
+							'container' => 'div',
+							'container_class' => 'front_menu',
+							'break_point' => get_theme_option('front_menu_break_point'),
+							'walker' => new Walker_Front_Page
+						));
+					}
+					
+					if (get_theme_option('enable_statements')) {
+						// Render Generelle høringssvar
+						$open_statements_url = '/'.get_theme_option('slug_topic').'/generelle-hoeringssvar/';
+?>
+						<div class="box_large open_statements">
+							<h2 class="entry-title"><?php theme_option('front_open_header'); ?></h2>
+							<div class="entry-content">
+								<p><?php echo get_post_meta($post->ID, 'front_open_intro', true); ?></p>
+								<p class="buttons">
+										<a href="<?php echo $open_statements_url.get_theme_option('slug_write')."/"; ?>" class="buttonRoundSlim"><span><?php theme_option('send_answer'); ?></span></a>
+									<a href="<?php echo $open_statements_url.get_theme_option('slug_statements')."/"; ?>" class="buttonRoundSlim"><span><?php theme_option('read_open_answers'); ?></span></a>
+								</p>
+							</div>
+						</div>
+<?php
+					}
+					
+					$menuslug = get_theme_option('lawmenu_slug');
+					$menu = wp_get_nav_menu_object($menuslug);
+					echo '<h2 class="entry-title">'.$menu->name.'</h2>';
+					echo '<div class="front_menu_bottom"><ul class="menu">';
+					if (class_exists('Walker_Main_Menu')) {
+						wp_nav_menu_no_ul(array(
+							'menu' => $menuslug,
+							'container' => 'ul',
+							'container_class' => 'front_menu_bottom',
+							'walker' => new Walker_Main_Menu
+						));
+					}
+					echo '</ul></div>';
+
+                    wp_link_pages("\t\t\t\t\t<div class='page-link'>".__('Pages: ', 'thematic'), "</div>\n", 'number');
+                    
+                    edit_post_link(__('Edit', 'thematic'),'<span class="edit-link">','</span>') ?>
+
+			</div><!-- .post -->
+
+        <?php
+        
+        // calling the widget area 'page-bottom'
+        get_sidebar('page-bottom');
+        
+        ?>
+
+		</div><!-- #content -->
+	</div><!-- #container -->
+
+<?php 
+
+    // action hook for placing content below #container
+    thematic_belowcontainer();
+
+    // calling the standard sidebar
+	echo '<div id="primary" class="aside main-aside"><ul class="xoxo">';
+	if ( dynamic_sidebar( 'sidebar' ) ) {}
+	echo '</ul></div>';
+
+    
+    // calling footer.php
+    get_footer();
+
+?>

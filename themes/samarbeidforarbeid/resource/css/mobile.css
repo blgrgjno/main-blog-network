@@ -1,0 +1,10 @@
+.featured-nav{
+  position: static;
+  display:none;
+}
+#section-featured *{
+  width: auto;
+}
+body{
+  background-color: red !important;
+}

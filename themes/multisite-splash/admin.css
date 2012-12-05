@@ -1,0 +1,35 @@
+#post-list {
+	margin-top: 20px;
+	width: 100%;
+}
+#post-list li {
+	float: left;
+	width: 90%;
+	max-width: 400px;
+	clear: both;
+	padding: 10px;
+	font-weight: bold;
+	background: #f0f0f0; /* for non-css3 browsers */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f7f7', endColorstr='#e7e7e7'); /* for IE 9 or older */
+	background: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#e7e7e7)); /* for WebKit */
+	background: -webkit-linear-gradient(top, #f7f7f7, #e7e7e7); /* for newer versions of WebKit */
+	background:    -moz-linear-gradient(top, #f7f7f7, #e7e7e7); /* for Firefox 3.6+ */
+	background:      -o-linear-gradient(top, #f7f7f7, #e7e7e7); /* for Opera 11.1+ */
+	background:     -ms-linear-gradient(top, #f7f7f7, #e7e7e7); /* for IE 10+ */
+	cursor: move;
+	border: 1px solid #ddd;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+#post-list a {
+	text-decoration: none;
+}
+#post-list li#list_9999999999 {
+	display: block;
+	height: auto;
+	padding: 0;
+	margin: 0;
+	background: #fff;
+	border: none;
+}

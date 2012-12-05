@@ -32,36 +32,19 @@ while ( $the_query->have_posts() ) {
 	$more = 1; // Set (inside the loop) to display all content, including text below more.
 	?>
 	<div class="post">
-		<h2><?php the_title(); ?></h2><?php
+		<h2><?php the_title(); ?></h2>
+		<?php the_content(); ?>
 
-		if ( 0 == $comment_offset ) {
-			the_content();
-			$comment_offset = 10;
-		} else {
-
-			// Display the comments
-			$args = array(
-				'post_id' => $post_id,
-				'status'  => 'approve',
-				'offset'  => $comment_offset,
-				'number'  => 10,
-			);
-			$args = apply_filters( 'wp2pdf_comment_args', $args ); // This filter was added due to an issue on the DSS blog network which caused Disquis hosted comments on their home page to be listed with NO url
-			$comments = get_comments( $args );
-			unset( $any_comments );
-			foreach( $comments as $comment ) {
-				$any_comments = true;
-				?>
-				<hr />
-				<h6><?php echo $comment_offset . ' ';_e( 'Comment by' ); ?> <?php echo $comment->comment_author; ?>(<?php echo $comment->comment_author_email; ?>). <?php _e( 'Comment posted on' ); ?> <?php echo $comment->comment_date; ?>. <?php _e( 'Author IP address' ); ?>: <?php echo $comment->comment_author_IP; ?></h6>
-				<p><?php echo $comment->comment_content; ?></p><?php
-			}
-			if ( isset( $any_comments ) ) {
-				$comment_offset = $comment_offset + 10;
-				unset( $any_comments );
-			} else {
-				unset( $comment_offset );
-			}
+		<?php
+		// Display the comments
+		$comments = $wpdb->get_results("SELECT *,SUBSTRING(comment_content,1,200) AS com_excerpt FROM $wpdb->comments WHERE comment_post_ID = '$post_id' AND comment_approved = '1' ORDER BY comment_date DESC limit 999");
+	
+		$comments_output = '';
+		foreach ( $comments as $comment ) {
+			?>
+			<hr />
+			<h6><?php _e( 'Comment by' ); ?> <?php echo $comment->comment_author; ?>. <?php _e( 'Comment posted on' ); ?> <?php echo $comment->comment_date; ?>.</h6>
+			<p><?php echo $comment->comment_content; ?></p><?php
 		}
 		?>
 	</div><?php

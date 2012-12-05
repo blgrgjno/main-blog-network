@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c), Ryan Hellyer
  * @license http://www.gnu.org/licenses/gpl.html GPL
- * @author Ryan Hellyer <ryanhellyer@gmail.com>
+ * @author Ryan Hellyer <ryan@pixopoint.com>
  * @since 1.0
  */
 class Category_Header_Images {
@@ -15,7 +15,7 @@ class Category_Header_Images {
 	 * 
 	 * Adds methods to appropriate hooks
 	 * 
-	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
+	 * @author Ryan Hellyer <ryan@pixopoint.com>
 	 * @since 1.0
 	 */
 	public function __construct() {
@@ -25,7 +25,7 @@ class Category_Header_Images {
 	/**
 	 * Print styles to admin page
 	 *
-	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
+	 * @author Ryan Hellyer <ryan@pixopoint.com>
 	 * @since 1.0
 	 */
 	public function init() {
@@ -34,25 +34,23 @@ class Category_Header_Images {
 		if ( !class_exists( 'Taxonomy_Metadata' ) )
 			return;
 
-		// Add actions for administration pages
-		if ( is_admin() ) {
-			add_action( 'admin_print_scripts',            array( $this, 'print_styles'     ) );
-			add_action( 'admin_print_scripts',            array( $this, 'external_scripts' ) );
-			add_action( 'admin_head',                     array( $this, 'inline_scripts'   ) );
-			$taxonomy = 'category';
-			add_action( $taxonomy . '_edit_form_fields',  array( $this, 'extra_fields'), 1 );
-			add_action( 'edit_category',                  array( $this, 'storing_taxonomy_data' ) );
-		}
+		// Add actions
+		add_action( 'admin_print_scripts',            array( $this, 'print_styles'     ) );
+		add_action( 'admin_print_scripts',            array( $this, 'external_scripts' ) );
+		add_action( 'admin_head',                     array( $this, 'inline_scripts'   ) );
+		$taxonomy = 'category';
+		add_action( $taxonomy . '_edit_form_fields',  array( $this, 'extra_fields'), 1 );
+		add_action( 'edit_category',                  array( $this, 'storing_taxonomy_data' ) );
 
-		// Add filter for category image (uses reduced priority to ensure that single post thumbnails override it)
-		add_filter( 'theme_mod_header_image',         array( $this, 'header_image_filter' ), 5 );
+		// Add filters
+		add_filter( 'theme_mod_header_image',         array( $this, 'header_image_filter' ) );
 
 	}
 
 	/**
 	 * Print styles to admin page
 	 *
-	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
+	 * @author Ryan Hellyer <ryan@pixopoint.com>
 	 * @since 1.0
 	 */
 	public function print_styles() {
@@ -67,7 +65,7 @@ class Category_Header_Images {
 	/**
 	 * Print external scripts to admin page
 	 *
-	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
+	 * @author Ryan Hellyer <ryan@pixopoint.com>
 	 * @since 1.0
 	 */
 	public function external_scripts() {
@@ -83,7 +81,7 @@ class Category_Header_Images {
 	/**
 	 * Print inline scripts to admin page
 	 *
-	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
+	 * @author Ryan Hellyer <ryan@pixopoint.com>
 	 * @since 1.0
 	 */
 	public function inline_scripts() {
@@ -112,26 +110,17 @@ class Category_Header_Images {
 	/*
 	 * Filter for modifying the output of get_header()
 	 *
-	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
+	 * @author Ryan Hellyer <ryan@pixopoint.com>
 	 * @since 1.0
 	 */
 	public function header_image_filter( $url ) {
-		global $post;
+
+		// Bail out now if not in category
+		if ( ! is_category() )
+			return $url;
 
 		// Grab current category ID
-		if ( is_category() )
-			$tag_ID = get_query_var( 'cat' );
-
-		// Grab current posts category ID
-		if ( is_single() ) {
-			$category = get_the_category( $post->ID );
-			$category = $category[0];
-			$tag_ID = $category->cat_ID;
-		}
-
-		// Bail out now if no category set
-		if ( ! isset( $tag_ID ) )
-			return $url;
+		$tag_ID = get_query_var( 'cat' );
 
 		// Grab stored taxonomy header
 		$new_url = get_term_meta( $tag_ID, 'taxonomy-header-image', true );
@@ -146,7 +135,7 @@ class Category_Header_Images {
 	/**
 	 * Storing the taxonomy header image selection
 	 * 
-	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
+	 * @author Ryan Hellyer <ryan@pixopoint.com>
 	 * @since 1.0
 	 */
 	public function storing_taxonomy_data() {
@@ -162,7 +151,7 @@ class Category_Header_Images {
 	/**
 	 * Extra fields
 	 * 
-	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
+	 * @author Ryan Hellyer <ryan@pixopoint.com>
 	 * @since 1.0
 	 */
 	public function extra_fields() {

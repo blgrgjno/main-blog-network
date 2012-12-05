@@ -1,26 +1,178 @@
 -------------------------------------------------------------------------------------------------------------------
-Version 1.6.3.3.4
-    - Updated Auto-format option on the notification page so that it is always visible.
+Version 1.6.9
+	- Fixed register link on multi-site; goes to primary site's Form Settings
+    - Added "gform_column_input_content" hook to allow modifying of list field column input ouput
+    - Updated "gformAddListItem()" function to support the handling of checkboxes when duplicating a list field row
+    - Fixed issue with postAuthor not being set in some instances and preventing form to save
+    - Fixed issue with greater than conditional logic when targeting radio buttons
+	- Added gform_choices_setting_title filter to allow the choice setting title to be changed
+    - Fixed issue with no duplicate validation firing too early on multi-page forms
+	- Added GFExport::add_default_export_fields($form) to refactor a fragment of duplicate code
+    - Fixed issue with multi-page form validation going to the wrong page
 
 -------------------------------------------------------------------------------------------------------------------
-Version 1.6.3.3.3
-    - Fixed issue with gform_get_input_value being fired inconsistently for leads with long text
+Version 1.6.8
+    - Fixed issue with conditional logic when configuring multiple "is not" rules with checkboxes as targets
+    - Added hooks on the entry detail page to enable add-ons to create new "boxes" of information
+    - Fixed issue where post category placeholder (for selects) was populating the text as the value when the value should be blank
+    - Fixed issue where fields that are not on the last page of a multi-page form and are marked to not allow duplicates were not going through duplicate validation
+	- Added gform_append_field_choice_option_[field type] JS hook to allow additional options for each choice
+	- Added gform_load_field_choices JS hook to allow help text to be displayed below the choices
+    - Fixed issue where calculation fields hidden via conditional logic were still being processed
+    - Fixed bug where forms with no other Post Field than a "post_custom_field" were not creating posts
+    - Added "gform_before_resend_notifications" filter to allow modification of form object before notifications are resent
+    - Fixed category sorting for manually selected Post Category fields to be case insensitive
+    - Updated AJAX calls using sack and jquery to not pass along a cookie because this caused the loading of admin-ajax.php to be aborted for some users
+    - Fixed notice messages
+    - Fixed issue with spinner not displaying properly when using image buttons
+    - Fixed WordPress minimum version message so that it reflects the correct WordPress minimum version
+    - Fixed issue with number field not trimming value and triggering validation when number is followed by a space character
+    - Fixed issue where quantity was counted as 0 when a product's quantity field was hidden via conditional logic.
+    - Fixed conflict with some popup scripts (i.e. FancyBox) that caused the spinner to be displayed twice
 
 -------------------------------------------------------------------------------------------------------------------
-Version 1.6.3.3.2
-    - Fixed issue with form editor creating javascript errors on sites with older versions of jQuery
+Version 1.6.7
+    - Fixed conflict with raw shortcode that caused a javascript error on AJAX forms
+    - Updated German translation file
+    - Updated "Edit Forms" menu navigation/page to be "Forms"
+    - Fixed issue with textarea counter on IE9 by moving script to the header instead of footer
+    - Fixed issue with conditional logic when target was set to 0
+    - Fixed issue when duplicating textareas with line breaks in their description
 
 -------------------------------------------------------------------------------------------------------------------
-Version 1.6.3.3.1
-    - Fixed issue causing post body to be cut off when typing greek text in a post body field.
-    - Added gform_entry_detail hook
+Version 1.6.6
+    - Fixed warning thrown in has_conditional_logic when $form["fields"] is empty
+    - Fixed issue with pricing field that didn't support the Validation Message setting for Single Product and User Defined Price.
+    - Fixed bug for when a calculated value was zero and it did not show in the email notifications or on the confirmation page
+    - Fixed issue with Warning message being displayed on new forms with no entries
+	- Fixed bug for multi-page ajax forms with progress bar starting at zero that are sent to PayPal Standard
+	- Fixed bug in get_credit_card_init_script that caused javascript error when Force SSL was turned on
+    - Fixed issue with field choices creating a conflict with the Polls Add-On checkbox poll field
+    - Fixed issue in IE9 where conditional logic reset value function set drop down value to option that did not exist resulting in js errors
+    - Fixed issue with non static method being called statically
 
 -------------------------------------------------------------------------------------------------------------------
-Version 1.6.3.3
-    - Fixed conflict with jQuery on IE 7 causing option pricing to be displayed on product (i.e. non-option) fields
+Version 1.6.5.0.1
+    - Fixed issue with routine that checks database permissions causing warning message to be displayed on the screen when upgrading
+
+-------------------------------------------------------------------------------------------------------------------
+Version 1.6.5
+	- Fixed sending admin notifications with conditional routing when using PayPal's option to only send when payment is received
+    - Updated gform_merge_tag filter to include the raw field data. To support the Polls Add-On
+    - Updated POT file
+    - Fixed issue where only section headers were displaying in email notifications when using a multi-select with conditional logic
+    - Fixed issue with conditional logic when using "is not" as the operator
+    - Updated field editor so that fields can only be dragged from the title bar
+    - Added drag and drop sorting functionality to selection field choices
+    - Fixed security vulnerability with password field
+    - Fixed conflict with Tabbed Widget plugin that caused the widget page to throw Javascript errors
+    - Fixed issue with field_values not being saved across AJAX validation failures
+    - Added Hungarian translation
+    - Fixed recurring theme conflict by replacing }) with } ) , since some themes create problems by replacing }) with ]
+    - Updated multiselect values so that there is a blank space between values on entry list view
+    - Fixed issue on confirmation page causing malformed markup and preventing progress bar from being displayed properly
+    - Added swedish translation
+    - Fixed issue where submissions (entries) could be created on forms that did not exist or that were inactive.
+    - Fixed issue with number field calculation not rounding correctly when entry is saved
+    - Added gform_shortcode_$action filter to allow Add-Ons to implement shortcode actions
+        add_filter("gform_shortcode_custom", "custom_action", 10, 3);
+        function custom_action($string, $attributes, $content){
+            $string = "custom shortcode action";
+            return $string;
+        }
+    - Fixed issue with total not being calculated on forms with animation and next button conditional logic
+    - Fixed issue with conditional logic value reset with pre-populated fields
+
+-------------------------------------------------------------------------------------------------------------------
+Version 1.6.4.5
+    - Fixed issue with conditional logic on jQuery 1.6.1 under certain circumstances
+    - Fixed issue where required quantity on single, hidden and cacluation products did not accept "0"
+    - Added logging infrastructure and a few log messages around multi-page file upload
+    - Fixed issue where inputs did not have calc events bound to change event
+    - Fixed issue where required quantity on single, hidden and cacluation products did not accept "0"
+    - Fixed issue with input mask not properly clearing value when form was submitted via the Enter key.
+    - Fixed issue with gform_product_info being added to meta even on non-product forms
+    - Fixed issue with default post category not being properly set
+    - Updated "GFCommon::is_post_field()" to be a public method (for use in User Registration Add-on)
+    - Fixed issue with number field failing validation when field was configured with commas for decimal separators
+    - Fixed issue with calculation not supporting the field number format setting
+
+-------------------------------------------------------------------------------------------------------------------
+Version 1.6.4.4
+    - Fixed issue with get_product_fields() function caching product fields for pre-submission entries (ones without an ID)
+    - Fixed issue with credit card field not updating card type as the card number is entered
+    - Fixed issue with init scripts being executed more than once
+    - Fixed issue with gf_global not being output on certain situations
+    - Fixed issue with post not being associated with entries
+    - Fixed some notice messages
+
+-------------------------------------------------------------------------------------------------------------------
+Version 1.6.4.3
+    - Fixed issue with notification url not accepting port number and cleaned up trailing slash and question mark when not necessary
+    - Fixed issue with shipping being displayed even when shipping is hidden by conditional logic
+    - Fixed issue with slow conditional logic on certain situations
+    - Added "create_lead()" function to allow creation of lead object prior to actually saving the lead
+    - Fixed issue with checkbox field reverting back to default selections after form is submitted
+    - Fixed issue with payment amount being displayed on entry details for payments of $0.00
+    - Fixed issue causing long entry values to not be displayed when server's localization changes the number format
+    - Fixed issue with quantity fields not updating total on blur
+    - Fixed issue where "No duplicates" option was not working on calculated fields on values above 999
+    - Fixed issue where jQuery prop function was not returning elem/value
+    - Fixed misc notices
+    - Added constant for min wp version and updated min version error to use this
+    - Fixed issue where hidden fields were not triggering calculation event
+    - Fixed an issue with character counter throwing errors when configured on admin only fields
+    - Fixed issue with shortcodes being executed as part of the post body template
+    - Fixed issue with default values being reset on forms with conditional logic
+    - Updated how gf_global js object was being enqueued and output to work around wp3.2 wp_localize script limitation
+    - Fixed issue with conditional logic when using the post category checkbox field as a target
+    - Fixed issue with no conflict mode blocking scripts for any ajax call
+    - Fixed issue with option and quantity fields not being properly re-assigned to another product field when the product field they are assigned to is deleted.
+    - Added validation to prevent option and quantity fields from being added to the form without a product field.
+
+-------------------------------------------------------------------------------------------------------------------
+Version 1.6.4.2
+    - Fixed issue with website validation not allowing port numbers to be entered
+    - Added override for jQuery "prop" method which defaults to using attr if prop not available
+    - Updated AJAX .submit() call, removing extra event data parameter that caused a conflict with some scripts
+    - Fixed issue with field calculation not taking fields hidden by conditional logic into account
+    - Moved Cardholder name under the expiration date on credit card fields
+    - Fixed issue with post image size merge tag drop down not saving its value properly
+    - Fixed issue where field calculations were not triggering conditional logic
+    - Fixed issue with {all_fields} displaying duplicate values
+    - Fixed issue with No conflict mode not enqueueing gravityforms.js on the form editor
+    - Updated Single Product field so that the field label is changed to match the pre-populated product name
+    - Fixed issue with Forms menu overriding other custom post type menus
+    - Fixed issue where number fields in HTML where chocking on comma-formatted numbers
+    - Fixed issue on form editor for forms that had hidden product fields
+
+-------------------------------------------------------------------------------------------------------------------
+Version 1.6.4.1
+    - Fixed issue with conditional logic throwing a javascript error.
+    - Fixed issue with price calculation rounding
+
+-------------------------------------------------------------------------------------------------------------------
+Version 1.6.4
+    - Fixed issue with notification failing when a comma separated list of emails was entered with spaces in between emails
+    - Fixed quantity validation so that it does not allow decimals.
+    - Fixed issue with chosen script not being enqueued properly when form had conditional logic
+    - Fixed validation issue with quantity field that didn't honor the min/max setting
+    - Removed "Enable calculation" option from quantity field
+    - Added step='any' attribute to number inputs when HTML5 is enabled
+    - Fixed javascript error on AJAX forms with credit card field
+    - Added id attribute to anchor
+    - Fixed issue with the WordPress HTTPS plugin integration
+    - Added new entry information fields to the entry export field list
+    - Updated conditional logic and merge tag drop downs so that a width is specified instead of truncating the value
+    - Fixed issue on notification merge tag drop down wrapping to next line when field labels were long
+    - Fixed issue with hidden product not taking quantity into account when calculating total
+    - Fixed issue with hidden product field preventing quantity from being populated dynamically
+    - Fixed issue with entry detail page not loading the entry that was clicked on entry list page
+    - Updated inline js so that it is now "enqueued" and consolidated into a single script block tied to the 'gform_post_render' event
     - Fixed admin display issue with the bulk-add modal panel in Chrome
-    - Fixed conflict with jQuery on IE 8 causing total to be doubled up
-	- Fixed warnings when nl2br used on array
+    - Fixed warnings when nl2br used on array
+    - Added new choices for conditional routing to administrator notifications (greater than, less than, contains, starts with, ends with)
+    - Updated notification wysiwyg styles in admin
     - Fixed issue with form editor not allowing users to uncheck the "Set as Post Image" checkbox
     - Fixed issue where errors would be displayed when a "starts with" conditional logic was configured without the actual "starts with" value
     - Fixed issue with quantity field being recorded as . when a value is not entered
@@ -30,28 +182,35 @@ Version 1.6.3.3
         function set_page_size($page_size, $form_id){
             return 50; //sets page size to 50
         }
-    - Fixed issue with conditional logic when using post category fields that were configured to display all categories
-    - Added javascript hook to allow option price to be manipulated or disabled
-        <script type="text/javascript">
-            function gform_format_option_label(full_label, field_label, price_label, selected_price, price, form_id, field_id){
-                //disabling option price
-                return field_label;
-            }
-        </script>
+    - Updated the form editor so that the max characters option on single input field is hidden when input mask is enabled
+    - Updated checkbox field so that it can be pre-populated using an array in addition to a comma separated list
+    - Fixed notice for $read_only variable
+    - Fixed notice for postStatus
+    - Added support for calculations in Number field
+    - Added Calculation product type
+    - Added [gravityforms action="conditional"] shortcode
+    - Added support for showing lead on entry detail when LID or POS are passed. Always third parties to link directly to leads.
+    - Implemented support for {Product Name:1:qty} merge tag to allow the quantity of product fields to be returned via a merge tag
+    - Fixed issue with {all_fields} merge tag when using post category fields as target of conditional logic
+    - Added filter to allow changes to the recaptcha init screen
+        add_filter("gform_recaptcha_init_script", "custom_translation", 10, 3);
+        function custom_translation($script, $form_id, $field){
+            $script = 'RecaptchaOptions.custom_translations = {
+                                instructions_visual : "Scrivi le due parole:",
+                                instructions_audio : "Trascrivi ci\u00f2 che senti:",
+                                play_again : "Riascolta la traccia audio",
+                                cant_hear_this : "Scarica la traccia in formato MP3",
+                                visual_challenge : "Modalit\u00e0 visiva",
+                                audio_challenge : "Modalit\u00e0 auditiva",
+                                refresh_btn : "Chiedi due nuove parole",
+                                help_btn : "Aiuto",
+                                incorrect_try_again : "Scorretto. Riprova.",
+                        }';
+            return $script;
 
-    - Fixed issue with gravityforms.js not being enqueued on forms with conditional logic
-    - Fixed issue with duplicate field feature when field has a double quote in the description
-
--------------------------------------------------------------------------------------------------------------------
-Version 1.6.3.2.1
-    - Fixed issue with wrongly named form table
-
--------------------------------------------------------------------------------------------------------------------
-Version 1.6.3.2
-    - Fixed issue with dbDelta causing errors when trying to update the database tables on case sensitive database servers
-    - Fixed issue with conditional logic displaying wrong fields in the admin
-    - Fixed issue with form redirect not url encoding the total field properly
-    - Fixed XSS vulnerability with the "Other" radio button input and one of the AJAX hidden fields
+        }
+    - Added support for {Total:1:price} merge tag to allow total to be formatted numerically
+    - Fixed issue of no results displayed when viewing a form that has a paged entry list and switching to a form that does not
 
 -------------------------------------------------------------------------------------------------------------------
 Version 1.6.3.1.2
@@ -59,7 +218,6 @@ Version 1.6.3.1.2
 	- Fixed issue with entry list throwing database errors when sorting while filtering by starred or unread
     - Fixed javascript error on form editor for IE7/8
     - Fixed issue with entry detail page displaying an error when query string "pos" wasn't specified.
-    - Fixed issue with text counter being displayed multiple times when more than one form is embeded on a page
 
 -------------------------------------------------------------------------------------------------------------------
 Version 1.6.3.1.1
@@ -70,6 +228,7 @@ Version 1.6.3.1.1
 -------------------------------------------------------------------------------------------------------------------
 Version 1.6.3.1
     - Fixed bug with conditional logic when applied to checkboxes
+    - Fixed issue where entry limit
 
 -------------------------------------------------------------------------------------------------------------------
 Version 1.6.3

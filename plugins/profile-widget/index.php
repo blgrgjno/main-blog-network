@@ -3,7 +3,7 @@
  * Plugin Name: Profile widget
  * Plugin URI: http://geek.ryanhellyer.net/products/profile-widget/
  * Description: A widget for displaying user profile information on single post pages
- * Version: 1.0.1
+ * Version: 0.1
  * Author: Ryan Hellyer / Metronet
  * Author URI: http://geek.ryanhellyer.net/
  *
@@ -19,7 +19,7 @@
 /**
  * Register the widget
  *
- * @since 1.0
+ * @since 0.1
  * @author Ryan Hellyer <ryan@metronet.no>
  */
 function profwid_load_widgets() {
@@ -30,7 +30,7 @@ add_action( 'widgets_init', 'profwid_load_widgets' );
 /**
  * Profile Widget class.
  *
- * @since 1.0
+ * @since 0.1
  * @author Ryan Hellyer <ryan@metronet.no>
  */
 class Profile_Widget extends WP_Widget {
@@ -38,7 +38,7 @@ class Profile_Widget extends WP_Widget {
 	/**
 	 * Widget setup.
 	 *
-	 * @since 1.0
+	 * @since 0.1
 	 * @author Ryan Hellyer <ryan@metronet.no>
 	 */
 	public function __construct() {
@@ -59,7 +59,7 @@ class Profile_Widget extends WP_Widget {
 	/**
 	 * How to display the widget on the screen.
 	 * 
-	 * @since 1.0
+	 * @since 0.1
 	 * @author Ryan Hellyer <ryan@metronet.no>
 	 * @global int $post
 	 * @param array $args     Contains the arguments, but is disused here
@@ -97,7 +97,7 @@ class Profile_Widget extends WP_Widget {
 	 * Update the widget settings.
 	 * Sanitise data inputs
 	 * 
-	 * @since 1.0
+	 * @since 0.1
 	 * @author Ryan Hellyer <ryan@metronet.no>
 	 */
 	public function update( $input, $old ) {
@@ -112,7 +112,7 @@ class Profile_Widget extends WP_Widget {
 	/**
 	 * Displays the form on the widget page
 	 * 
-	 * @since 1.0
+	 * @since 0.1
 	 * @author Ryan Hellyer <ryan@metronet.no>
 	 */
 	public function form( $instance ) {

@@ -36,6 +36,28 @@ function afg_aaa_result($res, $action, $args) {
 }
   */
 
+/*
+ * Disabling plugin update checks
+ * This is to avoid malicious use of the WordPress.org plugin repository to force updates on this plugin
+ * Based on code from http://markjaquith.wordpress.com/2009/12/14/excluding-your-plugin-or-theme-from-update-checks/
+ * 
+ * @author Ryan Hellyer <ryan@metronet.no>
+ * @param unknown $r
+ * @param string $url
+ */
+function dss_flickr_hidden_plugin( $r, $url ) {
+	if ( 0 !== strpos( $url, 'http://api.wordpress.org/plugins/update-check' ) )
+		return $r; // Not a plugin update request. Bail immediately.
+	$plugins = unserialize( $r['body']['plugins'] );
+	unset( $plugins->plugins[ plugin_basename( __FILE__ ) ] );
+	unset( $plugins->active[ array_search( plugin_basename( __FILE__ ), $plugins->active ) ] );
+	$r['body']['plugins'] = serialize( $plugins );
+	return $r;
+}
+add_filter( 'http_request_args', 'dss_flickr_hidden_plugin', 5, 2 );
+
+
+
 $api_url = 'http://www.ronakg.com/update_plugin/';
 $plugin_slug = basename(dirname(__FILE__));
 $plugin_slug_file = basename(__FILE__);

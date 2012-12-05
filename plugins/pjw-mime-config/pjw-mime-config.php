@@ -42,7 +42,7 @@ class pjw_mime_config
 	function pjw_mime_config() {
 		add_action('admin_menu', array(&$this,'admin_menu'));
 		add_filter('upload_mimes',array(&$this,'upload_mimes'));
-		add_option('pjw_mime_types', $this->default_types);
+		add_option('pjw_mime_types',$this->default_types,'Additional mime-types for the inline uploader.','no');
 		$this->mime_types = get_option('pjw_mime_types');
 	}
 

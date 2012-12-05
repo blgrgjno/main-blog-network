@@ -7,8 +7,7 @@
 get_header(); ?>
 
 		<div id="primary">
-			<div id="content" role="main">
-				<h1 class="entry-title">Siste innlegg</h1><?php
+			<div id="content" role="main"><?php
 			
 			$category_args = array(
 				'orderby'  => 'name',
@@ -20,17 +19,15 @@ get_header(); ?>
 			foreach( $category_data as $category ) {
 				$categories[] = $category->term_id;
 
-				if ( $category->term_id != 1 ) { // Ignore 1 since that is "uncategorized"
-					global $post;
-					$args = array(
-						'numberposts' => 1,
-						'category'    => $category->term_id
-					);
-					$myposts = get_posts( $args );
-					foreach( $myposts as $post ) {
-						setup_postdata( $post );
-						get_template_part( 'content', get_post_format() );
-					}
+				global $post;
+				$args = array(
+					'numberposts' => 1,
+					'category'    => $category->term_id
+				);
+				$myposts = get_posts( $args );
+				foreach( $myposts as $post ) {
+					setup_postdata( $post );
+					get_template_part( 'content', get_post_format() );
 				}
 			}
 

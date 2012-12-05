@@ -4,7 +4,6 @@ foreach ($options as $value) {
 if (get_settings( $value['id'] ) === FALSE) { $$value['id'] = $value['std']; } else { $$value['id'] = get_settings( $value['id'] ); }
 }
 ?>
-
 <p class="post-date"><?php the_date(); echo " "; the_time(); ?></p>
 <!-- <p class="post-date"><?php the_time('D j M Y'); ?></p>-->
 <div class="post-info">

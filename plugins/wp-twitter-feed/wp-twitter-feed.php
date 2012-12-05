@@ -81,7 +81,6 @@ function Twitterfeedreader($atts) {
 	if ($mode == "hashtag") { $twitter_rss = "http://search.twitter.com/search.rss?q=%23".$hashtag."&rpp=".$num; }
 	if ($mode == "search") { $twitter_rss = "http://search.twitter.com/search.rss?q=".$term."&rpp=".$num; }
 
-	// This function is not currently used
 	if ($twitterJS == "yes") {
 		function twitterintentjs() {
 			?><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script><?php
@@ -101,7 +100,7 @@ function Twitterfeedreader($atts) {
 
 	$maxitems = $rss->get_item_quantity($num);
 	$rss_items = $rss->get_items(0, $maxitems);
-
+	ob_start();
 	$now = time();
 	$page = get_bloginfo('url');
 
@@ -170,12 +169,6 @@ function Twitterfeedreader($atts) {
 			if ($img == "yes"){
 				$avatar_tag = $item->get_item_tags('http://base.google.com/ns/1.0','image_link');
 				$avatar = $avatar_tag[0]['data'];
-				
-				// Catering for https sites - image provided by is http by default, but we need https to prevent security warnings
-				if ( is_ssl() ) {
-					$avatar = str_replace( 'http://a0.twimg.com', 'https://si0.twimg.com', $avatar );
-				}
-				
 				if ($imgclass == "") {
 					$preimgclass = "style=\"";
 					$imgclass = "float: left;";
@@ -251,6 +244,7 @@ function Twitterfeedreader($atts) {
 	}
 
 
+	ob_end_flush();
 	if ($followlink == "yes"){
 		if ($mode == "feed" || $mode == "mentions" || $mode == "retweets" || $mode == "public") {
 			if ($followbutton =="yes") {

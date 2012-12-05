@@ -7,7 +7,7 @@ function DeleteCustomChoice(){
         return;
 
     //Sending AJAX request
-    jQuery.post(ajaxurl, {action:"gf_delete_custom_choice", name: gform_selected_custom_choice , gf_delete_custom_choice: "<?php echo wp_create_nonce("gf_delete_custom_choice") ?>",cookie: encodeURIComponent(document.cookie)});
+    jQuery.post(ajaxurl, {action:"gf_delete_custom_choice", name: gform_selected_custom_choice , gf_delete_custom_choice: "<?php echo wp_create_nonce("gf_delete_custom_choice") ?>"});
 
     //Updating UI
     delete gform_custom_choices[gform_selected_custom_choice];
@@ -35,7 +35,7 @@ function SaveCustomChoices(){
     var choices = jQuery('#gfield_bulk_add_input').val().split('\n');
 
     //Sending AJAX request
-    jQuery.post(ajaxurl, {action:"gf_save_custom_choice", previous_name: gform_selected_custom_choice , new_name: name, choices: jQuery.toJSON(choices), gf_save_custom_choice: "<?php echo wp_create_nonce("gf_save_custom_choice") ?>",cookie: encodeURIComponent(document.cookie)});
+    jQuery.post(ajaxurl, {action:"gf_save_custom_choice", previous_name: gform_selected_custom_choice , new_name: name, choices: jQuery.toJSON(choices), gf_save_custom_choice: "<?php echo wp_create_nonce("gf_save_custom_choice") ?>"});
 
     //deleting existing custom choice
     if(gform_selected_custom_choice.length > 0)
@@ -184,11 +184,13 @@ function SetProductField(field){
             productFields.push(form["fields"][i]);
     }
 
-    if(productFields.length <= 1){
-        jQuery(".product_field_setting").hide();
+    jQuery("#gform_no_product_field_message").remove();
+    if(productFields.length < 1){
+        jQuery("#product_field").hide().after("<div id='gform_no_product_field_message'><?php _e("This field is not associated with a product. Please add a Product Field to the form.", "gravityforms") ?></div>");
     }
     else{
         var product_field = jQuery("#product_field");
+        product_field.show();
         product_field.html("");
         var is_selected = false;
         for(var i=0; i<productFields.length; i++){
@@ -201,8 +203,9 @@ function SetProductField(field){
         }
 
         //Adds existing product field if it is not found in the list (to prevent confusion)
-        if(!is_selected && field["productField"] != "")
+        if(!is_selected && field["productField"] != ""){
             product_field.append("<option value='" + field["productField"] + "' selected='selected'>[<?php _e("Deleted Field", "gravityforms") ?>]</option>");
+        }
 
     }
 }
@@ -325,7 +328,6 @@ function SaveForm(isNew){
         mysack.setVar( "rg_save_form", "<?php echo wp_create_nonce("rg_save_form") ?>" );
         mysack.setVar( "id", form.id );
         mysack.setVar( "form", form_json );
-        mysack.encVar( "cookie", document.cookie, false );
         mysack.onError = function() { alert('<?php echo esc_js(__("Ajax error while saving form", "gravityforms")) ?>' )};
         mysack.runAJAX();
     }
@@ -345,7 +347,6 @@ function DeleteField(fieldId){
         mysack.setVar( "rg_delete_field", "<?php echo wp_create_nonce("rg_delete_field") ?>" );
         mysack.setVar( "form_id", form.id );
         mysack.setVar( "field_id", fieldId );
-        mysack.encVar( "cookie", document.cookie, false );
         mysack.onError = function() { alert('<?php echo esc_js(__("Ajax error while deleting field.", "gravityforms")) ?>' )};
         mysack.runAJAX();
 
@@ -558,6 +559,8 @@ function SetDefaultValues(field){
             field.label = "<?php _e("Captcha", "gravityforms"); ?>";
 
             break;
+        case "calculation" :
+            field.enableCalculation = true;
         case "singleproduct" :
         case "product" :
         case "hiddenproduct" :
@@ -567,7 +570,7 @@ function SetDefaultValues(field){
             if(!field.inputType)
                 field.inputType = "singleproduct";
 
-            if(field.inputType == "singleproduct" || field.inputType == "hiddenproduct"){
+            if(field.inputType == "singleproduct" || field.inputType == "hiddenproduct" || field.inputType == "calculation"){
                 field.inputs = [new Input(field.id + 0.1, '<?php echo __("Name", "gravityforms"); ?>'), new Input(field.id + 0.2, '<?php echo __("Price", "gravityforms"); ?>'), new Input(field.id + 0.3, '<?php echo __("Quantity", "gravityforms"); ?>')];
                 field.enablePrice = null;
             }
@@ -728,6 +731,13 @@ function CanFieldBeAdded(type){
                 return false;
             }
         break;
+        case "quantity" :
+        case "option" :
+            if(GetFieldsByType(["product"]).length <= 0){
+                alert("<?php _e("You must add a product field to the form first", "gravityforms") ?>");
+                return false;
+            }
+        break;
     }
     return true;
 }
@@ -746,7 +756,6 @@ function StartAddField(type){
     mysack.setVar( "action", "rg_add_field" );
     mysack.setVar( "rg_add_field", "<?php echo wp_create_nonce("rg_add_field") ?>" );
     mysack.setVar( "field", jQuery.toJSON(field) );
-    mysack.encVar( "cookie", document.cookie, false );
     mysack.onError = function() { alert('<?php echo esc_js(__("Ajax error while adding field", "gravityforms")) ?>' )};
     mysack.runAJAX();
 
@@ -762,7 +771,6 @@ function DuplicateField(field, sourceFieldId){
     mysack.setVar( "rg_duplicate_field", "<?php echo wp_create_nonce("rg_duplicate_field") ?>" );
     mysack.setVar( "field", jQuery.toJSON(field) );
     mysack.setVar( "source_field_id", sourceFieldId);
-    mysack.encVar( "cookie", document.cookie, false );
     mysack.onError = function() { alert('<?php echo esc_js(__("Ajax error while duplicating field", "gravityforms")) ?>' )};
     mysack.runAJAX();
 
@@ -787,7 +795,6 @@ function StartChangeInputType(type, field){
     mysack.setVar( "action", "rg_change_input_type" );
     mysack.setVar( "rg_change_input_type", "<?php echo wp_create_nonce("rg_change_input_type") ?>" );
     mysack.setVar( "field", jQuery.toJSON(field));
-    mysack.encVar( "cookie", document.cookie, false );
     mysack.onError = function() { alert('<?php echo esc_js(__("Ajax error while changing input type", "gravityforms")) ?>' )};
     mysack.runAJAX();
 
@@ -827,7 +834,7 @@ function CreateConditionalLogic(objectType, obj){
         var startsWithSelected = obj.conditionalLogic.rules[i].operator == "starts_with" ? "selected='selected'" :"";
         var endsWithSelected = obj.conditionalLogic.rules[i].operator == "ends_with" ? "selected='selected'" :"";
 
-        str += "<div style='width:100%'>" + GetRuleFields(objectType, i, obj.conditionalLogic.rules[i].fieldId);
+        str += "<div width='100%'>" + GetRuleFields(objectType, i, obj.conditionalLogic.rules[i].fieldId);
         str += "<select id='" + objectType + "_rule_operator_" + i + "' onchange='SetRuleProperty(\"" + objectType + "\", " + i + ", \"operator\", jQuery(this).val());'><option value='is' " + isSelected + "><?php _e("is", "gravityforms") ?></option><option value='isnot' " + isNotSelected + "><?php _e("is not", "gravityforms") ?></option><option value='>' " + greaterThanSelected + "><?php _e("greater than", "gravityforms") ?></option><option value='<' " + lessThanSelected + "><?php _e("less than", "gravityforms") ?></option><option value='contains' " + containsSelected + "><?php _e("contains", "gravityforms") ?></option><option value='starts_with' " + startsWithSelected + "><?php _e("starts with", "gravityforms") ?></option><option value='ends_with' " + endsWithSelected + "><?php _e("ends with", "gravityforms") ?></option></select>";
         str += GetRuleValues(objectType, i, obj.conditionalLogic.rules[i].fieldId, obj.conditionalLogic.rules[i].value);
         str += "<img src='" + imagesUrl + "/add.png' class='add_field_choice' title='add another rule' alt='add another rule' style='cursor:pointer; margin:0 3px;' onclick=\"InsertRule('" + objectType + "', " + (i+1) + ");\" />";
@@ -861,12 +868,17 @@ function GetFieldChoices(field){
         if(!price)
             price = "";
 
-        str += "<li>";
-        str += "<input type='" + type + "' class='gfield_choice_" + type + "' name='choice_selected' id='" + inputType + "_choice_selected_" + i + "' " + checked + " onclick=\"SetFieldChoice('" + inputType + "', " + i + ");\" />";
-        str +=     "<input type='text' id='" + inputType + "_choice_text_" + i + "' value=\"" + field.choices[i].text.replace(/"/g, "&quot;") + "\" onkeyup=\"SetFieldChoice('" + inputType + "', " + i + ");\" class='field-choice-input field-choice-text' />";
-        str +=     "<input type='text' id='"+ inputType + "_choice_value_" + i + "' value=\"" + value.replace(/"/g, "&quot;") + "\" onkeyup=\"SetFieldChoice('" + inputType + "', " + i + ");\" class='field-choice-input field-choice-value' />";
-        str +=     "<input type='text' id='"+ inputType + "_choice_price_" + i + "' value=\"" + price.replace(/"/g, "&quot;") + "\" onchange=\"SetFieldChoice('" + inputType + "', " + i + ");\" class='field-choice-input field-choice-price' />";
-        str +=     "<img src='" + imagesUrl + "/add.png' class='add_field_choice' title='<?php _e("add another choice", "gravityforms") ?>' alt='<?php _e("add another choice", "gravityforms") ?>' style='cursor:pointer; margin:0 3px;' onclick=\"InsertFieldChoice(" + (i+1) + ");\" />";
+        str += "<li data-index=' " + i + "'>";
+        str += "<img src='" + imagesUrl + "/arrow-handle.png' class='field-choice-handle' alt='<?php _e("Drag to re-order", "gravityforms") ?>' /> ";
+        str += "<input type='" + type + "' class='gfield_choice_" + type + "' name='choice_selected' id='" + inputType + "_choice_selected_" + i + "' " + checked + " onclick=\"SetFieldChoice('" + inputType + "', " + i + ");\" /> ";
+        str += "<input type='text' id='" + inputType + "_choice_text_" + i + "' value=\"" + field.choices[i].text.replace(/"/g, "&quot;") + "\" onkeyup=\"SetFieldChoice('" + inputType + "', " + i + ");\" class='field-choice-input field-choice-text' />";
+        str += "<input type='text' id='"+ inputType + "_choice_value_" + i + "' value=\"" + value.replace(/"/g, "&quot;") + "\" onkeyup=\"SetFieldChoice('" + inputType + "', " + i + ");\" class='field-choice-input field-choice-value' />";
+        str += "<input type='text' id='"+ inputType + "_choice_price_" + i + "' value=\"" + price.replace(/"/g, "&quot;") + "\" onchange=\"SetFieldChoice('" + inputType + "', " + i + ");\" class='field-choice-input field-choice-price' />";
+        
+		if(window["gform_append_field_choice_option_" + field.type])
+            str += window["gform_append_field_choice_option_" + field.type](field, i);
+
+		str += "<img src='" + imagesUrl + "/add.png' class='add_field_choice' title='<?php _e("add another choice", "gravityforms") ?>' alt='<?php _e("add another choice", "gravityforms") ?>' style='cursor:pointer; margin:0 3px;' onclick=\"InsertFieldChoice(" + (i+1) + ");\" />";
 
         if(field.choices.length > 1 )
             str += "<img src='" + imagesUrl + "/remove.png' title='<?php _e("remove this choice", "gravityforms") ?>' alt='<?php _e("remove this choice", "gravityforms") ?>' class='delete_field_choice' style='cursor:pointer;' onclick=\"DeleteFieldChoice(" + i + ");\" />";

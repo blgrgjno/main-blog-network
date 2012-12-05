@@ -5,7 +5,7 @@ Plugin URI: http://geek.ryanhellyer.net/simplecms/
 Description: The <a href="http://geek.ryanhellyer.net/products/simplecms/">Ryans Simple CMS Plugin</a> converts your WordPress admin panel into a simple CMS. It is aimed at web designers who want to provide a simple adminstration panel for their clients to update basic static websites.
 
 Author: Ryan Hellyer
-Version: 1.9
+Version: 2.0
 Author URI: http://geek.ryanhellyer.net/
 
 Copyright 2010 - 2013 Ryan Hellyer
@@ -97,7 +97,7 @@ class RyansSimpleCMS {
 			'commentsdiv',
 			'trackbacksdiv',
 			'postcustom',
-			'postexcerpt',
+//			'postexcerpt',
 			'commentstatusdiv',
 			'commentsdiv',
 		);

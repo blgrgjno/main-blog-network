@@ -3,7 +3,7 @@ Contributors: ryanhellyer
 Tags: cms, simple, static, admin, theme, admin-theme
 Donate link: http://geek.ryanhellyer.net/donate/
 Requires at least: 3.4
-Stable tag: 1.9
+Stable tag: 2.0
 
 The <a href="http://geek.ryanhellyer.net/products/simplecms/">Simple CMS plugin</a> converts your WordPress admin panel into a simple CMS. This is aimed at web designers who want to provide a simple adminstration panel for their clients to update basic static websites.
 
@@ -28,6 +28,7 @@ Visit the <a href="http://geek.ryanhellyer.net/products/simplecms/">Simple CMS p
 
 == History ==
 
+Version 2.0: Removed block prevent excerpts from appear for static pages
 Version 1.9: Added support for setting a constant of 'SIMPLECMS_EVERYBODY' in wp-config.php to simplify the administration panel for admins and super admins too
 Version 1.7.1: Major rewrite. Moved to OOP approach. Added support for removing admin bar menu items. Added support for removing extraneous meta boxes.
 Version 1.7.1: Version compatibility change and minor documentation updates.

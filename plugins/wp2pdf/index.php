@@ -39,7 +39,6 @@ if ( ! defined( 'WP2PDF_DIRECTION' ) ) {
 	define( 'WP2PDF_DIRECTION', 'portrait' ); // Choose between portait and landscape
 }
 define( 'WP2PDF_QUERYVAR', 'wp2pdfb' ); // Query var used to access the PDF file
-define( 'WP2PDF_TEST', false ); // Used for internal debugging during development
 
 
 
@@ -273,44 +272,27 @@ class WP_2_PDF {
 	 */
 	public function create_temporary_pdf( $post_id ) {
 
-		$comment_offset = 0;
-		while ( isset( $comment_offset ) ) {
+		// Create HTML
+		ob_start();
+		require( 'template.php' );
+		$html = ob_get_contents();
+		ob_end_clean();
 
-			// Create HTML
-			ob_start();
-			require( 'template.php' );
-			$html = ob_get_contents();
-			ob_end_clean();
-
-			// Stripping images from HTML
-			if ( ! isset( $_GET['show'] ) ) {
-				$html = str_replace( '<!DOCTYPE html>', 'THISISTHEDOCTYPE', $html );
-				$html = strip_tags( $html, '<title><!DOCTYPE html><br><hr><p><ul><ol><li><h1><h2><h3><h4><h5><h6><blockquote><div><body><html><meta><link><style>' );
-				$html = str_replace( 'THISISTHEDOCTYPE', '<!DOCTYPE html>', $html );
-			}
-
-			// Render temporary individual PDF files
-			if ( WP2PDF_TEST == false ) {
-				require_once( WP2PDF_DIR . 'dompdf/dompdf_config.inc.php' ); // Load DOMPDF library
-				$pdf_file = $this->render_pdf( $html );
-			}
-
-			// Grab current uploads URL
-			$upload_dir = wp_upload_dir();
-			$upload_dir = $upload_dir['basedir'];
-			if ( ! isset( $comment_offset ) || 10 == $comment_offset ) {
-				$comments_batch = '';
-			} else {
-				$comments_batch = '-c' . $comment_offset / 10;
-			}
-			if ( WP2PDF_TEST == false ) {
-				file_put_contents( $upload_dir . '/' . WP2PDF_QUERYVAR . '-file-' . $post_id . $comments_batch . '.pdf', $pdf_file );
-			} else {
-				echo $html . "<br><br><br>New one ... <br><br>";
-			}
-
+		// Stripping images from HTML
+		if ( ! isset( $_GET['show'] ) ) {
+			$html = str_replace( '<!DOCTYPE html>', 'THISISTHEDOCTYPE', $html );
+			$html = strip_tags( $html, '<title><!DOCTYPE html><br><hr><p><ul><ol><li><h1><h2><h3><h4><h5><h6><blockquote><div><body><html><meta><link><style>' );
+			$html = str_replace( 'THISISTHEDOCTYPE', '<!DOCTYPE html>', $html );
 		}
-//		if ( $post_id == 4 ) die;
+
+		// Render temporary individual PDF files
+		require_once( WP2PDF_DIR . 'dompdf/dompdf_config.inc.php' ); // Load DOMPDF library
+		$pdf_file = $this->render_pdf( $html );
+
+		// Grab current uploads URL
+		$upload_dir = wp_upload_dir();
+		$upload_dir = $upload_dir['basedir'];
+		file_put_contents( $upload_dir . '/' . WP2PDF_QUERYVAR . '-file-' . $post_id . '.pdf', $pdf_file );
 	}
 
 	/**

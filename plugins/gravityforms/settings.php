@@ -249,8 +249,7 @@ class GFSettings{
                 jQuery(document).ready(function(){
                     jQuery.post(ajaxurl,{
                             action:"gf_upgrade_license",
-                            gf_upgrade_license: "<?php echo wp_create_nonce("gf_upgrade_license") ?>",
-                            cookie: encodeURIComponent(document.cookie)},
+                            gf_upgrade_license: "<?php echo wp_create_nonce("gf_upgrade_license") ?>"},
 
                             function(data){
                                 if(data.trim().length > 0)
@@ -322,7 +321,7 @@ class GFSettings{
                             else{
                                 ?>
                                 <img src="<?php echo GFCommon::get_base_url() ?>/images/cross.png"/>
-                                <span class="installation_item_message"><?php _e("Gravity Forms requires WordPress 3.0 or above.", "gravityforms"); ?></span>
+                                <span class="installation_item_message"><?php printf(__("Gravity Forms requires WordPress v%s or greater. You must upgrade WordPress in order to use this version of Gravity Forms.", "gravityforms"), GF_MIN_WP_VERSION); ?></span>
                                 <?php
                             }
                         ?>

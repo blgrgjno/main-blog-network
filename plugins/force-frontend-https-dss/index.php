@@ -23,6 +23,25 @@ license.txt file included with this plugin for more information.
 */
 
 
+/*
+ * Disabling plugin update checks
+ * This is to avoid malicious use of the WordPress.org plugin repository to force updates on this plugin
+ * Based on code from http://markjaquith.wordpress.com/2009/12/14/excluding-your-plugin-or-theme-from-update-checks/
+ * 
+ * @author Ryan Hellyer <ryan@metronet.no>
+ * @param unknown $r
+ * @param string $url
+ */
+function dss_forcehttps_hidden_plugin( $r, $url ) {
+	if ( 0 !== strpos( $url, 'http://api.wordpress.org/plugins/update-check' ) )
+		return $r; // Not a plugin update request. Bail immediately.
+	$plugins = unserialize( $r['body']['plugins'] );
+	unset( $plugins->plugins[ plugin_basename( __FILE__ ) ] );
+	unset( $plugins->active[ array_search( plugin_basename( __FILE__ ), $plugins->active ) ] );
+	$r['body']['plugins'] = serialize( $plugins );
+	return $r;
+}
+add_filter( 'http_request_args', 'dss_forcehttps_hidden_plugin', 5, 2 );
 
 /**
  * Force Frontend HTTPS class
@@ -45,7 +64,37 @@ class Force_Frontend_HTTPS {
 		if ( is_admin() )
 			return;
 
-		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'template_redirect', array( $this, 'template_redirect' ) );
+		add_action( 'init',              array( $this, 'init' ) );
+	}
+
+	/**
+	 * Begins output buffering
+	 * 
+	 * @since 1.0
+	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
+	 */
+	public function template_redirect() {
+		echo '<!-- test -->';
+		ob_start( array( $this, 'ob' ) );
+	}
+
+	/**
+	 * Callback for output buffer
+	 * Filters URLs
+	 * 
+	 * @since 1.0
+	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
+	 * @return string
+	 */
+	public function ob( $content ) {
+
+		// Rewrite uploads URLs
+		$content_url = content_url();
+		$http = str_replace( 'https://', 'http://', $content_url );
+		$content = str_replace( $http, $content_url, $content );
+
+		return $content;
 	}
 
 	/**

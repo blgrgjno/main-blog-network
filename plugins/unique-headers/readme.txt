@@ -1,16 +1,16 @@
 === Unique Headers ===
 Contributors: ryanhellyer, metronet
 Tags: header, metronet, pixopoint, headers, image, header-image, header-images, taxonomy, posts, pages, taxonomies, post, page, unique
-Donate link: http://geek.ryanhellyer.net/donate/
+Donate link: http://pixopoint.com/donate/
 Requires at least: 3.4
-Stable tag: 1.0.4
+Stable tag: 1.0.3
 
 
 Adds the ability to use unique custom headers on individual pages, posts or categories.
 
 == Description ==
 
-The <a href="http://geek.ryanhellyer.net/products/unique-headers/">Unique Headers Plugin</a> adds the ability to use unique custom headers on
+The <a href="http://pixopoint.com/products/unique-headers/">Unique Headers Plugin</a> adds the ability to use unique custom headers on
 individual pages, posts or categories. This plugin makes use of the excellent <a href="http://wordpress.org/extend/plugins/taxonomy-metadata/">Taxonomy Metadata plugin</a> for handling header images for categories.
 
 The creation of this plugin was sponsored by the <a href="http://www.dss.dep.no/">Norwegian Government Administration Services (G.A.S.)</a> and <a href="http://metronet.no/">Metronet</a>.
@@ -51,18 +51,17 @@ Probably, but we only support the latest version of WordPress.
 
 = I need custom functionality. Can we pay you to build it for us? =
 
-No, I'm too busy. Having said that, if you are willing to pay me a small fortune then I could <a href="http://geek.ryanhellyer.net/contact/">probably be persuaded</a>.
+No, I'm too busy. Having said that, if you want to pay me a small fortune then I could <a href="http://pixopoint.com/contact/">probably be persuaded</a>.
 
 
 == Screenshots ==
 
-1. The custom image uploader for posts/pages, when using the <a href="http://geek.ryanhellyer.net/products/unique-headers/">Unique Headers Plugin</a>
-2. The custom image uploader for categories, when using the <a href="http://geek.ryanhellyer.net/products/unique-headers/">Unique Headers Plugin</a> and <a href="http://wordpress.org/extend/plugins/taxonomy-metadata/">Taxonomy Metadata plugin</a>
+1. The custom image uploader for posts/pages, when using the <a href="http://pixopoint.com/products/unique-headers/">Unique Headers Plugin</a>
+2. The custom image uploader for categories, when using the <a href="http://pixopoint.com/products/unique-headers/">Unique Headers Plugin</a> and <a href="http://wordpress.org/extend/plugins/taxonomy-metadata/">Taxonomy Metadata plugin</a>
 
 
 == Changelog ==
 
-Version 1.0.4: Added support for displaying a category specific image on the single post pages<br />
 Version 1.0.3: Correction for $new_url for categories<br />
 Version 1.0.2: Bug fix to allow default header to display when no category specified<br />
 Version 1.0.1: Bug fixes for post/page thumbnails<br />

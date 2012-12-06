@@ -8,11 +8,13 @@ function dss_custom_header_options() {
   if ( "POST" == $_SERVER['REQUEST_METHOD'] ) {
     check_admin_referer( 'custom-header-options', '_wpnonce-custom-header-options' );    
     if ( isset( $_POST['brand-image'] ) ) {
-      set_theme_mod( 'header_brand_image', $_POST['brand-image'] );
+      $brand_image = wp_kses( $_POST['brand-image'], '', '' );
+      set_theme_mod( 'header_brand_image', $brand_image );
     }
 
     if ( isset( $_POST['brand-url'] ) ) {
-      set_theme_mod( 'header_brand_url', $_POST['brand-url'] );
+      $url = esc_url( $_POST['brand-url'] );
+      set_theme_mod( 'header_brand_url', $url );
     }
   }
   ?>

@@ -3,7 +3,7 @@
 Plugin Name: Language Selector
 Plugin URI: http://geek.ryanhellyer.net/language-selector/
 Description: Uber simple language selector for allowing individual users to custom pick which language they choose to use the WordPress admin panel in
-Version: 1.1
+Version: 1.2
 Author: Ryan Hellyer
 Author URI: http://geek.ryanhellyer.net/
 
@@ -61,7 +61,7 @@ class Language_Selector {
 		add_action( 'edit_user_profile_update', array( $this, 'save_profile_field' ) );
 
 		// Add filters
-		add_filter( 'pre_option_WPLANG',        array( $this, 'change_wplang' ) );
+		add_filter( 'locale',        array( $this, 'change_wplang' ) );
 		add_filter( 'mu_dropdown_languages',    array( $this, 'fudge_lang_selector' ) );
 	}
 

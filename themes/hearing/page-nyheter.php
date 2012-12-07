@@ -50,7 +50,7 @@
 					<div style="padding-bottom: 0; padding-top: 0;" class="entry-content">
 						<?php the_content(); ?>
 					</div><!-- .entry-content -->
-					<span class="meta_readmore"><a href="<?php the_permalink(); ?>">Les nyheter</a></span>
+					<span class="meta_readmore"><a href="<?php the_permalink(); ?>">Les nyhet</a></span>
 				</div><!-- #post -->
 
 			<?php 

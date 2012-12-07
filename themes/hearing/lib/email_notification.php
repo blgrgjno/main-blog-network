@@ -14,11 +14,11 @@ function send_notifications($postID) {
 	$post = get_post($postID, OBJECT);
 	
 	// Basic author data
-	$authorEmail = get_post_meta($postID, 'Author Email', true);
+	$authorEmail = get_post_meta($post->ID, 'Author Email', true);
 	if (!$authorEmail)
 		$authorEmail = get_the_author_meta('user_email', $post->post_author);
 	
-	$authorName = get_post_meta($postID, 'Author Name', true);
+	$authorName = get_post_meta($post->ID, 'Author Name', true);
 	if (!$authorName)
 		$authorName = get_the_author_meta('first_name', $post->post_author).' '. get_the_author_meta('last_name', $post->post_author);
 	

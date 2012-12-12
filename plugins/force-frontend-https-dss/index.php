@@ -43,14 +43,16 @@ function dss_forcehttps_hidden_plugin( $r, $url ) {
 }
 add_filter( 'http_request_args', 'dss_forcehttps_hidden_plugin', 5, 2 );
 
+
+
 /**
- * Force Frontend HTTPS class
+ * Force HTTPS class
  * 
  * @copyright Copyright (c), Ryan Hellyer
  * @author Ryan Hellyer <ryan@metronet.no>
  * @since 1.0
  */
-class Force_Frontend_HTTPS {
+class Force_HTTPS {
 
 	/**
 	 * Class constructor
@@ -64,37 +66,8 @@ class Force_Frontend_HTTPS {
 		if ( is_admin() )
 			return;
 
-		add_action( 'template_redirect', array( $this, 'template_redirect' ) );
-		add_action( 'init',              array( $this, 'init' ) );
-	}
+		add_action( 'init', array( $this, 'init' ) );
 
-	/**
-	 * Begins output buffering
-	 * 
-	 * @since 1.0
-	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
-	 */
-	public function template_redirect() {
-		echo '<!-- test -->';
-		ob_start( array( $this, 'ob' ) );
-	}
-
-	/**
-	 * Callback for output buffer
-	 * Filters URLs
-	 * 
-	 * @since 1.0
-	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
-	 * @return string
-	 */
-	public function ob( $content ) {
-
-		// Rewrite uploads URLs
-		$content_url = content_url();
-		$http = str_replace( 'https://', 'http://', $content_url );
-		$content = str_replace( $http, $content_url, $content );
-
-		return $content;
 	}
 
 	/**
@@ -118,7 +91,7 @@ class Force_Frontend_HTTPS {
 	}
 
 	/**
-	 * Add the admin menu item
+	 * Grab current page URL
 	 * 
 	 * @since 1.0
 	 * @author Ryan Hellyer <ryan@metronet.no>
@@ -140,5 +113,4 @@ class Force_Frontend_HTTPS {
 	}
 
 }
-new Force_Frontend_HTTPS();
-
+$force_https = new Force_HTTPS();

@@ -95,3 +95,16 @@ function niv_confirm_display() {
 		return true;
 }
 add_filter( 'profwid_confirm_display', 'niv_confirm_display' );
+
+/*
+ * Filters the author bio information selection (turns it off)
+ *
+ * @since 1.0
+ * @author Ryan Hellyer <ryan@metronet.no>
+ * @return bool
+ */
+function niv_show_author_bio() {
+	return false;
+}
+add_filter( 'dss_show_author_bio', 'niv_show_author_bio' );
+

@@ -142,7 +142,7 @@
 			echo '</h2></div>';
 		}
 
-		// 
+		// Hide main menu if set via DSS Super Admin plugin
 		if ( class_exists( 'DSS_Network_Super_Admin' ) ) {
 			$super_admin = new DSS_Network_Super_Admin();
 		}

@@ -643,20 +643,16 @@ function dss_disable_search_plugin_notice() {
 add_action( 'init', 'dss_disable_search_plugin_notice' );
 
 
-/** Register scripts
+/**
+ * Set whether bio information should be displayed or not
+ * Used on singular pages
  *
  * @since 1.0
- * @author Gorm
-function dss_register_scripts() {
-  wp_enqueue_script( 'comments-script', get_template_directory_uri() . '/js/dss-comments.js', array('jquery', 'jquery-effects-core'), '1.0', true);
-  // pass data to script
-  wp_localize_script( 'comments-script', 'DSS_COMMENTS', 
-                      array(
-                            // stylesheet to load from javascript
-                            'style' => get_template_directory_uri(). '/dss-comments.css', 
-                            // allowed max height before collapse
-                            'allowed_height' => '400' )
-                      );
-}
-add_action( 'wp_enqueue_scripts', 'dss_register_scripts' );
+ * @author Ryan Hellyer <ryan@metronet.no>
+ * @return bool If true, then author bio information should be displayed
  */
+function dss_show_author_bio() {
+	$show_bio = true;
+	$show_bio = apply_filters( 'dss_show_author_bio', $show_bio );
+	return $show_bio;
+}

@@ -9,7 +9,7 @@ Version: 1.0
 
 */
 
-@import url("../dss-framework/style.css"); 
+@import url("../dss-framework/style.css");
 
 body {
 	background: #f4f7f3 url(images/kart-bakgrunn-grønn.jpg) 100% 100% no-repeat;
@@ -81,7 +81,8 @@ div#site-heading-wrapper,
 .post-thumbnail {
 	width: 90px;
 }
-.entry-header {
+.archive .entry-header,
+.home .entry-header {
 	margin-left: 130px;
 	min-height: 90px;
 }
@@ -109,4 +110,12 @@ div#site-heading-wrapper,
 .widget-title,
 .widget a {
 	font-weight: normal;
+}
+
+/* Content */
+p {
+	line-height: 19px;
+}
+.avatar {
+	display: block; /* For profile images in sidebar */
 }

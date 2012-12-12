@@ -88,7 +88,9 @@ class Profile_Widget extends WP_Widget {
 
 		echo get_avatar( $post->post_author, $instance['size'] );
 		$description = get_the_author_meta( 'description', $post->post_author );
-		echo apply_filters( 'the_content', $description );
+		$description = wptexturize( $description ); // Apply texturising filter - not using the_content() due to it causing things like share icons to be displayed in the sidebar
+		$description = wpautop( $description ); // Apply auto paragraph filter - not using the_content() due to it causing things like share icons to be displayed in the sidebar
+		echo $description;
 
 		// Display after widget code
 		echo $after_widget;

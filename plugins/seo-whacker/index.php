@@ -5,7 +5,7 @@ Plugin Name: SEO Whacker
 Plugin URI: http://geek.ryanhellyer.net/products/seo-whacker/
 Description: Removes features from the WordPress SEO plugin which are often unrequired
 Author: Ryan Hellyer
-Version: 1.0.2
+Version: 1.1
 Author URI: http://geek.ryanhellyer.net/
 
 Copyright (c) 2012 Ryan Hellyer
@@ -75,3 +75,35 @@ function seowhacker_remove_menus() {
 	remove_menu_page( 'wpseo_dashboard' );
 }
 add_action( 'admin_menu', 'seowhacker_remove_menus', 999 );
+
+/*
+ * Removing admin bar junk from view
+ *
+ * @author Ryan Hellyer <ryanhellyer@gmail.com>
+ * @since 1.1
+ */
+function seowhacker_admin_bar() {
+    global $wp_admin_bar;
+    $wp_admin_bar->remove_menu('wpseo-menu');
+}
+add_action( 'wp_before_admin_bar_render', 'seowhacker_admin_bar' );
+
+/*
+ * Removes unneeded sections in the post edit screen
+ * Removes the advanced and page analysis sections
+ *
+ * @author Ryan Hellyer <ryanhellyer@gmail.com>
+ * @since 1.1
+ */
+function seowhacker_remove_blocks() {
+	?>
+	<style>
+	.wpseo-metabox-tabs-div .advanced,
+	.wpseo_tablink,
+	.wpseo-metabox-tabs-div li.general,
+	#linkdex {
+		display: none;
+	}
+	</style><?php
+}
+add_action( 'admin_head', 'seowhacker_remove_blocks' );

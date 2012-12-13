@@ -108,10 +108,10 @@ function afg_add_gallery() {
         }
 
     echo afg_generate_version_line();
-    $url=$_SERVER['REQUEST_URI'];
+    $url=esc_url( $_SERVER['REQUEST_URI'] );
 ?>
 
-            <form method='post' action='<?php echo $url ?>'>
+            <form method='post' action='<?php echo esc_url( $url ); ?>'>
                <div class="postbox-container" style="width:69%; margin-right:1%">
                   <div id="poststuff">
                      <div class="postbox" style='box-shadow:0 0 2px'>

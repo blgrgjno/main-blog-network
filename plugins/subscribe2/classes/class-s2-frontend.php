@@ -6,7 +6,7 @@ class s2_frontend extends s2class {
 	*/
 	function shortcode($atts) {
 		extract(shortcode_atts(array(
-			'hide'  => '',
+			'hide'  => strtolower(''),
 			'id'    => '',
 			'url' => '',
 			'nojs' => 'false',
@@ -16,7 +16,8 @@ class s2_frontend extends s2class {
 
 		// if link is true return a link to the page with the ajax class
 		if ( $link !== '' && !is_user_logged_in() ) {
-			$this->s2form = "<a href=\"" . get_permalink($this->subscribe2_options['s2page']) . "\" class=\"s2popup\">" . $link . "</a>\r\n";
+			$hide_id = ($hide === '') ? "": " id=\"" . $hide . "\"";
+			$this->s2form = "<a href=\"" . get_permalink($this->subscribe2_options['s2page']) . "\" class=\"s2popup\"" . $hide_id . ">" . $link . "</a>\r\n";
 			return $this->s2form;
 		}
 
@@ -57,7 +58,7 @@ class s2_frontend extends s2class {
 		if ( $nojs == 'true' ) {
 			$this->form = "<form method=\"post\" action=\"" . $url . "\"><input type=\"hidden\" name=\"ip\" value=\"" . $_SERVER['REMOTE_ADDR'] . "\" /><p><label for=\"s2email\">" . __('Your email:', 'subscribe2') . "</label><br /><input type=\"text\" name=\"email\" id=\"s2email\" value=\"" . $value . "\" size=\"" . $size . "\" /></p><p>" . $this->input_form_action . "</p></form>";
 		} else {
-			$this->form = "<form method=\"post\" action=\"" . $url . "\"><input type=\"hidden\" name=\"ip\" value=\"" . $_SERVER['REMOTE_ADDR'] . "\" /><p><label for=\"s2email\">" . __('Your email:', 'subscribe2') . "</label><br /><input type=\"text\" name=\"email\" id=\"s2email\" value=\"" . $value . "\" size=\"" . $size . "\" onfocus=\"if (this.value == '" . __('Enter email address...', 'subscribe2') . "') {this.value = '';}\" onblur=\"if (this.value == '') {this.value = '" . __('Enter email address...', 'subscribe2') . "';}\" /></p><p>" . $this->input_form_action . "</p></form>\r\n";
+			$this->form = "<form method=\"post\" action=\"" . $url . "\"><input type=\"hidden\" name=\"ip\" value=\"" . $_SERVER['REMOTE_ADDR'] . "\" /><p><label for=\"s2email\">" . __('Your email:', 'subscribe2') . "</label><br /><input type=\"text\" name=\"email\" id=\"s2email\" value=\"" . $value . "\" size=\"" . $size . "\" onfocus=\"if (this.value == '" . $value . "') {this.value = '';}\" onblur=\"if (this.value == '') {this.value = '" . $value . "';}\" /></p><p>" . $this->input_form_action . "</p></form>\r\n";
 		}
 		$this->s2form = $this->form;
 
@@ -267,7 +268,7 @@ class s2_frontend extends s2class {
 	function add_ajax() {
 		// enqueue the jQuery script we need and let WordPress handle the dependencies
 		wp_enqueue_script('jquery-ui-dialog');
-		wp_register_style('jquery-ui-style', apply_filters('s2_jqueryui_css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-darkness/jquery-ui.css'));
+		wp_register_style('jquery-ui-style', apply_filters('s2_jqueryui_css', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/themes/ui-darkness/jquery-ui.css'));
 		wp_enqueue_style('jquery-ui-style');
 	} // end add_ajax()
 
@@ -278,12 +279,18 @@ class s2_frontend extends s2class {
 		echo "<script type=\"text/javascript\">\r\n";
 		echo "//<![CDATA[\r\n";
 		echo "jQuery(document).ready(function() {\r\n";
-		echo "	var dialog = jQuery('<div></div>')\r\n";
-		echo "	.html('" . do_shortcode('[subscribe2 nojs="true"]') . "')\r\n";
+		echo "	var dialog = jQuery('<div></div>');\r\n";
+		echo "	if (jQuery('a.s2popup').attr('id') === 'unsubscribe') {\r\n";
+		echo "		dialog.html('" . do_shortcode('[subscribe2 nojs="true" hide="unsubscribe"]') . "');\r\n";
+		echo "	} else if (jQuery('a.s2popup').attr('id') === 'subscribe') {\r\n";
+		echo "		dialog.html('" . do_shortcode('[subscribe2 nojs="true" hide="subscribe"]') . "');\r\n";
+		echo "	} else {\r\n";
+		echo "		dialog.html('" . do_shortcode('[subscribe2 nojs="true"]') . "');\r\n";
+		echo "	}\r\n";
 		if ( $this->s2form != $this->form && !is_user_logged_in() ) {
-			echo "	.dialog({modal: true, zIndex: 10000, title: '" . __('Subscribe to this blog', 'subscribe2') . "'});\r\n";
+			echo "	dialog.dialog({modal: true, zIndex: 10000, title: '" . __('Subscribe to this blog', 'subscribe2') . "'});\r\n";
 		} else {
-			echo "	.dialog({autoOpen: false, modal: true, zIndex: 10000, title: '" . __('Subscribe to this blog', 'subscribe2') . "'});\r\n";
+			echo "	dialog.dialog({autoOpen: false, modal: true, zIndex: 10000, title: '" . __('Subscribe to this blog', 'subscribe2') . "'});\r\n";
 		}
 		echo "	jQuery('a.s2popup').click(function(){\r\n";
 		echo "		dialog.dialog('open');\r\n";

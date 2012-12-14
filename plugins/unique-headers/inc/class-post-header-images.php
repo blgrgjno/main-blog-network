@@ -5,7 +5,7 @@
  *
  * @copyright Copyright (c), Ryan Hellyer
  * @license http://www.gnu.org/licenses/gpl.html GPL
- * @author Ryan Hellyer <ryan@pixopoint.com>
+ * @author Ryan Hellyer <ryanhellyer@gmail.com>
  * @since 1.0
  */
 class Post_Header_Images {
@@ -15,20 +15,20 @@ class Post_Header_Images {
 	 * 
 	 * Adds methods to appropriate hooks
 	 * 
-	 * @author Ryan Hellyer <ryan@pixopoint.com>
+	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
 	 * @since 1.0
 	 */
 	public function __construct() {
 
-		// Add filters
-		add_filter( 'theme_mod_header_image',         array( $this, 'header_image_filter' ) );
+		// Add filter for post header image (uses increased priority to ensure that single post thumbnails aren't overridden by category images)
+		add_filter( 'theme_mod_header_image', array( $this, 'header_image_filter' ), 20 );
 
 	}
 
 	/*
 	 * Filter for modifying the output of get_header()
 	 *
-	 * @author Ryan Hellyer <ryan@pixopoint.com>
+	 * @author Ryan Hellyer <ryanhellyer@gmail.com>
 	 * @since 1.0
 	 * @param string $url The header image URL
 	 * @global $post Used for accessing the current post/page ID

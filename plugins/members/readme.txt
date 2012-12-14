@@ -1,10 +1,10 @@
 === Members ===
 Contributors: greenshady
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3687060
+Donate link: http://themehybrid.com/donate
 Tags: admin, role, roles, member, members, profile, shortcode, user, users, widget, widgets
-Requires at least: 3.1
-Tested up to: 3.2
-Stable tag: 0.2
+Requires at least: 3.4
+Tested up to: 3.5
+Stable tag: 0.2.2
 
 A user, role, and content management plugin that makes WordPress a more powerful CMS.
 
@@ -69,6 +69,14 @@ Well, that's why you really need to read the documentation for the plugin before
 5. Content permissions on the edit post screen
 
 == Changelog ==
+
+**Version 0.2.2**
+
+* No longer displays non-editable roles on the edit roles screen.
+
+**Version 0.2.1**
+
+* Fixes the " Creating default object from empty value" error.
 
 **Version 0.2**
 

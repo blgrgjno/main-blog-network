@@ -3,7 +3,7 @@
 Plugin Name: Email Alerts
 Plugin URI: http://wordpress.org/extend/plugins/email-alerts
 Description: Allows users to configure whether they wish to be alerted when a comment is added, comment held, post posted.
-Version: 1.1
+Version: 1.2
 Author: Simon Wheatley
 Author URI: http://simonwheatley.co.uk/wordpress/
 */
@@ -247,7 +247,7 @@ class EmailAlerts extends EmailAlerts_Plugin
 	function set_subscription( $subscription ) {
 		$user_id = (int) @ $_REQUEST['user_id'];
 		$meta_value = (bool) @ $_POST[ 'ea_sub_' . $subscription ];
-		update_usermeta( $user_id, 'ea_sub_' . $subscription, $meta_value );
+		update_user_meta( $user_id, 'ea_sub_' . $subscription, $meta_value );
 	}
 	
 	function get_subscriber_ids( $subscription ) {
@@ -268,9 +268,7 @@ class EmailAlerts extends EmailAlerts_Plugin
 /**
  * Instantiate the plugin
  *
- * @global
  **/
 
 $email_alerts = new EmailAlerts;
 
-?>

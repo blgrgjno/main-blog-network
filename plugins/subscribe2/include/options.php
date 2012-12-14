@@ -38,7 +38,7 @@ if (!isset($this->subscribe2_options['one_click_profile'])) {
 	$this->subscribe2_options['one_click_profile'] = "no";
 } // option for displaying 'one-click' option on profile page
 
-if(!isset($this->subscribe2_options['bcclimit'])) {
+if (!isset($this->subscribe2_options['bcclimit'])) {
 	$this->subscribe2_options['bcclimit'] = 1;
 } // option for default bcc limit on email notifications
 
@@ -50,7 +50,7 @@ if (!isset($this->subscribe2_options['tracking'])) {
         $this->subscribe2_options['tracking'] = "";
 } // option for tracking
 
-if(!isset($this->subscribe2_options['s2page'])) {
+if (!isset($this->subscribe2_options['s2page'])) {
 	$this->subscribe2_options['s2page'] = 0;
 } // option for default WordPress page for Subscribe2 to use
 
@@ -98,7 +98,7 @@ if (!isset($this->subscribe2_options['reg_override'])) {
 	$this->subscribe2_options['reg_override'] = "1";
 } // option for excluded categories to be overriden for registered users
 
-if(!isset($this->subscribe2_options['show_meta'])) {
+if (!isset($this->subscribe2_options['show_meta'])) {
 	$this->subscribe2_options['show_meta'] = "0";
 } // option to display link to subscribe2 page from 'meta'
 
@@ -118,7 +118,7 @@ if (!isset($this->subscribe2_options['counterwidget'])) {
 	$this->subscribe2_options['counterwidget'] = "0";
 } // option to enable Subscribe2 Counter Widget
 
-if(!isset($this->subscribe2_options['s2meta_default'])) {
+if (!isset($this->subscribe2_options['s2meta_default'])) {
 	$this->subscribe2_options['s2meta_default'] = "0";
 } // option for Subscribe2 over ride postmeta to be checked by default
 

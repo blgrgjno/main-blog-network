@@ -3,8 +3,8 @@ Contributors: simonwheatley
 Donate link: http://www.simonwheatley.co.uk/wordpress/
 Tags: notifications, notify, email alerts, alert, publish, hold, approve
 Requires at least: 2.6
-Tested up to: 3.2.1
-Stable tag: 1.1
+Tested up to: 3.5 beta
+Stable tag: 1.2
 
 Allows users to configure whether they wish to be alerted when a comment is added, comment held, post posted.
 
@@ -50,6 +50,11 @@ The plugin is simple to install:
 1. Give yourself a pat on the back
 
 == Change Log ==
+
+= v1.2 2012/11/15 =
+
+* Swapped out update_usermeta for update_user_meta
+* Bumped the "Tested up to" to WP 3.4.2
 
 = v1.1 2011/08/26 =
 

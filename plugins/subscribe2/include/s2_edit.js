@@ -1,8 +1,8 @@
 // Version 1.0 - original version
+// Version 1.1 - updated for Subscribe2 8.6
 jQuery(document).ready(function () {
 	// hide our span before page loads
-	jQuery('#s2bcc_2').hide();
-	jQuery('#s2page_2').hide();
+	jQuery('#s2bcclimit_2').hide();
 	jQuery('#s2entries_2').hide();
 });
 

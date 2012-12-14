@@ -488,11 +488,11 @@
 <?php
 	}
 	
-	if ($show != $nhop['slug_write'] && $nhop['enable_statements'] && $nhop['version'] != 'minimal') {
+//	if ($show != $nhop['slug_write'] && $nhop['enable_statements'] && $nhop['version'] != 'minimal') {
 ?>
 		<p><a href="<?php echo esc_url( $permalink.$nhop['slug_write']."/" ); ?>" class="buttonRound"><span><?php echo $nhop['send_answer']; ?></span></a></p>
 <?php
-	}
+//	}
 	
 	wp_link_pages("\t\t\t\t\t<div class='page-link'>".__('Pages: ', 'thematic'), "</div>\n", 'number');
 	edit_post_link(__('Edit', 'thematic'),'<span class="edit-link">','</span>') ?>

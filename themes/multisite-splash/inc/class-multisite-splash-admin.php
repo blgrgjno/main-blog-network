@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Convert WordPress posts and comments to PDF
  * 
@@ -20,16 +19,35 @@ class Multisite_Splash_Admin extends Multisite_Splash_Core {
 	 */
 	public function __construct() {
 
+		add_action( 'widgets_init', array( $this, 'widgets' ) );
+
 		// Bail out now if not in admin panel
 		if ( ! is_admin() ) {
 			return;
 		}
 
-		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		add_action( 'admin_init', array( $this, 'register_setting' ) );
-		add_action( 'init',       array( $this, 'excerpts' ) );
+		add_action( 'admin_menu',   array( $this, 'admin_menu' ) );
+		add_action( 'admin_init',   array( $this, 'register_setting' ) );
+		add_action( 'init',         array( $this, 'excerpts' ) );
 	}
-
+	
+	/**
+	 * Add excerpts for pages
+	 * 
+	 * @since 1.1
+	 * @author Ryan Hellyer <ryan@metronet.no>
+	 */
+	public function widgets() {
+		register_sidebar( array(
+			'name'          => __( 'Sidebar', 'dss' ),
+			'id'            => 'xsidebar',
+			'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+			'after_widget'  => "</aside>",
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>',
+		) );
+	}
+	
 	/**
 	 * Add excerpts for pages
 	 * 

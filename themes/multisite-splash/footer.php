@@ -90,7 +90,12 @@ $ms_splash = new Multisite_Splash_Core();
 				?>
 				</ul>
 			</aside>
-		
+
+			<?php
+			// Display the sidebar widgets
+			dynamic_sidebar( 'sidebar' );
+			?>
+
 		</div><!-- #secondary .widget-area -->
 
 	</div><!-- #main -->

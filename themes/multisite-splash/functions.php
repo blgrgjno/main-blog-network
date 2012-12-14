@@ -30,7 +30,5 @@ define( 'MSS_COMMENT_TIME_BUFFER', 60 * 60 * 60 * 6 );
 require( 'inc/class-multisite-splash-core.php' );
 $ms_splash = new Multisite_Splash_Core();
 
-if ( is_admin() ) {
-	require( 'inc/class-multisite-splash-admin.php' );
-	new Multisite_Splash_Admin();
-}
+require( 'inc/class-multisite-splash-admin.php' );
+new Multisite_Splash_Admin();

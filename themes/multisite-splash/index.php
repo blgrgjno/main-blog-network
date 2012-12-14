@@ -27,7 +27,14 @@ foreach( $sites as $key => $site_id ) {
 			<hgroup>
 				<h2 class="entry-title">
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="Permalenke til <?php echo esc_attr( get_bloginfo( 'blogname' ) ); ?>" rel="bookmark">
-						<?php echo esc_html( get_bloginfo( 'blogname' ) ); ?>
+						<?php
+						// Display the title
+						if ( get_option( 'dss_blog_titletext' ) ) {
+							echo get_option( 'dss_blog_titletext' );
+						} else {
+							echo esc_html( get_bloginfo( 'blogname' ) );
+						}
+						?>
 					</a>
 				</h2><?php
 

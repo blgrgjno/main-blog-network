@@ -336,8 +336,20 @@ class DSS_Network_Super_Admin {
 	 * @author Ryan Hellyer <ryan@metronet.no>
 	 */
 	public function register_fields() {
+
+		// Bail out now if not a super admin
+		if ( ! is_super_admin() )
+			return;
+
 		register_setting( 'general', 'dss_blog_description', 'esc_attr' );
 		register_setting( 'general', 'dss_blog_headerimage', 'esc_attr' );
+		register_setting( 'general', 'dss_blog_titletext', 'esc_attr' );
+		add_settings_field(
+			'dss_blog_titletext',
+			'<label for="dss_blog_titletext">' . __( 'Blog title text (for splash page)' , 'dss_super' ) . '</label>',
+			array( &$this, 'blog_titletext_field_html' ),
+			'general'
+		);
 		add_settings_field(
 			'dss_blog_description',
 			'<label for="favorite_color">' . __( 'Blog description' , 'dss_super' ) . '</label>',
@@ -346,7 +358,7 @@ class DSS_Network_Super_Admin {
 		);
 		add_settings_field(
 			'dss_blog_headerimage',
-			'<label for="favorite_color">' . __( 'Blog header image (for splash page)' , 'dss_super' ) . '</label>',
+			'<label for="blog_headerimage_field_html">' . __( 'Blog header image (for splash page)' , 'dss_super' ) . '</label>',
 			array( &$this, 'blog_headerimage_field_html' ),
 			'general'
 		);
@@ -361,6 +373,17 @@ class DSS_Network_Super_Admin {
 	public function blog_description_field_html() {
 		$value = get_option( 'dss_blog_description', '' );
 		echo '<input type="text" id="dss_blog_description" name="dss_blog_description" value="' . esc_attr( $value ) . '" />';
+	}
+
+	/**
+	 * HTML for blog description setting
+	 * 
+	 * @since 1.1
+	 * @author Ryan Hellyer <ryan@metronet.no>
+	 */
+	public function blog_titletext_field_html() {
+		$value = get_option( 'dss_blog_titletext', '' );
+		echo '<input type="text" id="dss_blog_titletext" name="dss_blog_titletext" value="' . esc_attr( $value ) . '" />';
 	}
 
 	/**

@@ -1,14 +1,9 @@
 <?php
 
-
-// Kill page for public
-if ( ! isset( $_GET['showsplash'] ) && ! is_admin() ) {
+// Kill page for public unless search engines allowed
+if ( 1 != get_option( 'blog_public' ) && ! is_super_admin() ) {
 	die;
 }
-if ( 'marthe-is-cool' != $_GET['showsplash'] ) {
-	die;
-}
-
 
 get_header();
 

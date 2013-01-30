@@ -55,3 +55,20 @@
 	<div id="main">
 		<div id="primary">
 			<div id="content" role="main">
+				<?php 
+				$e404 = trim($_GET["e"]);
+				if (!empty($e404) && strip_tags($e404) == '404' ) {
+				?>
+				<article id="404" style="background-color: #eeeeee;">
+					<header class="entry-header">
+						<hgroup>
+							<h2 class="entry-title">Vi fant ikke siden du leter etter</h2>
+						</hgroup>
+					</header>
+					<!--div class="entry-summary">
+						<p>Her finner du en oversikt over Regjeringens og departementenes innspillsider og blogger.</p>
+					</div-->
+				</article>
+				<?php 
+				}
+				?>

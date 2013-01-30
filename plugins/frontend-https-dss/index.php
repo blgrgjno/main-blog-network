@@ -3,7 +3,7 @@
 
 Plugin Name: Frontend https
 Plugin URI: http://metronet.no/
-Description: Uses https for all URLs when visiting an https page.
+Description: Uses https for all URLs when visiting an https page. Also rewrites old URLs ie /wp-content/uploads/ to /files/.
 Author: Ryan Hellyer
 Version: 1.0
 Author URI: http://metronet.no/
@@ -70,23 +70,6 @@ class Frontend_HTTPS {
 	}
 
 	/**
-	 * Converts strings containing http URLs to https URLs when on an https page
-	 *
-	 * @since 1.0
-	 * @author Ryan Hellyer <ryan@metronet.no>
-	 * @param $string
-	 * @return string
-	 */
-	public function convert_to_ssl( $string ) {
-		if ( is_ssl() ) {
-			$http_url = get_site_url( '', '', 'http' );
-			$https_url = str_replace( 'http://', 'https://', $string );
-			$string = str_replace( $http_url, $https_url, $string );
-		}
-		return $string;
-	}
-
-	/**
 	 * Begins output buffering
 	 * 
 	 * @since 1.0
@@ -112,6 +95,11 @@ class Frontend_HTTPS {
 			$https_url = get_site_url( '', '', 'https' );
 			$content = str_replace( $http_url, $https_url, $content );
 		}
+
+		// Rewriting uploads URLs for old URL setup
+		$old_uploads = home_url( '/wp-content/uploads/' );
+		$new_uploads = home_url( '/files/' );
+		$content = str_replace( $old_uploads, $new_uploads, $content );
 
 		return $content;
 	}

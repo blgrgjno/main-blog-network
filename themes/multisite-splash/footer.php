@@ -40,7 +40,7 @@ $ms_splash = new Multisite_Splash_Core();
 								'</a>-->
 							</li>';
 						}
-						echo '</li>';
+
 					}
 				}
 				switch_to_blog( 1 );
@@ -97,7 +97,7 @@ $ms_splash = new Multisite_Splash_Core();
 			?>
 
 		</div><!-- #secondary .widget-area -->
-
+		<div style="clear:both;"></div>
 	</div><!-- #main -->
 
 	<footer id="colophon" role="contentinfo">

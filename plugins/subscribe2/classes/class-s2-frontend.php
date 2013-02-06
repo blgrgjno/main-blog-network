@@ -44,10 +44,8 @@ class s2_frontend extends s2class {
 		}
 
 		// allow remote setting of email in form
-		if ( isset($_REQUEST['email']) ) {
-			if ( is_email($_REQUEST['email']) ) {
-				$value = $this->sanitize_email($_REQUEST['email']);
-			}
+		if ( isset($_REQUEST['email']) && is_email($_REQUEST['email']) ) {
+			$value = $this->sanitize_email($_REQUEST['email']);
 		} elseif ( $nojs == 'true' ) {
 			$value = '';
 		} else {

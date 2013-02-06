@@ -1,27 +1,22 @@
-=== Plugin Name ===
-Contributors: pleer
-Plugin Name:  Twitter Feed for WordPress
-Plugin URI:   http://pleer.co.uk/wordpress/plugins/wp-twitter-feed/
-Donate link:  http://pleer.co.uk/go/twitter-paypal/
-Description:  A simple Twitter feed that outputs your latest tweets in HTML into any post, page, template or sidebar widget. Customisable and easy to install!
-Version:      1.2.1
-Author:       Alex Moss
-Author URI:   http://alex-moss.co.uk/
-Link: http://pleer.co.uk/wordpress/plugins/wp-twitter-feed/
+=== Twitter Feed for WordPress ===
+Contributors: alexmoss
+Donate link:  http://3doordigital.com/go/twitter-paypal/
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: twitter, tweets, twitter feed, twitter updates, seo, plugin, widget, sidebar, page, post
 Requires at least: 2.7
-Tested up to: 3.3.1
-Stable tag: 1.2.1
+Tested up to: 3.5.1
+Stable tag: 1.2.2
 
-A simple Twitter feed that outputs your latest tweets in HTML into your page, template or sidebar widget. Customisable and easy to install!
+A simple Twitter feed that outputs your latest tweets in HTML into any post, page, template or sidebar widget. Customisable and easy to install!
 
 == Description ==
 
 The WordPress Twitter Feed Plugin lets you simply output any user's tweets into your WordPress page, template or sidebar! You can customise the username, number of tweets, and style of ouput.
 
 
-* [Twitter Feed](http://pleer.co.uk/wordpress/plugins/wp-twitter-feed/) WordPress Plugin homepage.
-* More [WordPress Plugins](http://pleer.co.uk/wordpress/plugins/).
+* [Twitter Feed](http://3doordigital.com/wordpress/plugins/wp-twitter-feed/) WordPress Plugin homepage.
+* More [WordPress Plugins](http://3doordigital.com/wordpress/plugins/).
 
 == Installation ==
 
@@ -32,10 +27,14 @@ You can install the plugin using the following steps:
 3. Go to the Plugins page and activate the plugin
 4. Insert the shortcode!
 
-For full configuration and options please visit the [Twitter Feed WordPress Plugin](http://pleer.co.uk/wordpress/plugins/wp-twitter-feed/) plugin page.
+For full configuration and options please visit the [Twitter Feed WordPress Plugin](http://3doordigital.com/wordpress/plugins/wp-twitter-feed/) plugin page.
 
 
 == Changelog ==
+
+= 1.2.2 =
+
+* Added decode option
 
 = 1.2.1 =
 

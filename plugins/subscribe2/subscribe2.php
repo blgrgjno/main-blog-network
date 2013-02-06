@@ -3,7 +3,7 @@
 Plugin Name: Subscribe2
 Plugin URI: http://subscribe2.wordpress.com
 Description: Notifies an email list when new entries are posted.
-Version: 8.6
+Version: 8.7
 Author: Matthew Robinson
 Author URI: http://subscribe2.wordpress.com
 Licence: GPL3
@@ -43,7 +43,7 @@ if ( version_compare($GLOBALS['wp_version'], '3.1', '<') || !function_exists( 'a
 
 // our version number. Don't touch this or any line below
 // unless you know exactly what you are doing
-define( 'S2VERSION', '8.6' );
+define( 'S2VERSION', '8.7' );
 define( 'S2PATH', trailingslashit(dirname(__FILE__)) );
 define( 'S2DIR', trailingslashit(dirname(plugin_basename(__FILE__))) );
 define( 'S2URL', plugin_dir_url(dirname(__FILE__)) . S2DIR );
@@ -54,14 +54,14 @@ if ( !in_array(ini_get('safe_mode'), $safe_mode) && ini_get('max_execution_time'
 	@ini_set('max_execution_time', 300);
 }
 
-require_once(S2PATH . 'classes/class-s2-core.php');
+require_once( S2PATH . 'classes/class-s2-core.php' );
 if ( is_admin() ) {
-	require_once(S2PATH . 'classes/class-s2-admin.php');
+	require_once( S2PATH . 'classes/class-s2-admin.php' );
 	global $mysubscribe2;
 	$mysubscribe2 = new s2_admin;
 	$mysubscribe2->s2init();
 } else {
-	require_once(S2PATH . 'classes/class-s2-frontend.php');
+	require_once( S2PATH . 'classes/class-s2-frontend.php' );
 	global $mysubscribe2;
 	$mysubscribe2 = new s2_frontend;
 	$mysubscribe2->s2init();

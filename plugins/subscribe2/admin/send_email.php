@@ -28,6 +28,11 @@ if ( isset($_POST['s2_admin']) && 'mail' == $_POST['s2_admin'] ) {
 			$recipients = $this->get_registered("cats=$cat");
 		} elseif ( 'all_users' == $_POST['what'] ) {
 			$recipients = $this->get_all_registered();
+		} elseif ( 'all' == $_POST['what'] ) {
+			$confirmed = $this->get_public();
+			$unconfirmed = $this->get_public(0);
+			$registered = $this->get_all_registered();
+			$recipients = array_merge((array)$confirmed, (array)$unconfirmed, (array)$registered);
 		} else {
 			$recipients = $this->get_registered();
 		}

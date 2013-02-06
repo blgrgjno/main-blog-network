@@ -41,8 +41,10 @@ class RA_Theme_Stats {
 	}
 	function add_network_page() {
 		add_submenu_page('themes.php', 'Theme Stats', 'Theme Stats', 'manage_network_themes', 'ra_theme_stats', array( &$this, 'admin_page' ) );
-		if( $_GET['page'] == 'ra_theme_stats' )
-			add_action( 'admin_head', array( &$this, 'show_hide_css' ) );
+		if ( isset( $_GET['page'] ) ) {
+			if( $_GET['page'] == 'ra_theme_stats' )
+				add_action( 'admin_head', array( &$this, 'show_hide_css' ) );
+		}
 	}
 
 	function admin_page() {

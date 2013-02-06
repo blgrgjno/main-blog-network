@@ -48,7 +48,7 @@ if ( isset( $_POST['s2_admin']) ) {
 					}
 				}
 			} elseif ( in_array($key, array('notification_subject', 'mailtext', 'confirm_subject', 'confirm_email', 'remind_subject', 'remind_email')) && !empty($_POST[$key]) ) {
-							// email subject and body templates
+				// email subject and body templates
 				$this->subscribe2_options[$key] = $_POST[$key];
 			} elseif ( in_array($key, array('compulsory', 'exclude', 'format')) ) {
 				sort($_POST[$key]);
@@ -228,7 +228,7 @@ switch ($current_tab) {
 		}
 		echo __('Add Tracking Parameters to the Permalink', 'subscribe2') . ": ";
 		echo "<input type=\"text\" name=\"tracking\" value=\"" . stripslashes($this->subscribe2_options['tracking']) . "\" size=\"50\" /> ";
-		echo "<br />" . __('eg. utm_source=subscribe2&amp;utm_medium=email&amp;utm_campaign=postnotify&amp;utm_id={ID}', 'subscribe2') . "\r\n";
+		echo "<br />" . __('eg. utm_source=subscribe2&amp;utm_medium=email&amp;utm_campaign=postnotify&amp;utm_id={ID}&amp;utm_title={TITLE}', 'subscribe2') . "\r\n";
 		echo "</p>\r\n";
 		echo "</div>\r\n";
 	break;
@@ -241,7 +241,7 @@ switch ($current_tab) {
 		echo "<tr><td style=\"vertical-align: top; height: 350px; min-height: 350px;\">";
 		echo __('New Post email (must not be empty)', 'subscribe2') . ":<br />\r\n";
 		echo __('Subject Line', 'subscribe2') . ": ";
-		echo "<input type=\"text\" name=\"notification_subject\" value=\"" . stripslashes($this->subscribe2_options['notification_subject']) . "\" size=\"30\" />";
+		echo "<input type=\"text\" name=\"notification_subject\" value=\"" . stripslashes($this->subscribe2_options['notification_subject']) . "\" size=\"45\" />";
 		echo "<br />\r\n";
 		echo "<textarea rows=\"9\" cols=\"60\" name=\"mailtext\">" . stripslashes($this->subscribe2_options['mailtext']) . "</textarea>\r\n";
 		echo "</td><td style=\"vertical-align: top;\" rowspan=\"3\">";
@@ -271,12 +271,12 @@ switch ($current_tab) {
 		echo "</dl></td></tr><tr><td  style=\"vertical-align: top; height: 350px; min-height: 350px;\">";
 		echo __('Subscribe / Unsubscribe confirmation email', 'subscribe2') . ":<br />\r\n";
 		echo __('Subject Line', 'subscribe2') . ": ";
-		echo "<input type=\"text\" name=\"confirm_subject\" value=\"" . stripslashes($this->subscribe2_options['confirm_subject']) . "\" size=\"30\" /><br />\r\n";
+		echo "<input type=\"text\" name=\"confirm_subject\" value=\"" . stripslashes($this->subscribe2_options['confirm_subject']) . "\" size=\"45\" /><br />\r\n";
 		echo "<textarea rows=\"9\" cols=\"60\" name=\"confirm_email\">" . stripslashes($this->subscribe2_options['confirm_email']) . "</textarea>\r\n";
 		echo "</td></tr><tr><td style=\"vertical-align: top; height: 350px; min-height: 350px;\">";
 		echo __('Reminder email to Unconfirmed Subscribers', 'subscribe2') . ":<br />\r\n";
 		echo __('Subject Line', 'subscribe2') . ": ";
-		echo "<input type=\"text\" name=\"remind_subject\" value=\"" . stripslashes($this->subscribe2_options['remind_subject']) . "\" size=\"30\" /><br />\r\n";
+		echo "<input type=\"text\" name=\"remind_subject\" value=\"" . stripslashes($this->subscribe2_options['remind_subject']) . "\" size=\"45\" /><br />\r\n";
 		echo "<textarea rows=\"9\" cols=\"60\" name=\"remind_email\">" . stripslashes($this->subscribe2_options['remind_email']) . "</textarea><br /><br />\r\n";
 		echo "</td></tr></table>\r\n";
 		echo "</div>\r\n";

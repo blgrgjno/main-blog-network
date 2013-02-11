@@ -68,6 +68,7 @@ class Profile_Widget extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 		global $post;
+		extract( $args );
 
 		// Check if widget should be displayed here (contains additional logic to allow for overriding via themes and other plugins)
 		if ( ! is_single() )

@@ -41,6 +41,9 @@
 
 	// Grab URL of header link
 	$options = get_option( 'dss_super' );
+	if ( ! isset( $options['header-link'] ) ) {
+		$options['header-link'] = '';
+	}
 	if ( '' != $options['header-link'] ) {
 		$header_link = $options['header-link'];
 	} else {

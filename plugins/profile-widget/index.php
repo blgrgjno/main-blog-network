@@ -4,7 +4,7 @@
  * Plugin Name: Profile widget
  * Plugin URI: http://geek.ryanhellyer.net/products/profile-widget/
  * Description: A widget for displaying user profile information on single post pages
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Ryan Hellyer / Metronet
  * Author URI: http://geek.ryanhellyer.net/
  *

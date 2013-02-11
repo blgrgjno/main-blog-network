@@ -257,11 +257,20 @@ class DSS_Network_Super_Admin {
 	 * @author Ryan Hellyer <ryan@metronet.no>
 	 */
 	public function filter_excerpt( $content ) {
+		global $post;
+
 		// Bail out now if not turned on
 		if ( true != $this->get_option( 'advanced-excerpt' ) ) {
 			return $content;
 		}
 
+		// Spit it out the result straight away if there is a custom excerpt set
+		if ( !empty( $post->post_excerpt ) ) {
+			$content = $post->post_excerpt;
+			$content = wpautop( $content );
+			return $content;
+		}
+		
 		// Grab the content
 		$content = get_the_content();
 

@@ -24,7 +24,7 @@ body {
 }
 .entry-title a {
 	font-weight: normal;
-	color: #0431ae;
+	color: #006651;
 }
 #header-content {
 	background: none; /* Getting rid of white lion */
@@ -118,4 +118,13 @@ p {
 }
 .avatar {
 	display: block; /* For profile images in sidebar */
+}
+
+/* Captions */
+.wp-caption .wp-caption-text {
+	font-family: sans-serif;
+	padding: 10px 10px 5px 10px;
+}
+.wp-caption .wp-caption-text::before {
+	content: ''; /* Removing the strange line in captions */
 }

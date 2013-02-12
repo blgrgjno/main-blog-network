@@ -108,3 +108,15 @@ function niv_show_author_bio() {
 }
 add_filter( 'dss_show_author_bio', 'niv_show_author_bio' );
 
+/*
+ * Filters the author bio information selection (turns it off)
+ *
+ * @since 1.0
+ * @author Ryan Hellyer <ryan@metronet.no>
+ * @return bool
+ */
+function dss_logo_url() {
+	$logo_url = get_stylesheet_directory_uri() . '/images/logo.png';
+	return $logo_url;
+}
+add_filter( 'dss_logo_url', 'dss_logo_url' );

@@ -58,8 +58,9 @@
 	<header id="branding" role="banner">
 		<a href="<?php echo esc_url( $header_link ); ?>">
 			<img id="logo" src="<?php
-			$logo_url = get_template_directory_uri() . '/images/logo.png';
-			echo $logo_url;
+				$logo_url = get_template_directory_uri() . '/images/logo.png';
+				$logo_url = apply_filters( 'dss_logo_url', $logo_url );
+				echo $logo_url;
 			?>" alt="Regjeringen logo" />
 		</a>
 		<div id="header-content"><?php

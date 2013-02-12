@@ -58,7 +58,7 @@
 	<header id="branding" role="banner">
 		<a href="<?php echo esc_url( $header_link ); ?>">
 			<img id="logo" src="<?php
-			$logo_url = get_stylesheet_directory_uri() . '/images/logo.png';
+			$logo_url = get_template_directory_uri() . '/images/logo.png';
 			echo $logo_url;
 			?>" alt="Regjeringen logo" />
 		</a>

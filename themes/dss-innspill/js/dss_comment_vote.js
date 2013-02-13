@@ -15,7 +15,7 @@ var console=console||{"log":function(){}};
 jQuery(document).ready(function($){
 
 	$(".vote").css('cursor','pointer');
-	var dss_vote_cookie = 'test03' + ':';
+	var dss_vote_cookie = oDSSvote.id + ':';
 	// Ajax	vote
 	$(".reply").on("click", ".vote",  function(){		
 		var self = $(this);

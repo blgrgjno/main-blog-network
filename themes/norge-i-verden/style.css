@@ -24,7 +24,7 @@ body {
 }
 .entry-title a {
 	font-weight: normal;
-	color: #0431ae;
+	color: #006651;
 }
 #header-content {
 	background: none; /* Getting rid of white lion */
@@ -36,7 +36,7 @@ body {
 	position: relative;
 	top: 0.7em;
 	font-size: 1.8em;
-	color: #18453b;
+	color: #006651;
 	text-transform: none;
 }
 #site-title a:hover {
@@ -87,7 +87,7 @@ div#site-heading-wrapper,
 	min-height: 90px;
 }
 .post-content {
-	margin-left: 0;
+	margin-left: 0;tyling
 }
 .singular .entry-header,
 .single .entry-header {
@@ -118,4 +118,13 @@ p {
 }
 .avatar {
 	display: block; /* For profile images in sidebar */
+}
+
+/* Captions */
+.wp-caption .wp-caption-text {
+	font-family: sans-serif;
+	padding: 10px 10px 5px 10px;
+}
+.wp-caption .wp-caption-text::before {
+	content: ''; /* Removing the strange line in captions */
 }

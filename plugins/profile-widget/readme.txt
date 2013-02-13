@@ -3,7 +3,7 @@ Contributors: ryanhellyer, metronet
 Donate link: http://geek.ryanhellyer.net/products/profile-widget/
 Tags: widget, profile, avatar
 Requires at least: 3.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 
 A WordPress widget for displaying user profile information on single post pages.
 
@@ -28,6 +28,9 @@ A. There is none.
 
 
 == Changelog ==
+
+= 1.0.2 (10/1/2013) =
+* Fixed bug with before and after widget text
 
 = 1.0.1 (23/11/2012) =
 * Added readme.txt file for WordPress.org plugin repository

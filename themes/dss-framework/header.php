@@ -41,6 +41,9 @@
 
 	// Grab URL of header link
 	$options = get_option( 'dss_super' );
+	if ( ! isset( $options['header-link'] ) ) {
+		$options['header-link'] = '';
+	}
 	if ( '' != $options['header-link'] ) {
 		$header_link = $options['header-link'];
 	} else {
@@ -55,8 +58,9 @@
 	<header id="branding" role="banner">
 		<a href="<?php echo esc_url( $header_link ); ?>">
 			<img id="logo" src="<?php
-			$logo_url = get_template_directory_uri() . '/images/logo.png';
-			echo $logo_url;
+				$logo_url = get_template_directory_uri() . '/images/logo.png';
+				$logo_url = apply_filters( 'dss_logo_url', $logo_url );
+				echo $logo_url;
 			?>" alt="Regjeringen logo" />
 		</a>
 		<div id="header-content"><?php

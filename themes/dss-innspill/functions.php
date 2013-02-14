@@ -7,7 +7,7 @@ add_action( 'init', 'dss_comment_vote_init' );
 
 function dss_comment_vote_init() {
 	add_action( 'wp_ajax_nopriv_dss_comment_vote', 'dss_comment_vote_callback' );
-	add_action( 'wp_ajax_dss_comment_vote', 'dss_comment_vote_callback' );
+	//add_action( 'wp_ajax_dss_comment_vote', 'dss_comment_vote_callback' );
 }
 
 /**
@@ -19,14 +19,15 @@ function dss_comment_vote_scripts() {
 	$url = get_stylesheet_directory_uri();	
 
 	// multisite fix, use home_url() if domain mapped to avoid cross-domain issues
+	$http_scheme = (is_ssl()) ? "https" : "http";
 	if ( home_url() != site_url() ) {
-		$ajaxurl = home_url( '/wp-admin/admin-ajax.php' );
+		$ajaxurl = home_url( '/wp-admin/admin-ajax.php',$http_scheme );
 	} else {
-		$ajaxurl = admin_url( 'admin-ajax.php' );
+		$ajaxurl = site_url( '/wp-admin/admin-ajax.php', $http_scheme );
 	}
 
 	wp_enqueue_script(  'dss_comment_coockie', $url . '/js/jquery-cookie/jquery.cookie.js', array('jquery'),'1.3.1');
-	wp_enqueue_script(  'dss_comment_ajax', $url . '/js/dss_comment_vote.js', array( 'jquery','dss_comment_coockie' ), '1.0.2' );
+	wp_enqueue_script(  'dss_comment_ajax', $url . '/js/dss_comment_vote.js', array( 'jquery','dss_comment_coockie' ), '1.0.5' );
 	wp_localize_script( 'dss_comment_ajax', 'oDSSvote', array(
 			'nonce' => wp_create_nonce( "dss_comment_vote_security" )
 			,'ajaxurl' =>  $ajaxurl

@@ -41,11 +41,13 @@ jQuery(document).ready(function($){
 					.slideUp('slow');
 			} else {				
 				// make AJAX request
+
 				$.ajax({
-					url:        oDSSvote.ajaxurl
+					url:        oDSSvote.ajaxurl + '?now='  +escape(new Date().getTime().toString())
 					, type:       'post'
 					, dataType:   'json'
 					, cache:      false
+					, async:      false 
 					, data:       data
 					// , beforeSend: function() {
 

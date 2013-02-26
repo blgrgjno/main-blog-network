@@ -9,7 +9,7 @@
  * @since 1.0
  */
 class Moderation_Times {
-
+	
 	/**
 	 * @var $default_times
 	 * @desc Default times set in DB
@@ -25,7 +25,7 @@ class Moderation_Times {
 		'holidays_start'   => '',
 		'holidays_finish'  => '',
 	);
-
+	
 	/**
 	 * @var $holidays
 	 * @desc List of holidays
@@ -38,7 +38,7 @@ class Moderation_Times {
 		'19/6/2022',
 		'21/6/2022',
 	);
-
+	
 	/**
 	 * Class constructor
 	 * Adds methods to appropriate hooks
@@ -48,20 +48,20 @@ class Moderation_Times {
 	 * @access public
 	 */
 	public function __construct() {
-
+		
 		// Add option
 		add_option( 'moderation_times', $this->default_times );
-
+		
 		// Add actions
 		add_action( 'admin_init',         array( $this, 'register_settings'  ) );
 		add_action( 'admin_menu',         array( $this, 'add_page'  ) );
-
+		
 		// If we want to manually fire the cron, then ping a specific URL
 		if ( isset( $_GET['manually_trigger_moderation_timer_cron'] ) ) {
-			add_action( 'init',               array( $this, 'check_setting'  ) );
+			add_action( 'init',           array( $this, 'check_setting' ) );
 		}
 	}
-
+	
 	/**
 	 * Check comment moderation setting and change if needed
 	 *
@@ -70,15 +70,21 @@ class Moderation_Times {
 	 * @access public
 	 */
 	public function check_setting() {
-
+		if ( isset( $_GET['manually_trigger_moderation_timer_cron'] ) ) {
+			$echo = true;
+		} else {
+			$echo = false;
+		}
+		
 		// Calculate time/dates
 		$current_time_value = current_time( 'timestamp' );
 		$current_time_string = date( 'H:i', $current_time_value );
 		$current_date_string = date( 'j/n/Y', $current_time_value );
-
-		echo 'Current time string: ' . $current_time_string . '<br>';
-		echo 'Current date string: ' . $current_date_string . '<br>';
-
+		
+		if ( $echo == true ) {
+			echo 'Current time string: ' . $current_time_string . '<br>';
+			echo 'Current date string: ' . $current_date_string . '<br>';
+		}
 		
 		// Set which type of day we're on
 		if ( date( 'w', $current_time_value ) == 6 ) {
@@ -95,28 +101,36 @@ class Moderation_Times {
 			if ( !isset( $day ) )
 				$day = 'weekdays';
 		}
-
+		
 		// Check if we're in an appropriate time zone
 		$start  = strtotime( $this->get_option( $day . '_start' ) );
 		$finish = strtotime( $this->get_option( $day . '_finish' ) );
-
+		
 		if ( '' == $start || '' == $finish ) {
 			update_option( 'comment_moderation', true );
-			echo 'Start or finish time not set, so comments will need to be approved.';
+			if ( $echo == true ) {
+				echo 'Start or finish time not set, so comments will need to be approved.';
+			}
 		}
 		elseif ( $current_time_value > $start && $current_time_value < $finish ) {
 			update_option( 'comment_moderation', false );
-			echo 'Comments will automatically appear.';
+			if ( $echo == true ) {
+				echo 'Comments will automatically appear.';
+			}
 		}
 		elseif ( ( $current_time_value > $start || $current_time_value < $finish ) ) {
 			update_option( 'comment_moderation', true );
-			echo 'Posts will need to be approved.';
+			if ( $echo == true ) {
+				echo 'Posts will need to be approved.';
+			}
 		}
-
-		echo '<br /><br />';
-		die( __( 'Moderation mode reset!', 'moderation_times' ) );
+		
+		if ( $echo == true ) {
+			echo '<br /><br />';
+			die( __( 'Moderation mode reset!', 'moderation_times' ) );
+		}
 	}
-
+	
 	/**
 	 * Init plugin options to white list our options
 	 *
@@ -131,7 +145,7 @@ class Moderation_Times {
 			array( $this, 'validate' )
 		);
 	}
-
+	
 	/**
 	 * Load up the menu page
 	 *
@@ -149,7 +163,7 @@ class Moderation_Times {
 		);
 
 	}
-
+	
 	/**
 	 * Create the options page
 	 *
@@ -158,10 +172,10 @@ class Moderation_Times {
 	 * @access public
 	 */
 	public function do_page() {
-	
+		
 		if ( ! isset( $_REQUEST['settings-updated'] ) )
 			$_REQUEST['settings-updated'] = false;
-
+		
 		?>
 		<div class="wrap">
 			<?php screen_icon(); echo '<h2>' . __( 'Moderation times', 'moderation_times' ) . '</h2>'; ?>
@@ -178,7 +192,7 @@ class Moderation_Times {
 				 */
 				?>
 				<h2><?php _e( 'Time slots', 'moderation_times' ); ?></h2>
-				<p><?php _e( 'Enter the various time slots for comment moderation below.', 'moderation_times' ); ?></p>
+				<p><?php _e( 'Enter the various time slots for comment moderation below. Between start and finish times, comments will not need to be manually approved. If left blank or time is outside of start/finish times, then comments will need to be manually approved.', 'moderation_times' ); ?></p>
 				<table class="form-table"><?php
 					$options = array(
 						'saturdays' => __( 'Saturday', 'moderation_times' ),
@@ -206,16 +220,17 @@ class Moderation_Times {
 				<p class="submit">
 					<input type="submit" class="button-primary" value="<?php _e( 'Save Options', 'moderation_times' ); ?>" />
 				</p>
+				<!--
 				<p>
 					<small>
 						<?php _e( 'The plugin automatically checks the settings and updates the moderation toggle once every five minutes. If you need to force it to check at a particular time, then visit the "<a href="' . home_url( '/?manually_trigger_moderation_timer_cron=yup' ) . '">Manually set moderation mode</a>" link.', 'moderation_times' ); ?>
 					</small>
 				</p>
+				-->
 			</form>
-		</div>
-		<?php
+		</div><?php
 	}
-
+	
 	/**
 	 * Get option from array
 	 *
@@ -229,7 +244,7 @@ class Moderation_Times {
 		if ( isset( $options[$key] ) )
 			return $options[$key];
 	}
-
+	
 	/**
 	 * Sanitize and validate input. Accepts an array, return a sanitized array.
 	 *

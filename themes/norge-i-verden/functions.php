@@ -77,6 +77,12 @@ function niv_top_menu( $top_menu ) {
 }
 add_filter( 'dss_top_menu', 'niv_top_menu' );
 
+function niv_filter_excerpt( $excerpt ) {
+	$excerpt = str_replace( '">Les mer</a>', '">(mer...)</a>', $excerpt );
+	return $excerpt;
+}
+add_filter( 'the_excerpt', 'niv_filter_excerpt', 11 );
+
 /*
  * Filter for displaying "Profile Widget" plugin on category pages
  * Modifies the result of the is_single() check to allow for categories as well

@@ -268,45 +268,56 @@ class DSS_Network_Super_Admin {
 		if ( !empty( $post->post_excerpt ) ) {
 			$content = $post->post_excerpt;
 			$content = wpautop( $content );
-			return $content;
+			$excerpt = $content;
 		}
-		
-		// Grab the content
-		$content = get_the_content();
 
-		// Split into chunks of sentences	
-		$strings = preg_split('/(\.|!|\?)\s/', $content, 99, PREG_SPLIT_DELIM_CAPTURE);
-
-		$excerpt = '';
-		$dots = 0;
-		foreach( $strings as $key => $value ) {
-
-			// Add an extra sentence
-			if ( ! isset( $end ) ) {
-				$excerpt .= $strings[$key];
-			}
-
-			// Stop adding sentences once we hit 40 words
-			if ( $dots == 1 ) {
-				if ( 40 < str_word_count( $excerpt, 0 ) ) {
-					$end = true;
+		// If a read more link is already present, then use it ... 
+		$needle = '" class="more-link">(mer...)</a>';
+		$pos = strpos( $content, $needle );
+		if ( $pos === false ) { // string needle NOT found in haystack
+			// Grab the content
+			$content = get_the_content();
+	
+			// Split into chunks of sentences	
+			$strings = preg_split('/(\.|!|\?)\s/', $content, 99, PREG_SPLIT_DELIM_CAPTURE);
+	
+			$excerpt = '';
+			$dots = 0;
+			foreach( $strings as $key => $value ) {
+	
+				// Add an extra sentence
+				if ( ! isset( $end ) ) {
+					$excerpt .= $strings[$key];
 				}
-				$dots = 0;
-			} else {
-				$dots++;
+	
+				// Stop adding sentences once we hit 40 words
+				if ( $dots == 1 ) {
+					if ( 40 < str_word_count( $excerpt, 0 ) ) {
+						$end = true;
+					}
+					$dots = 0;
+				} else {
+					$dots++;
+				}
+			
 			}
-		
-		}
 
-		// Auto close HTML tags
-		$excerpt = $this->fix_HTML( $excerpt );
+			// Auto close HTML tags
+			$excerpt = $this->fix_HTML( $excerpt );
 
-		// Add excerpt
-		$excerpt .= ' ... <a href="'. get_permalink() . '">Les mer</a>';
+			// Add excerpt
+			$excerpt .= ' ... <a href="'. get_permalink() . '">Les mer</a>';
 
-		// Do shortcodes and WPAUTOP - couldn't use the_content as it threw an error here
-		$excerpt = strip_shortcodes( $excerpt );
+			// Strip shortcodes and do WPAUTOP - couldn't use the_content as it threw an error here
+			$excerpt = strip_shortcodes( $excerpt );
 			$excerpt = wpautop( $excerpt );
+		}
+		else { // string needle found in haystack
+			$excerpt = explode( $needle, $content );
+			return $excerpt[0] . $needle;
+			$excerpt = $content;
+			die( $excerpt );
+		}
 
 		// Finally, spit the excerpt out :)	
 		return $excerpt;

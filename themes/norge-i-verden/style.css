@@ -22,6 +22,10 @@ body {
 	font-weight: normal;
 	font-family: Georgia, "Bitstream Charter", serif;
 }
+.singular .entry-title,
+.entry-title {
+	line-height: 1em;
+}
 .entry-title a {
 	font-weight: normal;
 	color: #006651;
@@ -73,6 +77,7 @@ div#site-heading-wrapper,
 	color: #fff;
 	font-weight: normal !important;
 }
+.singular #site-heading,
 .home #site-heading {
 	display: none;
 }
@@ -81,6 +86,7 @@ div#site-heading-wrapper,
 .post-thumbnail {
 	width: 90px;
 }
+.search-results .entry-header,
 .archive .entry-header,
 .home .entry-header {
 	margin-left: 130px;
@@ -115,6 +121,7 @@ div#site-heading-wrapper,
 /* Content */
 p {
 	line-height: 19px;
+	margin-bottom: 1em;
 }
 .avatar {
 	display: block; /* For profile images in sidebar */

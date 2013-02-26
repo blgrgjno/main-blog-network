@@ -2,12 +2,12 @@
 
 // AJAX
 
-add_action( 'wp_enqueue_scripts', 'dss_comment_vote_scripts', 10, 1 );
+add_action( 'wp_enqueue_scripts', 'dss_comment_vote_scripts');
 add_action( 'init', 'dss_comment_vote_init' );
 
 function dss_comment_vote_init() {
 	add_action( 'wp_ajax_nopriv_dss_comment_vote', 'dss_comment_vote_callback' );
-	add_action( 'wp_ajax_dss_comment_vote', 'dss_comment_vote_callback' );
+	//add_action( 'wp_ajax_dss_comment_vote', 'dss_comment_vote_callback' );
 }
 
 /**
@@ -19,17 +19,19 @@ function dss_comment_vote_scripts() {
 	$url = get_stylesheet_directory_uri();	
 
 	// multisite fix, use home_url() if domain mapped to avoid cross-domain issues
-	if ( home_url() != site_url() )
-		$ajaxurl = home_url( '/wp-admin/admin-ajax.php' );
-	else
-		$ajaxurl = admin_url( 'admin-ajax.php' );
-	$ajaxurl = apply_filters( 'safe_report_comments_ajax_url', $ajaxurl );
+	$http_scheme = (is_ssl()) ? "https" : "http";
+	if ( home_url() != site_url() ) {
+		$ajaxurl = home_url( '/wp-admin/admin-ajax.php',$http_scheme );
+	} else {
+		$ajaxurl = site_url( '/wp-admin/admin-ajax.php', $http_scheme );
+	}
 
 	wp_enqueue_script(  'dss_comment_coockie', $url . '/js/jquery-cookie/jquery.cookie.js', array('jquery'),'1.3.1');
-	wp_enqueue_script(  'dss_comment_ajax', $url . '/js/dss_comment_vote.js', array( 'jquery','dss_comment_coockie' ), '1.2' );
+	wp_enqueue_script(  'dss_comment_ajax', $url . '/js/dss_comment_vote.js', array( 'jquery','dss_comment_coockie' ), '1.0.5' );
 	wp_localize_script( 'dss_comment_ajax', 'oDSSvote', array(
 			'nonce' => wp_create_nonce( "dss_comment_vote_security" )
 			,'ajaxurl' =>  $ajaxurl
+			,'id' => 'innspill:' . get_current_blog_id()
 		)
 	);
 }
@@ -45,26 +47,35 @@ function dss_comment_vote_scripts() {
  * @author Per Soderlind <per.soderlind@dss.dep.no>
  */
 function dss_comment_vote_callback() {
+
 	header( "Content-type: application/json" );
 	if ( check_ajax_referer( 'dss_comment_vote_security', 'security', false ) ) {
 
 		$comment_id = $_POST['commentid'];
 		$is_upvote = $_POST['is_upvote'];
 
+
+		$upvote = get_comment_meta ( $comment_id, 'upvote', true );
+		$upvote = (!empty( $upvote ) ? $upvote : 0 );
+		$downvote = get_comment_meta ( $comment_id, 'downvote', true );
+		$downvote = (!empty( $downvote ) ? $downvote : 0 );
+
 		if ( true == $is_upvote ) {
-			$upvote = get_comment_meta ( $comment_id, 'upvote', true );
-			$newvote = ( !empty( $upvote ) ) ? $upvote + 1 : 1;
-			$result = update_comment_meta( $comment_id, 'upvote', $newvote );
-
-			$commentarr = get_comment($comment_id, ARRAY_A);
-			$commentarr['comment_karma'] = $newvote; 
-			wp_update_comment($commentarr);
-
+			$upvote = (int)$upvote + 1;
+			$newvote = $upvote;
+			$result = update_comment_meta( $comment_id, 'upvote',$upvote);
 		} else {
-			$downvote = get_comment_meta ( $comment_id, 'downvote', true );
-			$newvote = ( !empty( $downvote ) ) ? $downvote - 1 : -1;
-			$result = update_comment_meta( $comment_id, 'downvote', $newvote );
+			$downvote = (int)$downvote  - 1;
+			$newvote = $downvote;
+			$result = update_comment_meta( $comment_id, 'downvote',$downvote);
 		}
+
+		// calculate karma (upvote + downvote)	
+		$karma = $upvote + $downvote;
+		$commentarr = get_comment($comment_id, ARRAY_A);
+		$commentarr['comment_karma'] = $karma; 
+		wp_update_comment($commentarr);
+
 
 		if ( is_wp_error( $result ) ) {
 			$error_string = $result->get_error_message();
@@ -135,7 +146,7 @@ if (!class_exists('dss_vote_comments_widget')) {
 				if ($i >= $max) break;
 				if ($comment->comment_karma == 0) {
 					$novote++;
-				} else {
+				} else if ($comment->comment_karma > 0) {
 					printf("<li><a href=\"%s\" data-karma=\"%s\">%s</a> (%s)</li>"
 						, get_comment_link($comment) 
 						, $comment->comment_karma
@@ -195,7 +206,7 @@ if (!class_exists('dss_vote_comments_widget')) {
 	add_action( 'widgets_init', create_function( '', 'register_widget( "dss_vote_comments_widget" );' ) );
 } // end if widget class exists
 
-//COMMENT TEMPLATE
+//COMMENT LIST TEMPLATE
 
 /**
  * Override the default comment template, adding buttons for voting
@@ -293,3 +304,55 @@ if ( ! function_exists( 'dss_comment' ) ) :
 		endswitch;
 	}
 endif; // ends check for dss_comment()
+
+
+// COMMENT FORM
+
+add_filter( 'comment_form_defaults', 'dss_vote_comment_form_defaults' );
+
+function dss_vote_comment_form_defaults( $defaults ) {
+	global $post_id;
+	$defaults['title_reply']  = __('Make a proposal','dss-proposal');
+	$defaults['comment_field']= '<p class="comment-form-comment"><label for="comment">' . __( 'Proposal', 'dss-proposal' ) . '</label><textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>';
+	$defaults['must_log_in']  = '<p class="must-log-in">' . sprintf( __( 'You must be <a href="%s">logged in</a> to post a proposal.','dss-proposal' ), wp_login_url( apply_filters( 'the_permalink', get_permalink( $post_id ) ) ) ) . '</p>';
+	//$defaults['title_reply_to'] = __( 'Leave a Reply to %s','dss-proposal' );
+	$defaults['cancel_reply_link'] = __( 'Cancel proposal','dss-proposal' );
+	$defaults['label_submit'] = __( 'Post proposal','dss-proposal' );
+
+	return $defaults;
+}
+
+
+// i18n
+
+add_action( 'after_setup_theme', 'dss_vote_comment_form_setup' );
+function dss_vote_comment_form_setup(){
+    load_child_theme_textdomain( 'dss-proposal', get_stylesheet_directory() . '/languages' );
+}
+
+// ADMIN INTERFACE 
+
+function dss_vote_admin_comment_columns( $columns ) {
+	return array_merge( $columns, array(
+		'karma' => __( 'Populær' )
+	));
+}
+add_filter( 'manage_edit-comments_columns', 'dss_vote_admin_comment_columns' );
+
+
+function dss_vote_admin_column( $column, $comment_ID ) {
+
+	if ('karma' == $column) {
+		$commentarr = get_comment($comment_id, ARRAY_A);
+		echo (isset($commentarr['comment_karma'])) ? $commentarr['comment_karma'] : '-';
+	}
+}
+
+add_filter( 'manage_comments_custom_column', 'dss_vote_admin_column', 10, 2 );
+
+function dss_vote_admin_sortable_karma_column( $columns ) {
+	$columns['karma'] = 'comment_karma';
+	return $columns;
+}
+add_filter( 'manage_edit-comments_sortable_columns', 'dss_vote_admin_sortable_karma_column' );
+

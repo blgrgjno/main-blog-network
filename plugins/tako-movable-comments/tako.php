@@ -2,12 +2,12 @@
 /**
  * @package Tako Movable Comments
  * @author Ren Aysha
- * @version 1.0
+ * @version 1.0.2
  */
 /*
 Plugin Name: Tako Movable Comments
-Version: 1.0
-Plugin URI: http://www.renettarenula.github.com
+Version: 1.0.2
+Plugin URI: https://github.com/renettarenula/Tako/
 Author: Ren Aysha
 Author URI: http://twitter.com/RenettaRenula
 Description: This plugin allows you to move comments from one post or page to another. You can also move comments across post types and custom post types. Just click on edit comments and move your comments through the <strong>Move Comments with Tako</strong> metabox.
@@ -34,6 +34,7 @@ class Tako
 	 * Constructor
 	 *--------------------------------------------*/
 
+
 	/**
 	 * Initializes the plugin by adding meta box, filters, and JS files.
 	 */
@@ -52,7 +53,7 @@ class Tako
 		if ( $hook != 'comment.php' )
 			return;
 		wp_enqueue_script( 'tako_dropdown', plugins_url( 'js/tako-dropdown.js' , __FILE__ ) );
-		wp_localize_script( 'tako_dropdown', 'tako_object', array( tako_ajax_nonce => wp_create_nonce( 'tako-ajax-nonce' ) ) );
+		wp_localize_script( 'tako_dropdown', 'tako_object', array( 'tako_ajax_nonce' => wp_create_nonce( 'tako-ajax-nonce' ) ) );
 	}
 
 	/*--------------------------------------------*
@@ -98,7 +99,7 @@ class Tako
 		<label for="post-type"><?php _e( 'Choose the post type that you want to move this comment to', 'tako_lang' ); ?></label>
 		<select name="tako_post_type" id="tako_post_type">
 			<?php foreach( $post_types as $post_type ) { ?>
-				<option value="<? echo $post_type; ?>" <?php if ( get_post_type( $comment->comment_post_ID ) == $post_type ) echo 'selected'; ?>><?php echo $post_type; ?></option>
+				<option value="<?php echo $post_type; ?>" <?php if ( get_post_type( $comment->comment_post_ID ) == $post_type ) echo 'selected'; ?>><?php echo $post_type; ?></option>
 		  	<?php } ?>
 		</select>
 				<img src="<?php echo admin_url('/images/wpspin_light.gif'); ?>" class="waiting" id="tako_spinner" style="display:none;" />
@@ -114,7 +115,9 @@ class Tako
 	 */
 	public function tako_save_meta_box( $comment_content ) 
 	{
-		if ( !wp_verify_nonce( $_POST['tako_nonce'], plugin_basename( __FILE__ ) ) )
+		$screen = get_current_screen();
+		// For Quick Edit: if current screen is anything other than edit-comments (main page for editing comments), ignore nonce verification.
+		if ( !wp_verify_nonce( $_POST['tako_nonce'], plugin_basename( __FILE__ ) ) && $screen->parent_base == 'edit-comments' )
 			return;
 		if ( !current_user_can( 'moderate_comments' ) )  {
 			return;
@@ -229,7 +232,7 @@ class Tako
 		<label for="post"><?php _e( 'Choose the post title that you want to move this comment to', 'tako_lang')?></label>
 		<select name="tako_post" id="tako_post">
 		<?php foreach( $posts as $post ) : setup_postdata( $post ); ?>
-			<option value="<? echo $post->ID; ?>" <?php if ( $post->ID == $post_id ) echo 'selected'; ?>><?php echo $post->post_title ?></option>
+			<option value="<?php echo $post->ID; ?>" <?php if ( $post->ID == $post_id ) echo 'selected'; ?>><?php echo $post->post_title ?></option>
 		<?php endforeach; ?>
 
 	<?php

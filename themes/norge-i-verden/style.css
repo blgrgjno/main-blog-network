@@ -86,6 +86,9 @@ div#site-heading-wrapper,
 .post-thumbnail {
 	width: 90px;
 }
+body .no-thumbnail .entry-header {
+	margin-left: 0; /* We don't want white space appearing when no thumbnail is set */
+}
 .search-results .entry-header,
 .archive .entry-header,
 .home .entry-header {
@@ -93,7 +96,7 @@ div#site-heading-wrapper,
 	min-height: 90px;
 }
 .post-content {
-	margin-left: 0;tyling
+	margin-left: 0;
 }
 .singular .entry-header,
 .single .entry-header {

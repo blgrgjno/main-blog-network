@@ -89,6 +89,7 @@ div#site-heading-wrapper,
 body .no-thumbnail .entry-header {
 	margin-left: 0; /* We don't want white space appearing when no thumbnail is set */
 }
+body.home .no-thumbnail .entry-header,
 .search-results .entry-header,
 .archive .entry-header,
 .home .entry-header {

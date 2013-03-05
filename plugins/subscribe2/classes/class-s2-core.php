@@ -78,10 +78,26 @@ class s2class {
 			active tinyint(1) default 0,
 			date DATE default '$date' NOT NULL,
 			ip char(64) NOT NULL default 'admin',
+			time TIME DEFAULT '00:00:00' NOT NULL,
+			conf_date DATE,
+			conf_time TIME,
+			conf_ip char(64),
 			PRIMARY KEY (id) )";
 
 		// create the table, as needed
 		maybe_create_table($this->public, $sql);
+
+		// create table entries for registered users
+		$users = $this->get_all_registered('ID');
+		if ( !empty($users) ) {
+			foreach ( $users as $user_ID ) {
+				$check_format = get_user_meta($user_ID, $this->get_usermeta_keyname('s2_format'), true);
+				if ( empty($check_format) ) {
+					// no prior settings so create them
+					$this->register($user_ID);
+				}
+			}
+		}
 
 		// safety check if options exist and if not create them
 		if ( !is_array($this->subscribe2_options) ) {
@@ -93,146 +109,46 @@ class s2class {
 	Upgrade function for the database and settings
 	*/
 	function upgrade() {
-		global $wpdb, $wp_version, $wpmu_version;
-		// include upgrade-functions for maybe_add_column;
-		if ( !function_exists('maybe_add_column') ) {
-			require_once(ABSPATH . 'wp-admin/install-helper.php');
-		}
-		$date = date('Y-m-d');
-		maybe_add_column($this->public, 'date', "ALTER TABLE $this->public ADD date DATE DEFAULT '$date' NOT NULL AFTER active");
-		maybe_add_column($this->public, 'ip', "ALTER TABLE $this->public ADD ip char(64) DEFAULT 'admin' NOT NULL AFTER date");
-		maybe_add_column($this->public, 'time', "ALTER TABLE $this->public ADD time TIME DEFAULT '00:00:00' NOT NULL AFTER date");
-		maybe_add_column($this->public, 'conf_date', "ALTER TABLE $this->public ADD conf_date DATE AFTER ip");
-		maybe_add_column($this->public, 'conf_time', "ALTER TABLE $this->public ADD conf_time TIME AFTER conf_date");
-		maybe_add_column($this->public, 'conf_ip', "ALTER TABLE $this->public ADD conf_ip char(64) AFTER conf_time");
+		require(S2PATH . "classes/class-s2-upgrade.php");
+		global $s2_upgrade;
+		$s2_upgrade = new s2class_upgrade;
 
-		// let's take the time to check process registered users
-		// existing public subscribers are subscribed to all categories
-		$users = $this->get_all_registered('ID');
-		if ( !empty($users) ) {
-			foreach ( $users as $user_ID ) {
-				$check_format = get_user_meta($user_ID, $this->get_usermeta_keyname('s2_format'), true);
-				// if user is already registered update format remove 's2_excerpt' field and update 's2_format'
-				if ( 'html' == $check_format ) {
-					delete_user_meta($user_ID, 's2_excerpt');
-				} elseif ( 'text' == $check_format ) {
-					update_user_meta($user_ID, $this->get_usermeta_keyname('s2_format'), get_user_meta($user_ID, 's2_excerpt'));
-					delete_user_meta($user_ID, 's2_excerpt');
-				} elseif ( empty($check_format) ) {
-					// no prior settings so create them
-					$this->register($user_ID);
-				}
-				$subscribed = get_user_meta($user_ID, $this->get_usermeta_keyname('s2_subscribed'), true);
-				if ( strstr($subscribed, '-1') ) {
-					// make sure we remove '-1' from any settings
-					$old_cats = explode(',', $subscribed);
-					$pos = array_search('-1', $old_cats);
-					unset($old_cats[$pos]);
-					$cats = implode(',', $old_cats);
-					update_user_meta($user_ID, $this->get_usermeta_keyname('s2_subscribed'), $cats);
-				}
-				$check_authors = get_user_meta($user_ID, $this->get_usermeta_keyname('s2_authors'), true);
-				if ( empty($check_authors) ) {
-					update_user_meta($user_ID, $this->get_usermeta_keyname('s2_authors'), '');
-				}
-			}
-		}
-		// update the options table to serialized format
-		$old_options = $wpdb->get_col("SELECT option_name from $wpdb->options where option_name LIKE 's2%' AND option_name != 's2_future_posts'");
-
-		if ( !empty($old_options) ) {
-			foreach ( $old_options as $option ) {
-				$value = get_option($option);
-				$option_array = substr($option, 3);
-				$this->subscribe2_options[$option_array] = $value;
-				delete_option($option);
-			}
-		}
-		$this->subscribe2_options['version'] = S2VERSION;
 		// ensure that the options are in the database
 		require(S2PATH . "include/options.php");
-		// correct autoformat to upgrade from pre 5.6
-		if ( $this->subscribe2_options['autoformat'] == 'text' ) {
-			$this->subscribe2_options['autoformat'] = 'excerpt';
+		// catch older versions that didn't use serialised options
+		if ( !isset($this->subscribe2_options['version']) ) {
+			$this->subscribe2_options['version'] = '2.0';
 		}
-		if ( $this->subscribe2_options['autoformat'] == 'full' ) {
-			$this->subscribe2_options['autoformat'] = 'post';
+
+		// let's take the time to ensure that database entries exist for all registered users
+		$s2_upgrade->upgrade_core();
+		if ( version_compare($this->subscribe2_options['version'], '2.3', '<') ) {
+			$s2_upgrade->upgrade23();
 		}
-		// change old CAPITALISED keywords to those in {PARENTHESES}; since version 6.4
-		$keywords = array('BLOGNAME', 'BLOGLINK', 'TITLE', 'POST', 'POSTTIME', 'TABLE', 'TABLELINKS', 'PERMALINK', 'TINYLINK', 'DATE', 'TIME', 'MYNAME', 'EMAIL', 'AUTHORNAME', 'LINK', 'CATS', 'TAGS', 'COUNT', 'ACTION');
-		$keyword = implode('|', $keywords);
-		$regex = '/(?<!\{)\b('.$keyword.')\b(?!\{)/xm';
-		$replace = '{\1}';
-		$this->subscribe2_options['mailtext'] = preg_replace($regex, $replace, $this->subscribe2_options['mailtext']);
-		$this->subscribe2_options['notification_subject'] = preg_replace($regex, $replace, $this->subscribe2_options['notification_subject']);
-		$this->subscribe2_options['confirm_email'] = preg_replace($regex, $replace, $this->subscribe2_options['confirm_email']);
-		$this->subscribe2_options['confirm_subject'] = preg_replace($regex, $replace, $this->subscribe2_options['confirm_subject']);
-		$this->subscribe2_options['remind_email'] = preg_replace($regex, $replace, $this->subscribe2_options['remind_email']);
-		$this->subscribe2_options['remind_subject'] = preg_replace($regex, $replace, $this->subscribe2_options['remind_subject']);
+		if ( version_compare($this->subscribe2_options['version'], '5.1', '<') ) {
+			$s2_upgrade->upgrade51();
+		}
+		if ( version_compare($this->subscribe2_options['version'], '5.6', '<') ) {
+			$s2_upgrade->upgrade56();
+		}
+		if ( version_compare($this->subscribe2_options['version'], '5.9', '<') ) {
+			$s2_upgrade->upgrade59();
+		}
+		if ( version_compare($this->subscribe2_options['version'], '6.4', '<') ) {
+			$s2_upgrade->upgrade64();
+		}
+		if ( version_compare($this->subscribe2_options['version'], '7.0', '<') ) {
+			$s2_upgrade->upgrade70();
+		}
+		if ( version_compare($this->subscribe2_options['version'], '8.5', '<') ) {
+			$s2_upgrade->upgrade85();
+		}
+		if ( version_compare($this->subscribe2_options['version'], '8.6', '<') ) {
+			$s2_upgrade->upgrade86();
+		}
+
+		$this->subscribe2_options['version'] = S2VERSION;
 		update_option('subscribe2_options', $this->subscribe2_options);
-
-		// upgrade old wpmu user meta data to new
-		if ( $this->s2_mu === true ) {
-			global $s2class_multisite;
-			$s2class_multisite->namechange_subscribe2_widget();
-			// loop through all users
-			foreach ( $users as $user_ID ) {
-				// get categories which the user is subscribed to (old ones)
-				$categories = get_user_meta($user_ID, 's2_subscribed', true);
-				$categories = explode(',', $categories);
-				$format = get_user_meta($user_ID, 's2_format', true);
-				$autosub = get_user_meta($user_ID, 's2_autosub', true);
-
-				// load blogs of user (only if we need them)
-				$blogs = array();
-				if ( count($categories) > 0 && !in_array('-1', $categories) ) {
-					$blogs = get_blogs_of_user($user_ID, true);
-				}
-
-				foreach ( $blogs as $blog ) {
-					switch_to_blog($blog->userblog_id);
-
-					$blog_categories = (array)$wpdb->get_col("SELECT term_id FROM $wpdb->term_taxonomy WHERE taxonomy = 'category'");
-					$subscribed_categories = array_intersect($categories, $blog_categories);
-					if ( !empty($subscribed_categories) ) {
-						foreach ( $subscribed_categories as $subscribed_category ) {
-							update_user_meta($user_ID, $this->get_usermeta_keyname('s2_cat') . $subscribed_category, $subscribed_category);
-						}
-						update_user_meta($user_ID, $this->get_usermeta_keyname('s2_subscribed'), implode(',', $subscribed_categories));
-					}
-					if ( !empty($format) ) {
-						update_user_meta($user_ID, $this->get_usermeta_keyname('s2_format'), $format);
-					}
-					if ( !empty($autosub) ) {
-						update_user_meta($user_ID, $this->get_usermeta_keyname('s2_autosub'), $autosub);
-					}
-					restore_current_blog();
-				}
-
-				// delete old user meta keys
-				delete_user_meta($user_ID, 's2_subscribed');
-				delete_user_meta($user_ID, 's2_format');
-				delete_user_meta($user_ID, 's2_autosub');
-				foreach ( $categories as $cat ) {
-					delete_user_meta($user_ID, 's2_cat' . $cat);
-				}
-			}
-		}
-
-		// ensure existing public subscriber emails are all sanitized
-		$confirmed = $this->get_public();
-		$unconfirmed = $this->get_public(0);
-		$public_subscribers = array_merge((array)$confirmed, (array)$unconfirmed);
-
-		foreach ( $public_subscribers as $email ) {
-			$new_email = $this->sanitize_email($email);
-			if ( $email !== $new_email ) {
-				$wpdb->get_results($wpdb->prepare("UPDATE $this->public SET email=%s WHERE CAST(email as binary)=%s", $new_email, $email));
-			}
-		}
-
-		// update postmeta field to a protected name, from version 8.5
-		$wpdb->query( "UPDATE $wpdb->postmeta SET meta_key = '_s2mail' WHERE meta_key = 's2mail'" );
 
 		return;
 	} // end upgrade()
@@ -299,7 +215,7 @@ class s2class {
 			$headers = $this->headers();
 			$message = preg_replace('|&[^a][^m][^p].{0,3};|', '', $message);
 			$message = preg_replace('|&amp;|', '&', $message);
-			$message = wordwrap(strip_tags($message), 80, "\n");
+			$message = wordwrap(strip_tags($message), $this->word_wrap, "\n");
 			$mailtext = apply_filters('s2_plain_email', $message);
 		}
 
@@ -434,12 +350,17 @@ class s2class {
 		if ( empty($link) ) { return; }
 		if ( !empty($this->subscribe2_options['tracking']) ) {
 			(strpos($link, '?') > 0) ? $delimiter .= '&' : $delimiter = '?';
-			if ( strpos($this->subscribe2_options['tracking'], "{ID}") ) {
+			$tracking = $this->subscribe2_options['tracking'];
+			if ( strpos($tracking, "{ID}") ) {
 				$id = url_to_postid($link);
-				$tracking = str_replace("{ID}", $id, $this->subscribe2_options['tracking']);
-				return $link . $delimiter . $tracking;
+				$tracking = str_replace("{ID}", $id, $tracking);
 			}
-			return $link . $delimiter . $this->subscribe2_options['tracking'];
+			if ( strpos($tracking, "{TITLE}") ) {
+				$id = url_to_postid($link);
+				$title = urlencode(htmlentities(get_the_title($id),1));
+				$tracking = str_replace("{TITLE}", $title, $tracking);
+			}
+			return $link . $delimiter . $tracking;
 		} else {
 			return $link;
 		}
@@ -751,10 +672,10 @@ class s2class {
 	function get_public($confirmed = 1) {
 		global $wpdb;
 		if ( 1 == $confirmed ) {
-			if ( '' == $this->all_public ) {
-				$this->all_public = $wpdb->get_col("SELECT email FROM $this->public WHERE active='1'");
+			if ( '' == $this->all_confirmed ) {
+				$this->all_confirmed = $wpdb->get_col("SELECT email FROM $this->public WHERE active='1'");
 			}
-			return $this->all_public;
+			return $this->all_confirmed;
 		} else {
 			if ( '' == $this->all_unconfirmed ) {
 				$this->all_unconfirmed = $wpdb->get_col("SELECT email FROM $this->public WHERE active='0'");
@@ -965,15 +886,27 @@ class s2class {
 
 		if ( $this->s2_mu ) {
 			if ( $return === 'ID' ) {
-				return $wpdb->get_col("SELECT user_id FROM $wpdb->usermeta WHERE meta_key='" . $wpdb->prefix . "capabilities'");
+				if ( $this->all_registered_id === '' ) {
+					$this->all_registered_id = $wpdb->get_col("SELECT user_id FROM $wpdb->usermeta WHERE meta_key='" . $wpdb->prefix . "capabilities'");
+				}
+				return $this->all_registered_id;
 			} else {
-				return $wpdb->get_col("SELECT a.user_email FROM $wpdb->users AS a INNER JOIN $wpdb->usermeta AS b ON a.ID = b.user_id WHERE b.meta_key='" . $wpdb->prefix . "capabilities'");
+				if ( $this->all_registered_email === '' ) {
+					$this->all_registered_email = $wpdb->get_col("SELECT a.user_email FROM $wpdb->users AS a INNER JOIN $wpdb->usermeta AS b ON a.ID = b.user_id WHERE b.meta_key='" . $wpdb->prefix . "capabilities'");
+				}
+				return $this->all_registered_email;
 			}
 		} else {
 			if ( $return === 'ID' ) {
-				return $wpdb->get_col("SELECT ID FROM $wpdb->users");
+				if ( $this->all_registered_id === '' ) {
+					$this->all_registered_id = $wpdb->get_col("SELECT ID FROM $wpdb->users");
+				}
+				return $this->all_registered_id;
 			} else {
-				return $wpdb->get_col("SELECT user_email FROM $wpdb->users");
+				if ( $this->all_registered_email === '' ) {
+					$this->all_registered_email = $wpdb->get_col("SELECT user_email FROM $wpdb->users");
+				}
+				return $this->all_registered_email;
 			}
 		}
 	} // end get_all_registered()
@@ -1549,15 +1482,17 @@ class s2class {
 			$message_posttime .= __('Posted on', 'subscribe2') . ": " . mysql2date($datetime, $post->post_date) . "\r\n";
 			if ( strstr($mailtext, "{TINYLINK}") ) {
 				$tinylink = file_get_contents('http://tinyurl.com/api-create.php?url=' . urlencode($this->get_tracking_link(get_permalink($post->ID))));
-				if ( $tinylink !== 'Error' && $tinylink !== false ) {
-					$tablelinks .= "\r\n" . $tinylink . "\r\n";
-					$message_post .= $tinylink . "\r\n";
-					$message_posttime .= $tinylink . "\r\n";
-				} else {
-					$tablelinks .= "\r\n" . $this->get_tracking_link(get_permalink($post->ID)) . "\r\n";
-					$message_post .= $this->get_tracking_link(get_permalink($post->ID)) . "\r\n";
-					$message_posttime .= $this->get_tracking_link(get_permalink($post->ID)) . "\r\n";
-				}
+			} else {
+				$tinylink = false;
+			}
+			if ( strstr($mailtext, "{TINYLINK}") && $tinylink !== 'Error' && $tinylink !== false ) {
+				$tablelinks .= "\r\n" . $tinylink . "\r\n";
+				$message_post .= $tinylink . "\r\n";
+				$message_posttime .= $tinylink . "\r\n";
+			} else {
+				$tablelinks .= "\r\n" . $this->get_tracking_link(get_permalink($post->ID)) . "\r\n";
+				$message_post .= $this->get_tracking_link(get_permalink($post->ID)) . "\r\n";
+				$message_posttime .= $this->get_tracking_link(get_permalink($post->ID)) . "\r\n";
 			}
 
 			if ( strstr($mailtext, "{CATS}") ) {
@@ -1575,7 +1510,7 @@ class s2class {
 			$message_post .= "\r\n";
 			$message_posttime .= "\r\n";
 
-			$excerpt = $post->post_excerpt;
+			( !empty($post->post_excerpt) ) ? $excerpt = $post->post_excerpt : $excerpt = '';
 			if ( '' == $excerpt ) {
 				// no excerpt, is there a <!--more--> ?
 				if ( false !== strpos($post->post_content, '<!--more-->') ) {
@@ -1697,7 +1632,7 @@ class s2class {
 		$this->public = $table_prefix . "subscribe2";
 		if ( $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $this->public)) != $this->public ) { $this->install(); }
 		//do we need to upgrade anything?
-		if ( is_array($this->subscribe2_options) && $this->subscribe2_options['version'] !== S2VERSION ) {
+		if ( $this->subscribe2_options === false || is_array($this->subscribe2_options) && $this->subscribe2_options['version'] !== S2VERSION ) {
 			add_action('shutdown', array(&$this, 'upgrade'));
 		}
 
@@ -1822,8 +1757,10 @@ class s2class {
 /* ===== our variables ===== */
 	// cache variables
 	var $subscribe2_options = array();
-	var $all_public = '';
+	var $all_confirmed = '';
 	var $all_unconfirmed = '';
+	var $all_registered_id = '';
+	var $all_registered_email = '';
 	var $all_authors = '';
 	var $excluded_cats = '';
 	var $post_title = '';
@@ -1845,6 +1782,7 @@ class s2class {
 	var $action = '';
 	var $email = '';
 	var $message = '';
+	var $word_wrap = 80;
 	var $excerpt_length = 55;
 
 	// some messages

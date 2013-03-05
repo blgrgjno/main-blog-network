@@ -234,7 +234,7 @@ class s2_admin extends s2class {
 					echo " checked=\"checked\"";
 				}
 				if ( in_array($cat->term_id, $compulsory) && $name === 'category' ) {
-					echo " checked=\"checked\" DISABLED";
+					echo " DISABLED";
 				}
 				echo " /> <abbr title=\"" . $cat->slug . "\">" . $catName . "</abbr></label><br />\r\n";
 			}

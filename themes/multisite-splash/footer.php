@@ -40,7 +40,6 @@ $ms_splash = new Multisite_Splash_Core();
 								'</a>-->
 							</li>';
 						}
-
 					}
 				}
 				switch_to_blog( 1 );

@@ -1,0 +1,18 @@
+/*   
+Theme Name: DSS Innspill
+Theme URI: 
+Description: Inneholder funksjonalitet for votering på kommentarer. Samt widgeten "Mest populære innspill"
+Author: Per Soderlind
+Author URI: http://soderlind.no
+Template: dss-framework
+Version: 1.0
+Tags: DSS Framework Child Theme
+*/
+
+@import url("../dss-framework/style.css");
+
+
+.votemsg {
+	font-size: 12px;
+}
+

@@ -2095,6 +2095,12 @@ ul.article-list .entry-content div.readmore {
 	color:#000;
 }
 
+.nhop_latest_posts .comment_bubble, 
+.nhop_most_commented .comment_bubble,
+.rtw_widget .comment_bubble {
+	display:none;
+} 
+
 .comments h3 {
 	font-size:1.1em;
 	font-weight:normal;

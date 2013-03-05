@@ -77,6 +77,12 @@ function niv_top_menu( $top_menu ) {
 }
 add_filter( 'dss_top_menu', 'niv_top_menu' );
 
+function niv_filter_excerpt( $excerpt ) {
+	$excerpt = str_replace( '">Les mer</a>', '">(mer...)</a>', $excerpt );
+	return $excerpt;
+}
+add_filter( 'the_excerpt', 'niv_filter_excerpt', 11 );
+
 /*
  * Filter for displaying "Profile Widget" plugin on category pages
  * Modifies the result of the is_single() check to allow for categories as well
@@ -108,3 +114,15 @@ function niv_show_author_bio() {
 }
 add_filter( 'dss_show_author_bio', 'niv_show_author_bio' );
 
+/*
+ * Filters the author bio information selection (turns it off)
+ *
+ * @since 1.0
+ * @author Ryan Hellyer <ryan@metronet.no>
+ * @return bool
+ */
+function dss_logo_url() {
+	$logo_url = get_stylesheet_directory_uri() . '/images/logo.png';
+	return $logo_url;
+}
+add_filter( 'dss_logo_url', 'dss_logo_url' );

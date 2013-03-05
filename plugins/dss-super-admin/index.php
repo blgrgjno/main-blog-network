@@ -257,47 +257,67 @@ class DSS_Network_Super_Admin {
 	 * @author Ryan Hellyer <ryan@metronet.no>
 	 */
 	public function filter_excerpt( $content ) {
+		global $post;
+
 		// Bail out now if not turned on
 		if ( true != $this->get_option( 'advanced-excerpt' ) ) {
 			return $content;
 		}
 
-		// Grab the content
-		$content = get_the_content();
-
-		// Split into chunks of sentences	
-		$strings = preg_split('/(\.|!|\?)\s/', $content, 99, PREG_SPLIT_DELIM_CAPTURE);
-
-		$excerpt = '';
-		$dots = 0;
-		foreach( $strings as $key => $value ) {
-
-			// Add an extra sentence
-			if ( ! isset( $end ) ) {
-				$excerpt .= $strings[$key];
-			}
-
-			// Stop adding sentences once we hit 40 words
-			if ( $dots == 1 ) {
-				if ( 40 < str_word_count( $excerpt, 0 ) ) {
-					$end = true;
-				}
-				$dots = 0;
-			} else {
-				$dots++;
-			}
-		
+		// Spit it out the result straight away if there is a custom excerpt set
+		if ( !empty( $post->post_excerpt ) ) {
+			$content = $post->post_excerpt;
+			$content = wpautop( $content );
+			$excerpt = $content;
 		}
 
-		// Auto close HTML tags
-		$excerpt = $this->fix_HTML( $excerpt );
+		// If a read more link is already present, then use it ... 
+		$needle = '" class="more-link">(mer...)</a>';
+		$pos = strpos( $content, $needle );
+		if ( $pos === false ) { // string needle NOT found in haystack
+			// Grab the content
+			$content = get_the_content();
+	
+			// Split into chunks of sentences	
+			$strings = preg_split('/(\.|!|\?)\s/', $content, 99, PREG_SPLIT_DELIM_CAPTURE);
+	
+			$excerpt = '';
+			$dots = 0;
+			foreach( $strings as $key => $value ) {
+	
+				// Add an extra sentence
+				if ( ! isset( $end ) ) {
+					$excerpt .= $strings[$key];
+				}
+	
+				// Stop adding sentences once we hit 40 words
+				if ( $dots == 1 ) {
+					if ( 40 < str_word_count( $excerpt, 0 ) ) {
+						$end = true;
+					}
+					$dots = 0;
+				} else {
+					$dots++;
+				}
+			
+			}
 
-		// Add excerpt
-		$excerpt .= ' ... <a href="'. get_permalink() . '">Les mer</a>';
+			// Auto close HTML tags
+			$excerpt = $this->fix_HTML( $excerpt );
 
-		// Do shortcodes and WPAUTOP - couldn't use the_content as it threw an error here
-		$excerpt = strip_shortcodes( $excerpt );
+			// Add excerpt
+			$excerpt .= ' ... <a href="'. get_permalink() . '">Les mer</a>';
+
+			// Strip shortcodes and do WPAUTOP - couldn't use the_content as it threw an error here
+			$excerpt = strip_shortcodes( $excerpt );
 			$excerpt = wpautop( $excerpt );
+		}
+		else { // string needle found in haystack
+			$excerpt = explode( $needle, $content );
+			return $excerpt[0] . $needle;
+			$excerpt = $content;
+			die( $excerpt );
+		}
 
 		// Finally, spit the excerpt out :)	
 		return $excerpt;

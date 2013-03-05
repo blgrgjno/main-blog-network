@@ -3,7 +3,7 @@
 Plugin Name: Moderation times
 Plugin URI: http://blogg.regjeringen.no/
 Description: Adds ability to set when comments are moderated and when they are left open. An example of when this would be useful, is scenarios in which you are able to actively delete inappropriate comments (eg: during office time) at certain times of the day, but are unable to at others (eg: during the evenings) and therefore require moderation to be turned on and off at specific times during the day.
-Version: 1.0
+Version: 1.0.1
 Author: Ryan Hellyer / Metronet / DSS
 Author URI: http://blogg.regjeringen.no/
 
@@ -25,26 +25,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-
-/*
- * Disabling plugin update checks
- * This is to avoid malicious use of the WordPress.org plugin repository to force updates on this plugin
- * Based on code from http://markjaquith.wordpress.com/2009/12/14/excluding-your-plugin-or-theme-from-update-checks/
- * 
- * @author Ryan Hellyer <ryan@metronet.no>
- * @param unknown $r
- * @param string $url
- */
-function dss_moderationtimes_hidden_plugin( $r, $url ) {
-	if ( 0 !== strpos( $url, 'http://api.wordpress.org/plugins/update-check' ) )
-		return $r; // Not a plugin update request. Bail immediately.
-	$plugins = unserialize( $r['body']['plugins'] );
-	unset( $plugins->plugins[ plugin_basename( __FILE__ ) ] );
-	unset( $plugins->active[ array_search( plugin_basename( __FILE__ ), $plugins->active ) ] );
-	$r['body']['plugins'] = serialize( $plugins );
-	return $r;
-}
-add_filter( 'http_request_args', 'dss_moderationtimes_hidden_plugin', 5, 2 );
 
 /**
  * Do not continue processing since file was called directly

@@ -642,7 +642,6 @@ function dss_disable_search_plugin_notice() {
 }
 add_action( 'init', 'dss_disable_search_plugin_notice' );
 
-
 /**
  * Set whether bio information should be displayed or not
  * Used on singular pages
@@ -656,3 +655,21 @@ function dss_show_author_bio() {
 	$show_bio = apply_filters( 'dss_show_author_bio', $show_bio );
 	return $show_bio;
 }
+
+/**
+ * Add thumbnail information to post class
+ *
+ * @since 1.0
+ * @author Ryan Hellyer <ryan@metronet.no>
+ */
+function dss_add_thumbnail_post_class( $classes ) {
+	global $post;
+	if ( has_post_thumbnail() ) {
+		$classes[] = 'has-thumbnail';
+	} else {
+		$classes[] = 'no-thumbnail';
+	}
+	
+	return $classes;
+}
+add_filter( 'post_class', 'dss_add_thumbnail_post_class' );

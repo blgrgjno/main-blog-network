@@ -22,9 +22,13 @@ body {
 	font-weight: normal;
 	font-family: Georgia, "Bitstream Charter", serif;
 }
+.singular .entry-title,
+.entry-title {
+	line-height: 1em;
+}
 .entry-title a {
 	font-weight: normal;
-	color: #0431ae;
+	color: #006651;
 }
 #header-content {
 	background: none; /* Getting rid of white lion */
@@ -36,7 +40,7 @@ body {
 	position: relative;
 	top: 0.7em;
 	font-size: 1.8em;
-	color: #18453b;
+	color: #006651;
 	text-transform: none;
 }
 #site-title a:hover {
@@ -73,6 +77,7 @@ div#site-heading-wrapper,
 	color: #fff;
 	font-weight: normal !important;
 }
+.singular #site-heading,
 .home #site-heading {
 	display: none;
 }
@@ -81,6 +86,10 @@ div#site-heading-wrapper,
 .post-thumbnail {
 	width: 90px;
 }
+body .no-thumbnail .entry-header {
+	margin-left: 0; /* We don't want white space appearing when no thumbnail is set */
+}
+.search-results .entry-header,
 .archive .entry-header,
 .home .entry-header {
 	margin-left: 130px;
@@ -115,7 +124,17 @@ div#site-heading-wrapper,
 /* Content */
 p {
 	line-height: 19px;
+	margin-bottom: 1em;
 }
 .avatar {
 	display: block; /* For profile images in sidebar */
+}
+
+/* Captions */
+.wp-caption .wp-caption-text {
+	font-family: sans-serif;
+	padding: 10px 10px 5px 10px;
+}
+.wp-caption .wp-caption-text::before {
+	content: ''; /* Removing the strange line in captions */
 }

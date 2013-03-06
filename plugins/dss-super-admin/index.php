@@ -312,6 +312,7 @@ class DSS_Network_Super_Admin {
 			$excerpt = strip_tags( $excerpt, '<a><p><li><ul><ol><strong><b><em><i><u><sup><sub><div><span><h1><h2><h3><h4><h5><h6>');
 			$excerpt = strip_shortcodes( $excerpt );
 			$excerpt = wpautop( $excerpt );
+			$excerpt = str_replace( '&#13;', '&nbsp;', $excerpt );
 		}
 		else { // string needle found in haystack
 			$excerpt = explode( $needle, $content );
@@ -334,6 +335,7 @@ class DSS_Network_Super_Admin {
 	 * @return string
 	 */
 	private function fix_HTML( $comment ) {
+		$comment = str_replace( '&nbsp;', ' ', $comment ); // Catering for bug which caused &nbsp; to appear as question mark
 		$xml = new DOMDocument( '1.0' );
 		if ( @$xml->loadHTML( $comment ) ) {
 			// Pull just the body out and save it

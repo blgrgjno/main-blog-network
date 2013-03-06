@@ -308,7 +308,8 @@ class DSS_Network_Super_Admin {
 			// Add excerpt
 			$excerpt .= ' ... <a href="'. get_permalink() . '">Les mer</a>';
 
-			// Strip shortcodes and do WPAUTOP - couldn't use the_content as it threw an error here
+			// Strip some HTML (including img tags), shortcodes and do WPAUTOP - couldn't use the_content as it threw an error here
+			$excerpt = strip_tags( $excerpt, '<a><p><li><ul><ol><strong><b><em><i><u><sup><sub><div><span><h1><h2><h3><h4><h5><h6>');
 			$excerpt = strip_shortcodes( $excerpt );
 			$excerpt = wpautop( $excerpt );
 		}

@@ -119,10 +119,35 @@ add_filter( 'dss_show_author_bio', 'niv_show_author_bio' );
  *
  * @since 1.0
  * @author Ryan Hellyer <ryan@metronet.no>
- * @return bool
+ * @return string
  */
 function dss_logo_url() {
 	$logo_url = get_stylesheet_directory_uri() . '/images/logo.png';
 	return $logo_url;
 }
 add_filter( 'dss_logo_url', 'dss_logo_url' );
+
+/*
+ * Filters the header URL to display link back to current category
+ *
+ * @since 1.0
+ * @author Ryan Hellyer <ryan@metronet.no>
+ * @return string
+ */
+function niv_header_url( $url ) {
+	global $post;
+	
+	if ( is_single() ) {
+		$category = get_the_category( $post->ID );
+		$category = $category[0];
+		$cat_id = $category->term_id;
+		$url = get_category_link( $cat_id );
+	} elseif ( is_category() ) {
+		$the_cat = get_the_category();
+		$url = get_category_link( $the_cat[0]->cat_ID );
+	}
+
+	return $url;
+}
+add_filter( 'dss_header_url', 'niv_header_url' );
+

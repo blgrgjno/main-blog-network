@@ -125,9 +125,10 @@
 				// We need to figure out what the minimum width should be for our featured image.
 				// This result would be the suggested width if the theme were to implement flexible widths.
 				$header_image_width = get_theme_support( 'custom-header', 'width' );
+				$header_url = apply_filters( 'dss_header_url', home_url( '/' ) );
 
 		?>
-		<a id="header-image" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+		<a id="header-image" href="<?php echo esc_url( $header_url ); ?>">
 			<?php
 				// The header image
 				// Check if this is a post or page, if it has a thumbnail, and if it's a big one

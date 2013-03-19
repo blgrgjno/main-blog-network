@@ -1,16 +1,5 @@
 <?php
 
-
-// Kill page for public
-if ( ! isset( $_GET['showsplash'] ) && ! is_admin() ) {
-	die;
-}
-if ( 'marthe-is-cool' != $_GET['showsplash'] ) {
-	die;
-}
-
-
-
 get_header();
 
 if ( have_posts() ) while ( have_posts() ) {

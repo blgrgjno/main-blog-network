@@ -1,10 +1,5 @@
 <?php
 
-// Kill page for public unless search engines allowed
-if ( 1 != get_option( 'blog_public' ) && ! is_super_admin() ) {
-	die;
-}
-
 get_header();
 
 echo apply_filters( 'the_content', get_option( 'dss_blog_description', '' ) );

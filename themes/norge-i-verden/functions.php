@@ -43,24 +43,6 @@ add_filter( 'dss_site_heading', 'niv_site_heading' );
  * @author Ryan Hellyer <ryan@metronet.no>
  * @global int $post
  */
-function niv_thumbnails( $thumb ) {
-	global $post;
-
-	if ( is_front_page() ) {
-		$thumb = get_avatar( $post->post_author, 75 );
-	}
-	return $thumb;
-}
-add_filter( 'dss_thumbnails', 'niv_thumbnails' );
-
-/*
- * Adds category specific site headings when on category or single posts pages
- * Intended for use only with the DSS Framework theme
- *
- * @since 1.0
- * @author Ryan Hellyer <ryan@metronet.no>
- * @global int $post
- */
 function niv_top_menu( $top_menu ) {
 	global $post;
 

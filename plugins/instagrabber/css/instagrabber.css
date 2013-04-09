@@ -1,0 +1,72 @@
+.instagrabberhelp ul,
+.instagrabberhelp ol{
+	padding-left: 15px;
+	list-style: disc;
+
+}
+.instagrabberhelp li{
+	margin-bottom: 10px;
+}
+.instagrabberhelp h4{
+	font-size: 15px;
+}
+.instagrabberhelp p{
+	line-height: 20px;
+}
+.instagrabbertitle{
+	border-bottom:1px dashed #eee;
+	clear: both;
+}
+
+.instaimage{
+	width:400px;
+	border: 10px solid #eee;
+	border-radius: 10px;
+	box-shadow: 0px 0px 5px #000;
+	background-color: #eee;
+	text-align: center;
+	font-style: italic;
+	font-weight: bold;
+	float:right;
+	margin:10px;
+	clear:right;
+}
+.instaimage img{
+	width:100%;
+}
+
+#instagrabber-icon{
+	background-image: url(../images/igsmall.png);
+}
+#instagrabber_streams table{
+	width:100%;
+}
+#instagrabber_streams tr{
+	width:100%;
+}
+#instagrabber_streams th,
+#instagrabber_streams td{
+ padding: 3px 5px 5px 5px;
+}
+#instagrabber_streams th{
+	color: #8F8F8F;
+	font-size: 14px;
+	text-align: left;
+}
+
+.instagrabber-edit-stream td,
+.instagrabber-edit-stream th{
+	padding:15px;
+}
+.instagrabber-edit-stream select{
+	width: 25em;
+}
+
+#wpadminbar .instagrabber-getting-images{
+	padding-right:10px;
+	background: url(../images/ajax-loader.gif) center right no-repeat;
+}
+
+#customlink_url.hide{
+	display:none;
+}

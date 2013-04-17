@@ -32,3 +32,7 @@ $ms_splash = new Multisite_Splash_Core();
 
 require( 'inc/class-multisite-splash-admin.php' );
 new Multisite_Splash_Admin();
+
+require( 'inc/class-dss-simple-cms.php' );
+new DSS_Simple_CMS();
+

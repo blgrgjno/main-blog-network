@@ -165,7 +165,6 @@ class Export_Site {
 			$count++;
 		}
 
-		// 
 //		header( 'Content-type: text/plain' );
 //		header( 'Content-Disposition: attachment; filename="export-site.html"' );
 
@@ -344,6 +343,8 @@ class Export_Site {
 
 	<p><strong><?php _e( 'Archive of' ); ?> <?php bloginfo( 'title' ); ?>. <?php _e( 'PDF created on' ); ?> <?php echo date( 'Y/m/d' ); ?></p></strong><?php
 
+	
+	$used_comment_ids = array();
 	foreach( $the_posts as $key => $post_id ) {
 		// The Query
 		if ( 'page' == get_post_type( $post_id ) ) {
@@ -372,6 +373,7 @@ class Export_Site {
 			
 				$comments_output = '';
 				foreach ( $comments as $comment ) {
+					$used_comment_ids[] = $comment->comment_ID;
 					?>
 					<hr />
 					<h6><?php _e( 'Comment by' ); ?> <?php echo $comment->comment_author; ?>. <?php _e( 'Comment posted on' ); ?> <?php echo $comment->comment_date; ?>.</h6>
@@ -381,6 +383,26 @@ class Export_Site {
 			</div><?php
 		}
 	}
+
+	?>
+	<h2><?php _e( 'Remaining comments', 'exportsite' ); ?></h2>
+	<p><?php _e( 'This comments were unassigned to any particular post or page.', 'exportsite' ); ?></p><?php
+	$recent_comments = get_comments( array(
+		'number'    => 0,
+		'status'    => 'approve'
+	) );
+	foreach( $recent_comments as $key => $comment ) {
+		foreach( $used_comment_ids as $used_comment_id ) {
+			if ( ! in_array( $comment->comment_ID, $used_comment_ids ) ) {
+				?>
+					<hr />
+					<h6><?php _e( 'Comment by' ); ?> <?php echo $comment->comment_author; ?>. <?php _e( 'Comment posted on' ); ?> <?php echo $comment->comment_date; ?>.</h6>
+					<p><?php echo $comment->comment_content; ?></p><?php
+
+			}
+		}
+	}
+
 ?>
 
 </body>

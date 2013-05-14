@@ -149,9 +149,7 @@
 		}
 
 		// Hide main menu if set via DSS Super Admin plugin
-		if ( class_exists( 'DSS_Network_Super_Admin' ) ) {
-			$super_admin = new DSS_Network_Super_Admin();
-		}
+		global $super_admin;
 		if ( true != $super_admin->get_option( 'hide-main-menu' ) ) : ?>
 		<nav id="access" role="navigation">
 			<h3 class="assistive-text"><?php _e( 'Main menu', 'dss' ); ?></h3>

@@ -25,5 +25,5 @@ license.txt file included with this plugin for more information.
 require( 'inc/class-dss-network-super-admin.php' );
 require( 'inc/class-dss-framework-home-avatars.php' );
 
-new DSS_Network_Super_Admin();
+$super_admin = new DSS_Network_Super_Admin();
 new DSS_Framework_Home_Avatars();

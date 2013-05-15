@@ -33,7 +33,7 @@
 				$content .= '<h2 class="page-title">';
 				$content .= __('Search Results for:', 'thematic');
 				$content .= ' &ldquo;';
-				$content .= wp_specialchars(stripslashes($_GET['s']), true);
+				$content .= esc_html( wp_specialchars(stripslashes($_GET['s']), true) );
 				$content .= '&rdquo;';
 				$content .= ' <span id="search-terms">';
 				$content .= " (".$wp_query->found_posts.")";

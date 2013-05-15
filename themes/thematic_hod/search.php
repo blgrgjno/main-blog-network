@@ -49,7 +49,7 @@
 					</div><!-- .entry-content -->
 					<form id="noresults-searchform" method="get" action="<?php bloginfo('url') ?>/">
 						<div>
-							<input id="noresults-s" name="s" type="text" value="<?php echo esc_html(stripslashes($_GET['s'])) ?>" size="40" />
+							<input id="noresults-s" name="s" type="text" value="<?php echo esc_attr(stripslashes($_GET['s'])) ?>" size="40" />
 							<input id="noresults-searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'thematic') ?>" />
 						</div>
 					</form>

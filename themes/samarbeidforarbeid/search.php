@@ -22,15 +22,16 @@ get_header(); ?>
                   /* If this is a search result */
                   if (is_search()) {                
                     /* Search Counter */
+					$s = esc_html( $s );
                     $allsearch = &new WP_Query("s=$s&showposts=-1");
-                    $key = wp_specialchars($s, 1);
+                    $key = esc_html( wp_specialchars($s, 1 ) );
                     $count = $allsearch->post_count;
                     _e('Vi fant ');
                       echo $count;
                     if ( $count == 1 ) { _e(' resultat '); }
                     else { _e(' resultater '); }
                     _e('p&aring; <strong>&lsquo;');
-                      echo $key; _e('&lsquo;</strong>');
+                      echo esc_html( $key ); _e('&lsquo;</strong>');
                     wp_reset_query();
                   }
                 ?>

@@ -34,7 +34,7 @@
 				$content .= '<h2 class="page-title">';
 				$content .= __('Search Results for:', 'thematic');
 				$content .= ' &ldquo;';
-				$content .= wp_specialchars(stripslashes($_GET['s']), true);
+				$content .= esc_html( wp_specialchars(stripslashes($_GET['s']), true) );
 				$content .= '&rdquo;';
 				$content .= ' <span id="search-terms">';
 				$content .= " (".$wp_query->found_posts.")";
@@ -70,7 +70,7 @@
 				</div>
 				<form id="noresults-searchform" method="get" action="<?php bloginfo('home') ?>">
 					<div>
-						<input id="noresults-s" name="s" type="text" value="<?php echo wp_specialchars(stripslashes($_GET['s']), true) ?>" size="40" />
+						<input id="noresults-s" name="s" type="text" value="<?php echo esc_attr( wp_specialchars(stripslashes($_GET['s']), true) ) ?>" size="40" />
 						<input id="noresults-searchsubmit" name="searchsubmit" type="submit" value="<?php _e('Find', 'thematic') ?>" />
 					</div>
 				</form>

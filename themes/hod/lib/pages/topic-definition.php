@@ -44,7 +44,7 @@ class Topic {
 			'show_ui' => true, // UI in admin panel
 			'capability_type' => 'page',
 			'hierarchical' => true,
-			'rewrite' => array("slug" => $this->post_slug), // Permalinks
+//			'rewrite' => array("slug" => $this->post_slug), // Permalinks
 			'query_var' => $this->post_type, // This goes to the WP_Query schema
 			'supports' => array('title','thumbnail','comments','category','page-attributes'),
 			'menu_position' => 4,

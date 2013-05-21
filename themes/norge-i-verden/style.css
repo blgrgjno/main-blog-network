@@ -22,6 +22,10 @@ body {
 	font-weight: normal;
 	font-family: Georgia, "Bitstream Charter", serif;
 }
+.entry-title,
+.entry-header .entry-meta {
+	padding-right: 0;
+}
 .singular .entry-title,
 .entry-title {
 	line-height: 1em;
@@ -36,9 +40,12 @@ body {
 #site-description {
 	display: none;
 }
+h1#site-title a {
+	line-height: 1.1em;
+}
 #site-title a {
-	position: relative;
-	top: 0.7em;
+	display: block;
+	margin-top: 1.15em;
 	font-size: 1.8em;
 	color: #006651;
 	text-transform: none;
@@ -113,4 +120,31 @@ p {
 }
 .wp-caption .wp-caption-text::before {
 	content: ''; /* Removing the strange line in captions */
+}
+
+
+/* =Responsive Structure
+----------------------------------------------- */
+
+@media (max-width: 800px) {
+
+	#main #content {
+		margin: 2em 7.6% 0 7.6%;
+		width: auto;
+	}
+	body .post-thumbnail {
+		width: 14%;
+	}
+	body.home .entry-header {
+		margin-left: 20% !important;
+		min-height: 75px !important;
+	}
+
+}
+@media (max-width: 450px) {
+	body.home .entry-header {
+		margin-left: 0 !important;
+		min-height: auto !important;
+	}
+
 }

@@ -22,17 +22,18 @@
  Plugin Name: ShareThis
  Plugin URI: http://sharethis.com
  Description: Let your visitors share a post/page with others. Supports e-mail and posting to social bookmarking sites. <a href="options-general.php?page=sharethis.php">Configuration options are here</a>. Questions on configuration, etc.? Make sure to read the README.
- Version: 5.2
- Author: ShareThis,next2manu, Manu Mukerji <manu@sharethis.com>
+ Version: 6.0
+ Author: <a href="http://www.sharethis.com">Kalpak Shah@ShareThis</a>
  Author URI: http://sharethis.com
  */
 
 load_plugin_textdomain('sharethis');
 
-$_stversion=5.0;
+$_stversion=6.0;
 
 function install_ShareThis(){
 	$publisher_id = get_option('st_pubid'); //pub key value
+	
 	$widget = get_option('st_widget'); //entire script tag
 	$newUser=false;
 
@@ -90,6 +91,16 @@ function install_ShareThis(){
 	}
 }
 
+function uninstall_ShareThis()
+{
+	$st_options = array('st_add_to_content','st_add_to_page','st_current_type',
+						'st_prompt','st_pubid','st_sent','st_services',
+						'st_tags','st_upgrade_five','st_version','st_widget');
+	foreach ($st_options as $option){
+		delete_option($option);
+	}
+}
+
 function getKeyFromTag(){
 	$widget = get_option('st_widget');
 	$pattern = "/publisher\=([^\&\"]*)/";
@@ -125,9 +136,6 @@ function getNewTag($oldTag){
 	}
 	return $newTag='<script type="text/javascript" charset="utf-8" src="'.$newUrl.'"></script>';
 }
-
-
-
 
 if (isset($_GET['activate']) && $_GET['activate'] == 'true') {
 	install_ShareThis();
@@ -327,13 +335,13 @@ function st_request_handler() {
 							}else{
 								$publisher_id = get_option('st_pubid');
 								$pkeyUpdated=false;
-								if(!empty($_POST['st_pkey']) && $publisher_id!==$_POST['st_pkey'] && preg_match('/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/',$_POST['st_pkey'])){
+								if(!empty($_POST['st_pkey']) && $publisher_id!==$_POST['st_pkey'] && preg_match('/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/',$_POST['st_pkey'])){
 									update_option('st_pubid', $_POST['st_pkey']);
 									$publisher_id=$_POST['st_pkey'];
 									$pkeyUpdated=true;
 								}
 								else{
-									if(substr($_POST['st_pkey_hidden'], 0, 3) == "wp." && $publisher_id!==$_POST['st_pkey_hidden'] && preg_match('/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/',$_POST['st_pkey_hidden'])) {
+									if(substr($_POST['st_pkey_hidden'], 0, 3) == "wp." && $publisher_id!==$_POST['st_pkey_hidden'] && preg_match('/^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/',$_POST['st_pkey_hidden'])) {
 										update_option('st_pubid', $_POST['st_pkey_hidden']);
 										$publisher_id=$_POST['st_pkey_hidden'];
 										$pkeyUpdated=true;
@@ -341,20 +349,65 @@ function st_request_handler() {
 									else{
 										// Re-generate new random publisher key	
 										$publisher_id=trim(makePkey());
-										update_option('st_pubid',$publisher_id);								
+										update_option('st_pubid',$publisher_id);										
 										$pkeyUpdated=true;
 									}
 								}
-								if (preg_match('/publisher:"\w{8}-\w{4}-\w{4}-\w{4}-\w{12}"/',$widget) || preg_match("/publisher:'\w{8}-\w{4}-\w{4}-\w{4}-\w{12}'/",$widget) || preg_match("/publisher:'wp\.\w{8}-\w{4}-\w{4}-\w{4}-\w{12}'/",$widget)) {
+								if (preg_match("/publisher:['\"]\w{8}-\w{4}-\w{4}-\w{4}-\w{12}['\"]/",$widget) || preg_match("/publisher:['\"]wp\.\w{8}-\w{4}-\w{4}-\w{4}-\w{12}['\"]/",$widget)) {
 									$pkeyUpdated=false;
 								}
 								if(!preg_match('/stLight.options/',$widget) || $pkeyUpdated==true){
 									$widgetTemp="<script charset=\"utf-8\" type=\"text/javascript\" src=\"http://w.sharethis.com/button/buttons.js\"></script>";
+									
+									//if(preg_match('/doNotCopy/',$widget)){
+									//	$widgetTemp.="<script type=\"text/javascript\">stLight.options({publisher:'$publisher_id', hashAddressBar: true, doNotCopy: false, doNotHash: false});var st_type='wordpress".trim(get_bloginfo('version'))."';</script>";
+									//}else{
+									//	$widgetTemp.="<script type=\"text/javascript\">stLight.options({publisher:'$publisher_id'});var st_type='wordpress".trim(get_bloginfo('version'))."';</script>";
+									//}
+									
 									$widgetTemp.="<script type=\"text/javascript\">stLight.options({publisher:'$publisher_id'});var st_type='wordpress".trim(get_bloginfo('version'))."';</script>";
-									if (preg_match('/loader.js/',$widget)) {
+									
+									// In case of button style = sharethis (4/7) default. 
+									// Remove FBLike, Google+,Pinterest from hoverbar services
+									$defaultServices = '"facebook","twitter","linkedin","email","sharethis"';
+									$st_services_values = '';
+									
+									if($_POST["st_current_type"] == 'classic') {
+										$st_services_values = $defaultServices;
+									}
+									else{
+										// Adding double quotes for each service separated by comma
+										$chickletServicesArray = explode(',', trim($_POST['st_services']));
+										$newchickletServicesArray = array();
+										for($i=0; $i<count($chickletServicesArray); $i++){
+											// Skip FbLike and PlusOne in HoverBar
+											if(trim($chickletServicesArray[$i]) != 'plusone' && trim($chickletServicesArray[$i]) != 'fblike' && trim($chickletServicesArray[$i]) != 'instagram') {
+												$newchickletServicesArray[$i] = trim($chickletServicesArray[$i]);
+											}
+										}		
+										$st_services_values = '"'. implode('","', $newchickletServicesArray) .'"';
+									}
+									
+									if (preg_match('/serviceWidget/',$widget) &&  preg_match('/hoverbuttons/',$widget)) {
+										
+										$widgetTemp.="<script charset=\"utf-8\" type=\"text/javascript\" src=\"http://s.sharethis.com/loader.js\"></script>";
+										$widgetTemp.="<script charset=\"utf-8\" type=\"text/javascript\">var options={ \"service\": \"facebook\", \"timer\": { \"countdown\": 30, \"interval\": 10, \"enable\": false}, \"frictionlessShare\": false, \"style\": \"3\", publisher:\"".$publisher_id."\"};var st_service_widget = new sharethis.widgets.serviceWidget(options);</script>";
+										
+										$widgetTemp.="<script charset=\"utf-8\" type=\"text/javascript\">var options={ \"publisher\":\"".$publisher_id."\", \"position\": \"right\", \"chicklets\": { \"items\": [".$st_services_values."] } }; var st_hover_widget = new sharethis.widgets.hoverbuttons(options);</script>";
+										
+									}
+									else if (preg_match('/serviceWidget/',$widget)) {
+										
 										$widgetTemp.="<script charset=\"utf-8\" type=\"text/javascript\" src=\"http://s.sharethis.com/loader.js\"></script>";
 										$widgetTemp.="<script charset=\"utf-8\" type=\"text/javascript\">var options={ \"service\": \"facebook\", \"timer\": { \"countdown\": 30, \"interval\": 10, \"enable\": false}, \"frictionlessShare\": false, \"style\": \"3\", publisher:\"".$publisher_id."\"};var st_service_widget = new sharethis.widgets.serviceWidget(options);</script>";
 									}
+									else if (preg_match('/hoverbuttons/',$widget)) {
+									
+										$widgetTemp.="<script charset=\"utf-8\" type=\"text/javascript\" src=\"http://s.sharethis.com/loader.js\"></script>";
+										$widgetTemp.="<script charset=\"utf-8\" type=\"text/javascript\">var options={ \"publisher\":\"".$publisher_id."\", \"position\": \"left\", \"chicklets\": { \"items\": [".$st_services_values."] } }; var st_hover_widget = new sharethis.widgets.hoverbuttons(options);</script>";
+										
+									}
+									
 									update_option('st_widget',$widgetTemp);
 									$widget = stripslashes(get_option('st_widget'));
 								}
@@ -439,15 +492,24 @@ function st_request_handler() {
 					$options = array(
 						'st_add_to_content'
 						, 'st_add_to_page'
-						);
-						foreach ($options as $option) {
-							if (isset($_POST[$option]) && in_array($_POST[$option], array('yes', 'no'))) {
-								update_option($option, $_POST[$option]);
-							}
+					);
+					foreach ($options as $option) {
+						if (isset($_POST[$option]) && in_array($_POST[$option], array('yes', 'no'))) {
+							update_option($option, $_POST[$option]);
 						}
-							
-						header('Location: '.get_bloginfo('wpurl').'/wp-admin/options-general.php?page=sharethis.php&updated=true');
-						die();
+					}
+
+					/*if(isset($_POST['st_donothash'])){
+						update_option('st_donothash', trim($_POST['st_donothash']) );
+					}
+					
+					if(isset($_POST['st_callesi'])){
+						update_option('st_callesi', trim($_POST['st_callesi']) );
+					}*/
+					
+					
+					header('Location: '.get_bloginfo('wpurl').'/wp-admin/options-general.php?page=sharethis.php&updated=true');
+					die();
 				}
 
 				break;
@@ -470,17 +532,19 @@ function st_options_form() {
 		$st_current_type="_buttons";
 	}
 	if(empty($services)){
-		$services="facebook,twitter,email,sharethis";
+		$services="facebook,twitter,linkedin,email,sharethis,fblike,plusone,pinterest";
 	}
 	if(empty($st_prompt)){
-		$services.=",fblike,plusone,pinterest";
+		//$services.=",fblike,plusone,pinterest,instagram";
+		$services.=",pinterest";
 		update_option('st_prompt', 'true');
 	}
 	if(empty($tags)){
-		foreach(explode(',',$services) as $svc){
-			$tags.="<span class='st_".$svc."_vcount' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='".$svc."'></span>";
-		}
-		}
+		$tags.=st_makeTags();
+		//foreach(explode(',',$services) as $svc){
+			$tags_removed="<span class='st_".$svc."_vcount' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='".$svc."'></span>";
+		//}
+	}
 	if(empty($st_widget_version)){
 		$st_widget_version="4x";
 	}
@@ -490,11 +554,13 @@ function st_options_form() {
 	$fiveTag = $st_widget_version == "5x" ? 'versionSelect' : "";
 	$wImage = $fiveTag == "" ? 'Image_Classic-1.png' : 'Image_Multi_Post-1.png';
 	
+	$widgetTag = get_option('st_widget');
+	
 	if(empty($publisher_id)){
 		$toShow="";
 	}
 	else{
-		$toShow=get_option('st_widget');
+		$toShow=$widgetTag;
 	}
 	
 	$hidden_input_feild = '';
@@ -505,10 +571,10 @@ function st_options_form() {
 	
 	
 	print('
-		<script type="text/javascript" src="'.$plugin_location.'jquery.min.js"></script> 
-		<script type="text/javascript" src="'.$plugin_location.'jquery.carousel.min.js"></script>
+		<!--script type="text/javascript" src="'.$plugin_location.'libraries/jquery.min.js"></script--> 
+		<script type="text/javascript" src="'.$plugin_location.'libraries/jquery.carousel.min.js"></script>
 	
-		<link rel="stylesheet" type="text/css" href="'.$plugin_location.'sharethis.css"/>		
+		<link rel="stylesheet" type="text/css" href="'.$plugin_location.'css/sharethis.css"/>		
 		<script type="text/javascript">
 
 			  var _gaq = _gaq || [];
@@ -548,38 +614,42 @@ function st_options_form() {
 								</ul>
 							</div>
 							<br/>
-							<div class="fblikeplusone">
+							<div class="fblikeplusone" id="additionalServices">
 								<span class="heading">Include Facebook Like, Google +1 and Pinterest.<br/></span><br/>
-								<label id="fblike_label">Add Facebook Like</label>&nbsp;
-								<input type="checkbox" id="st_fblike" name="st_fblike" value="1" ></input>
+								<input type="checkbox" id="st_fblike" name="st_fblike" value="1" ></input>&nbsp;
+								<label id="fblike_label">Add Facebook Like</label>
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<label id="plusone_label">Add Google +1</label>&nbsp;
-								<input type="checkbox" id="st_plusone" name="st_plusone" value="1" ></input>
+								<input type="checkbox" id="st_plusone" name="st_plusone" value="1" ></input>&nbsp;
+								<label id="plusone_label">Add Google +1</label>
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<label id="pinterest_label">Add Pinterest</label>&nbsp;
-								<input type="checkbox" id="st_pinterest" name="st_pinterest" value="1" ></input>
+								<input type="checkbox" id="st_pinterest" name="st_pinterest" value="1" ></input>&nbsp;
+								<label id="pinterest_label">Add Pinterest</label>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="checkbox" id="st_instagram" name="st_instagram" value="1" ></input>&nbsp;
+								<label id="instagram_label">Add Instagram</label>
 							</div>
 							<br/>
 							<div class="version">
 								<span class="heading">Choose which version of the widget you would like to use:</span><br /><br />
 								
+								<input type="radio" id="get5x" ' . $fiveCheck . ' name="st_version" value="5x" class="versionItem '.$fiveTag.'" onclick="jQuery(\'.versionImage\').attr(\'src\', \'http://www.sharethis.com/images/Image_Multi_Post-1.png\');"></input>&nbsp;
 								<label id="multipost_label">Multi-Post</label>
-								<input type="radio" id="get5x" ' . $fiveCheck . ' name="st_version" value="5x" class="versionItem '.$fiveTag.'" onclick="$(\'.versionImage\').attr(\'src\', \'http://www.sharethis.com/images/Image_Multi_Post-1.png\');"></input>
+								
 								&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="radio" id="get4x" ' . $fourCheck . '  name="st_version" value="4x" class="versionItem '.$fourTag.'" onclick="jQuery(\'.versionImage\').attr(\'src\', \'http://www.sharethis.com/images/Image_Classic-1.png\');"></input>&nbsp;
 								<label id="classic_label">Classic</label>
-								<input type="radio" id="get4x" ' . $fourCheck . '  name="st_version" value="4x" class="versionItem '.$fourTag.'" onclick="$(\'.versionImage\').attr(\'src\', \'http://www.sharethis.com/images/Image_Classic-1.png\');"></input>
 								
 								<br />
 								<img class="versionImage" src="http://www.sharethis.com/images/' . $wImage . '"></img>
 							</div>
 							<br />
 							<div class="services">
-								<span class="heading" onclick="javascript:$(\'#st_services\').toggle(\'slow\');"><span class="headingimg">[+]</span>&nbsp;Click to change order of social buttons or modify list of buttons.</span>&nbsp;(<a href="http://help.sharethis.com/customization/chicklets#supported-services" target="_blank">?</a>)<br/>
+								<span class="heading" onclick="javascript:jQuery(\'#st_services\').toggle(\'slow\');"><span class="headingimg">[+]</span>&nbsp;Click to change order of social buttons or modify list of buttons.</span>&nbsp;(<a href="http://help.sharethis.com/customization/chicklets#supported-services" target="_blank">?</a>)<br/>
 								<textarea name="st_services" id="st_services" style="height: 30px; width: 400px;">'.htmlspecialchars($services).'</textarea>
 							</div>
 							<br/>
 							<div class="twitter">
-								<span class="heading" onclick="javascript:$(\'#twitter_opts\').toggle(\'slow\');"><span class="headingimg">[+]</span>&nbsp;Click to add extra Twitter options.</span><br/>
+								<span class="heading" onclick="javascript:jQuery(\'#twitter_opts\').toggle(\'slow\');"><span class="headingimg">[+]</span>&nbsp;Click to add extra Twitter options.</span><br/>
 								<div id="twitter_opts">
 									If you want to promote your Twitter account via the shares from your site on Twitter, please add the account name below. This will append "via @yourTwitterAccount" at the end of every Twitter share that will be visible to all Twitter users and will also prompt the sharer to follow your Twitter account after they post a share.<br/>
 									<textarea name="st_via" id="st_via" style="height: 30px; width: 400px;"></textarea><br/><br/>
@@ -588,13 +658,23 @@ function st_options_form() {
 								</div>
 							</div>
 							<br/>
+							
+							<div class="instagrambadge">
+								<span class="heading" onclick="javascript:jQuery(\'#instagrambadge_opts\').toggle(\'slow\');"><span class="headingimg">[+]</span>&nbsp;Click to configure the Instagram badge.</span><br/>
+								<div id="instagrambadge_opts">
+									To promote your Instagram account via the instagram badge on your site, please add the account name below. This will ensure that your Instagram account is displayed upon clicking on your badge.<br/>
+									<textarea name="st_instagram_account" id="st_instagram_account" style="height: 30px; width: 400px;"></textarea>
+								</div>
+							</div>
+							<br/>
+							
 							<div class="tags">
-								<span class="heading" onclick="javascript:$(\'#st_tags\').toggle(\'slow\');"><span class="headingimg">[+]</span>&nbsp;Click to view/modify the HTML tags.</span><br/>
+								<span class="heading" onclick="javascript:jQuery(\'#st_tags\').toggle(\'slow\');"><span class="headingimg">[+]</span>&nbsp;Click to view/modify the HTML tags.</span><br/>
 								<textarea name="st_tags" id="st_tags" style="height: 100px; width: 500px;">'.htmlspecialchars(preg_replace("/<\/span>/","</span>", $tags)).'</textarea>
 							</div>
 							<br/>
 							<div class="widget_code">
-								<span class="heading" onclick="javascript:$(\'#st_widget\').toggle(\'slow\');">
+								<span class="heading" onclick="javascript:jQuery(\'#st_widget\').toggle(\'slow\');">
 									<span class="headingimg">[+]</span>&nbsp;
 									Click to modify other widget options.
 								</span>
@@ -603,7 +683,7 @@ function st_options_form() {
 							</div>
 							<br/>
 							<div>
-								<span class="heading" onclick="javascript:$(\'#st_analytics\').toggle(\'slow\');"><span class="headingimg">[+]</span>&nbsp;Want Analytics?</span><br/><br/>
+								<span class="heading" onclick="javascript:jQuery(\'#st_analytics\').toggle(\'slow\');"><span class="headingimg">[+]</span>&nbsp;Want Analytics?</span><br/><br/>
 								<span id="st_analytics">
 									To get detailed sharing analytics, you need to register with ShareThis. You also get: 
 									<div style="margin-left:30px">
@@ -626,7 +706,7 @@ function st_options_form() {
 						
 						
 	');
-	$opt_js_location=$plugin_location."wp_st_opt.js";
+	$opt_js_location=$plugin_location."js/wp_st_opt.js";
 	print("<script type=\"text/javascript\" src=\"$opt_js_location\"></script>");
 	
 	$options = array(
@@ -654,12 +734,51 @@ function st_options_form() {
 					 
 		');		
 	}
+	$sharethis_callesi = (preg_match('/doNotCopy/',$widgetTag))?0:1;
+	
+	print('
+		<br/>
+		<div class="copyNShare">
+			<span class="heading">CopyNShare</span>&nbsp;(<a href="http://support.sharethis.com/customer/portal/articles/517332-share-widget-faqs#copynshare" target="_blank">?</a>)<br/><br/>
+			
+			<input type="hidden" name="st_callesi" id="st_callesi" value="'.$sharethis_callesi.'" />
+			<div id="st_cns_settings">
+				<input type="checkbox" class="cnsCheck" id="donotcopy" name="donotcopy" value="true" ></input>
+				<label for="donotcopy" class="cnsCheck" id="donotcopy_label">&nbsp;Measure copy & shares of your site\'s content</label>
+				<br />
+				<input type="checkbox" class="cnsCheck" id="hashaddress" name="hashaddress" value="false" ></input>
+				<label for="hashaddress" class="cnsCheck" id="hashaddress_label">&nbsp;Measure copy & shares of your site\'s URLs</label>
+			</div>
+			
+			<div style="width: 900px;">
+				<p class="explainText">CopyNShare is the new ShareThis widget feature that enables you to track the shares that occur when a user copies and pastes your website\'s URL or content. ShareThis adds a special #hashtag at the end of your address bar URL to keep track of where your content is being shared on the web, from Facebook, Twitter to emails, etc. When a user copies text within your site, a "See more: yourURL.com#SThashtag" will appear after the pasted text. Enable CopyNShare for your widget! <a href="http://support.sharethis.com/customer/portal/articles/517332-share-widget-faqs#copynshare" target="_blank">FAQ</a>.</p>				
+			</div>
+		</div>	
+		');
+		
+	print('
+		<br/>
+		<div class="hoverbar">
+			<span class="heading">Hovering Bar</span>&nbsp;(<a href="http://support.sharethis.com/customer/portal/articles/507855" target="_blank">?</a>)<br/><br/>
+			<input type="checkbox" id="st_hoverbar" name="st_hoverbar" value="0" ></input>&nbsp;
+			<label id="hoverbar_label">Enable Hovering Bar</label>
+			<div style="width: 900px;">
+				<p class="explainText">Would you like your sharing buttons to be persistent and remain on the page as the user scrolls? Well, then Hovering Bar is for you. It shows the sharing services on the left side to present a non-intrusive yet always available experience.</p>				
+				<img src="http://sharethis.com/images/new/get-sharing-tools/PREVIEW_Hover.png">
+			
+		</div><br/><br/>
+			<div>
+			<p class="explainText">Note: If you enable ShareNow below, then the hovering bar is automatically moved to right side of the page for optimal experience. You can manually change the code <br/>above for it to also appear on the left side if you like.</p>
+			</div>
+		</div>	
+		');
+		
 	print('
 		<br/>
 		<div class="sharenow">
 			<span class="heading">ShareNow</span>&nbsp;(<a href="http://sharethis.com/publishers/get-sharenow" target="_blank">?</a>)<br/><br/>
-			<label id="sharenow_label">Enable ShareNow</label>&nbsp;
-			<input type="checkbox" id="st_sharenow" name="st_sharenow" value="0" ></input>
+			<input type="checkbox" id="st_sharenow" name="st_sharenow" value="0" ></input>&nbsp;
+			<label id="sharenow_label">Enable ShareNow</label>
 			<div style="width: 900px;">
 				<p class="explainText">ShareNow is the first-to-market social tool that allows any publisher to leverage <a href="http://developers.facebook.com/docs/opengraph/" target="_blank">frictionless sharing </a> without having to invest in and create their own custom solution. ShareNow allows publishers to put users in control over how they share content to their social networking timelines by allowing them to either continually share or click-to-share content with a simple &#39;on&#39; and &#39;off&#39; switch.</p>
 				<div style="font-size: 1em;margin-bottom: 5px;"><a href="http://support.sharethis.com/customer/portal/articles/542253-sharenow-by-sharethis" target="_blank">ShareNow FAQ</a> | <a href="mailto:support@sharethis.com" target="_blank">Contact Us</a></div>
@@ -733,6 +852,10 @@ function st_menu_items() {
 	}
 }
 
+function st_makeTags()
+{
+	return $tags="<span class='st_facebook_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='Twitter'></span><span class='st_linkedin_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='LinkedIn'></span><span class='st_email_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='Email'></span><span class='st_sharethis_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='Google +1'></span><span class='st_pinterest_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='Pinterest'></span>";
+}
 
 function st_makeEntries(){
 	global $post;
@@ -750,7 +873,7 @@ function st_makeEntries(){
 				$tags=preg_replace("/{TITLE}/",strip_tags(get_the_title()), $tags);
 			}else{
 				$tags="<span class='st_sharethis' st_title='".strip_tags(get_the_title())."' st_url='".get_permalink($post->ID)."' displayText='ShareThis'></span>";
-				$tags="<span class='st_facebook_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='Facebook'></span><span class='st_twitter_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='Twitter'></span><span class='st_email_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='Email'></span><span class='st_sharethis_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='ShareThis'></span><span class='st_fblike_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='Facebook Like'></span><span class='st_plusone_buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='Google +1'></span><span class='st_pinterest _buttons' st_title='<?php the_title(); ?>' st_url='<?php the_permalink(); ?>' displayText='Pinterest'></span>";	
+				$tags=st_makeTags();
 				$tags=preg_replace("/<\?php the_permalink\(\); \?>/",get_permalink($post->ID), $tags);
 				$tags=preg_replace("/<\?php the_title\(\); \?>/",strip_tags(get_the_title()), $tags);		
 			}
@@ -771,5 +894,6 @@ function makePkey(){
 add_action('wp_head', 'st_widget_head');
 add_action('init', 'st_request_handler', 9999);
 add_action('admin_menu', 'st_menu_items');
+register_uninstall_hook( __FILE__, 'uninstall_ShareThis');
 
 ?>

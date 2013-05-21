@@ -3,7 +3,7 @@ Contributors: tierrainnovation
 Donate link: http://tierra-innovation.com/wordpress-cms/plugins/report-comments/
 Tags: comments,commenting,spam,report,notifications,notify
 Requires at least: 2.9
-Tested up to: 3.0-alpha
+Tested up to: 3.0.1
 Stable tag: trunk
 
 *** Please Note: If you have installed v.1, please deactivate, install, and then reactivate the plugin. ***
@@ -21,6 +21,10 @@ Through the Wordpress Admin you can modify many aspects of the plugin including 
 After a comment is reported, the email address you specify will receive a message including the text of the reported comment and a link to view the comment on the site. The next version of this plugin will include more admin options and variety of moderation options, such as placing the comment in a moderation queue if more than X number of visitors flag it as inappropriate.
 	
 == Changelog ==
+
+= 2.0.4 = 
+
+1. Disabled caching level which causes most of the plugin to fail.
 
 = 2.0.3 = 
 

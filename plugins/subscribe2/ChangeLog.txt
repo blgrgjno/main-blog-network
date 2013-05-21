@@ -1,3 +1,33 @@
+= Version 8.9.1 by Matthew Robinson =
+
+* Check for the existence of the mb_encode_mimeheader function before use as it's optional in PHP builds - thanks to derekmacewen
+* Fix for fatal error in upgrade code due to calling the wrong class
+
+= Version 8.9 by Matthew Robinson =
+
+* Fix fatal error in the uninstall.php file
+* Correct error using set_url_scheme() function in WordPress version prior to 3.5
+* Allow the Widget to post form back to referring page by omitting action for parameter - thanks to Peter Gordon
+* Fix for options being reset on Multisite installs - thanks to Luca
+* Make sure translation strings are loaded during install(), upgrade() and reset() - thanks to Milan Dinić
+* Fix internationalisation of subscribers list table - thanks to Milan Dinić
+* Use mb_encode_mimeheader on email sender name - thanks to xl32
+* Trim email addresses before sanitising them - thanks to byarts
+
+= Version 8.8 by Matthew Robinson =
+
+* Added ability to filter both excerpt_length and word_wrap
+* Added code to stop site wide activation on Multisite installs
+* Added code to fix compatibility issues with Autoblog plugin - thanks to Kevin Waite and Andy Stratton
+* Fixed digit entry in pagination section on Registeres tab in Subscribe2->Subscribers
+* Removed ID from a string in the Settings page as it was confusing
+* Enhanced Compulsory Category code to ensure that Registered Users all get notifications for such categories despite their current personal settings
+* Improved Pagination when the Filter is changed on the Subscribe2->Subscribers page
+* Use $wpdb->prefix in preference to $table_prefix
+* Improve functionality of the uninstall script on Multisite installs
+* Fixed glitch in upgrade85 code that failed to add a new database column when called
+* Sort subscribers into alphabetical order irrespective of case - thanks to mharpen
+
 = Version 8.7 by Matthew Robinson =
 
 * Enabled {TITLE} as a keyword in URL Tracking in free version

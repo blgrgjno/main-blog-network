@@ -2,8 +2,8 @@
 /*
  * Plugin Name: AJAX Report Comments
  * Plugin URI: http://tierra-innovation.com/wordpress-cms/plugins/report-comments/
- * Description: <strong>(Do Not Update! Modified by TKM/MW)</strong> Uses AJAX to allow visitors to notify the administrator about inappropriate comments.
- * Version: 2.0.3
+ * Description: Uses AJAX to allow visitors to notify the administrator about inappropriate comments.
+ * Version: 2.0.4
  * Author: Tierra Innovation
  * Author URI: http://www.tierra-innovation.com/
  */
@@ -18,7 +18,7 @@
  * GPL2 License: http://www.tierra-innovation.com/license/GPL-LICENSE.txt
  */
 
-$rc_version = '2.0.3';
+$rc_version = '2.0.4';
 
 // Pre-2.6 compatibility
 if ( ! defined( 'WP_CONTENT_URL' ) )
@@ -33,7 +33,7 @@ if ( ! defined( 'WP_PLUGIN_URL' ) )
       define( 'WP_PLUGIN_URL', get_option('siteurl') . '/wp-content/plugins' );
 
 // Module globals
-$_rc_db_version = '2.0';
+$_rc_db_version = '2.0.4';
 
 // These need to be declared globally so they are in scope for the activation hook
 global $wpdb, $_rc_db_version, $_rc_comments_reported_db, $_rc_comments_moderated_db;
@@ -51,9 +51,8 @@ define('AJAXRC_FULLPATH', WP_PLUGIN_DIR.DIRECTORY_SEPARATOR.AJAXRC_FOLDER.DIRECT
 add_action('admin_menu', 'ajaxrc_add_menus');
 
 function ajaxrc_add_menus() {
-	/* Mod 01.10.2010 13:30 TKM/MW */
-	add_menu_page('Moderation', 'Reports Comments', 4, AJAXRC_FOLDER, 'rc_moderation');
-	add_submenu_page( AJAXRC_FOLDER , 'Settings', 'Settings', 'manage_options', 'rc_options_page', 'rc_options_page');
+	add_menu_page('AJAX Report Comments', 'AJAX Report Comments', 8, AJAXRC_FOLDER, 'rc_options_page');
+	add_submenu_page( AJAXRC_FOLDER , __('Moderation', 'ajaxrc'), __('Moderation', 'ajaxrc'), 'manage_options', 'rc_moderation', 'rc_moderation');
 }
 
 # Include moderation functions
@@ -458,6 +457,7 @@ function rc_check_threshold($comment_ID) {
 }
 
 function rc_process($content) {
+
 	$link_before = get_option('rc_beforelink');
 	$link_after = get_option('rc_afterlink');
 	$link_text = get_option('rc_linktext');
@@ -525,7 +525,7 @@ function reportcomments_js_header() // this is a PHP function
 		
 		mysack.method = 'POST';
 	
-		mysack.onError	= function() {  finishReport( commentID, "<?php print htmlspecialchars(get_option('rc_failure')); ?>" ) }; //MOD 13.09.2010 12:47 die() is not a js function
+		mysack.onError	= function() { die( "<?php print htmlspecialchars(get_option('rc_failure')); ?>" ) };
 		mysack.onCompletion = function() { finishReport( commentID, eval( '(' + this.response + ')' )); }
 	
 		mysack.runAJAX();
@@ -533,20 +533,25 @@ function reportcomments_js_header() // this is a PHP function
 
 	function reportComment_AddTextArea( commentID )
 	{
-		//MOD TKM 13.09.2010 12:40: Edited markup
-		document.getElementById( 'reportcomment_results_div_' + commentID ).innerHTML = "";
+		document.getElementById( 'reportcomment_results_div_' + commentID ).innerHTML = "<?php print htmlspecialchars(get_option('rc_textarea_msg')); ?>";
 
-		var textarea = "<div class='form-label'><label for='reportcomment_comment_textarea_" + commentID + "'><?php echo htmlspecialchars(get_option('rc_textarea_msg')); ?></label></div>";
-		textarea += "<textarea name=\"reportcomment_comment_textarea_" + commentID + "\" id=\"reportcomment_comment_textarea_" + commentID + "\" cols=\"55\" rows=\"4\" class=\"reportcomment_textarea\"></textarea>";
-		textarea += "<div class='form-submit'><input type=\"button\" name=\"Report Comment\" value=\"Varsle\" onclick=\"reportComment( " + commentID + " );\" /></div>";
+		var textarea = "<textarea name=\"reportcomment_comment_textarea_" + commentID + "\" id=\"reportcomment_comment_textarea_" + commentID + "\" cols=\"55\" rows=\"4\" class=\"reportcomment_textarea\"></textarea><br /><input type=\"button\" name=\"Report Comment\" value=\"Report Comment\" onclick=\"reportComment( " + commentID + " );\" />";
 
 		document.getElementById( 'reportcomment_comment_div_' + commentID ).innerHTML = textarea;
 	}
 
 	function finishReport( commentID, response )
 	{
-		var message = '<p class="reportedcomment_text">'+response.message+'</p>';	//MOD 13.09.2010 12:58 (Fixed markup)
-		document.getElementById( 'reportcomment_comment_div_' + commentID ).innerHTML = message;	//MOD 13.09.2010 12:58 (Modified insertion point)
+		var message = '<span class="reportedcomment_text">'+response.message+'</span>';
+		document.getElementById( 'reportcomment_results_div_' + commentID ).innerHTML = message;
+		<?php 
+		if (get_option('rc_allow_reporter_comment') == 1)
+		{
+		?>	
+			document.getElementById( 'reportcomment_comment_div_' + commentID ).innerHTML = '';
+		<?php
+		}
+		?>
 	}
 //]]>
 </script>
@@ -559,6 +564,6 @@ function reportcomments_js_header() // this is a PHP function
 } // end of PHP function reportcomments_js_header
 
 add_action('wp_head', 'reportcomments_js_header' );
-//add_filter('comment_text', 'rc_process'); //MOD 13.09.2010 12:46 Use theme instead
+add_filter('comment_text', 'rc_process');
 
 ?>

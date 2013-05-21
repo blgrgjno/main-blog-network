@@ -143,7 +143,7 @@ $S2ListTable->prepare_items();
 // show our form
 echo "<div class=\"wrap\">";
 echo "<div id=\"icon-tools\" class=\"icon32\"></div>";
-$tabs = array('public' => 'Public Subscribers', 'registered' => 'Registered Subscribers');
+$tabs = array('public' => __('Public Subscribers', 'subscribe2'), 'registered' => __('Registered Subscribers', 'subscribe2'));
 echo "<h2 class=\"nav-tab-wrapper\">";
 foreach ( $tabs as $tab_key => $tab_caption ) {
 	$active = ($current_tab == $tab_key) ? "nav-tab-active" : "";
@@ -178,7 +178,7 @@ switch ($current_tab) {
 	case 'registered':
 		echo "<div class=\"s2_admin\" id=\"s2_add_subscribers\">\r\n";
 		echo "<h2>" . __('Add/Remove Subscribers', 'subscribe2') . "</h2>\r\n";
-		echo "<p class=\"submit\" style=\"border-top: none;\"><input type=\"submit\" class=\"button-primary\" name=\"add_user\" value=\"" . __('Add Registered User', 'subscribe2') . "\" formaction=\"" . admin_url() . "user-new.php\" /></p>\r\n";
+		echo "<p class=\"submit\" style=\"border-top: none;\"><input type=\"button\" class=\"button-primary\" name=\"add_user\" value=\"" . __('Add Registered User', 'subscribe2') . "\" formaction=\"" . admin_url() . "user-new.php\" /></p>\r\n";
 
 		echo "</div>\r\n";
 

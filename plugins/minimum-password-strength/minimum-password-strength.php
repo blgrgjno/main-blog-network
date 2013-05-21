@@ -2,11 +2,11 @@
 
 /*
  * Plugin Name: Minimum Password Strength
- * Description: Enforce a specific password strength. Uses the same strength calculations as the WordPress strength meter
- * Version: 1.0
- * Plugin URI: http://www.itsananderson.com/plugins/minimum-password-strength/
- * Author: Will Anderson
- * Author URI: http://www.itsananderson.com/
+ * Description: Enforce a specific password strength. Uses the same strength calculations as the WordPress password strength meter
+ * Version: 1.1.2
+ * Plugin URI: http://wordpress.org/extend/plugins/minimum-password-strength/
+ * Author: Will Anderson and Tony Ferrell
+ * Author URI: http://codeawhile.com/
  */
 
  class Minimum_Password_Strength {

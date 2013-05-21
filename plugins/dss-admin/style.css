@@ -8,14 +8,6 @@
 	height: 120px;
 }
 
-/* The logo in the top left */
-#wp-admin-bar-wp-logo > .ab-item .ab-icon {
-	background: url(mn-icon.png) 50% center no-repeat !important;
-}
-#wp-admin-bar-wp-logo:hover > .ab-item .ab-icon {
-	background: url(mn-icon-black.png) 50% center no-repeat !important;
-}
-
 /* Remove WP version number from footer */
 #footer-upgrade {
 	display: none;

@@ -612,7 +612,7 @@ class s2_admin extends s2class {
 		$ids = $wpdb->get_col("SELECT ID FROM $wpdb->users WHERE user_email IN ($useremails)");
 		$ids = implode(',', array_map(array($this, 'prepare_in_data'), $ids));
 		$sql = "UPDATE $wpdb->usermeta SET meta_value='{$format}' WHERE meta_key='" . $this->get_usermeta_keyname('s2_format') . "' AND user_id IN ($ids)";
-		$wpdb->get_results($sql);
+		$wpdb->query($sql);
 	} // end format_change()
 
 	/**

@@ -23,7 +23,7 @@ function ajaxrc_get_mod_posts_url($args) {
     $args = wp_parse_args($args, $defaults);
     extract($args);
     
-    $url = get_bloginfo('wpurl').'/wp-admin/admin.php?page=report-comments';
+    $url = get_bloginfo('wpurl').'/wp-admin/admin.php?page=rc_moderation';
 
     if ($show !== 'all') {
         $url .= '&show=' . $show;
@@ -93,7 +93,7 @@ function rc_create_report_list($cur_comment_ID)
 
 		$html .= "
 
-		<p><a href='admin.php?page=report-comments'>&laquo; Back to Moderation</a></p>
+		<p><a href='admin.php?page=rc_moderation'>&laquo; Back to Moderation</a></p>
 
 		<h3>Viewing reports for Comment #".$cur_comment_ID."</h3>
 		";
@@ -101,9 +101,9 @@ function rc_create_report_list($cur_comment_ID)
 		$return = "&return=report";
 		
 		if ($rc_comment_status == 0)
-			$html .= "<h3><a href='admin.php?page=report-comments&mode=approve&comment_id=".$cur_comment_ID.$return."' title='Approve'>Approve Comment</a></h3>";
+			$html .= "<h3><a href='admin.php?page=rc_moderation&mode=approve&comment_id=".$cur_comment_ID.$return."' title='Approve'>Approve Comment</a></h3>";
 		else
-			$html .= "<h3><a href='admin.php?page=report-comments&mode=unapprove&comment_id=".$cur_comment_ID.$return."' title='Unapprove'>Unapprove Comment</a></h3>";
+			$html .= "<h3><a href='admin.php?page=rc_moderation&mode=unapprove&comment_id=".$cur_comment_ID.$return."' title='Unapprove'>Unapprove Comment</a></h3>";
 							
 		$html .= "
 
@@ -141,7 +141,7 @@ function rc_create_report_list($cur_comment_ID)
 								<li>".stripslashes($report->reporter_comment)."</li>
 							</ul>
 							<div class='row-actions'>
-							<span class='delete'><a href='admin.php?page=report-comments&mode=deletereport&report_id=".$report->id."&comment_id=".$report->comment_ID."' title='Delete this report' onclick='if ( confirm('You are about to delete report \'#".$report->id."\'\n \'Cancel\' to stop, \'OK\' to delete.') ) { return true;}return false;'>Delete Report</a></span>
+							<span class='delete'><a href='admin.php?page=rc_moderation&mode=deletereport&report_id=".$report->id."&comment_id=".$report->comment_ID."' title='Delete this report' onclick='if ( confirm('You are about to delete report \'#".$report->id."\'\n \'Cancel\' to stop, \'OK\' to delete.') ) { return true;}return false;'>Delete Report</a></span>
 							</div>
 						</td>
 						<td class='column-reporter_date'><strong>".$report->reporter_date."</strong></td>
@@ -227,7 +227,7 @@ function rc_moderation($reports='rc_moderation') {
 	{
 		$deleted = rc_delete_report($cur_report_ID, $cur_comment_ID);
 		
-		$output = "<p><a href='admin.php?page=report-comments&mode=report&comment_id=".$cur_comment_ID."'>&lt; Back to Reports for Comment #".$cur_comment_ID."</a></p><p>";
+		$output = "<p><a href='admin.php?page=rc_moderation&mode=report&comment_id=".$cur_comment_ID."'>&lt; Back to Reports for Comment #".$cur_comment_ID."</a></p><p>";
 		
 		if ($deleted)
 			$output .= "The selected report was removed.";
@@ -274,9 +274,9 @@ function confirm_delete() {
 			<h2>AJAX Report Comments :: Moderation</h2>
 
 			<ul class='subsubsub'>
-				<li><a href='admin.php?page=report-comments&mode=list'$all_link_style>All Reports ($rc_all_report_count)</a> | </li>
-				<li><a href='admin.php?page=report-comments&show=approved&mode=list'$approved_link_style>Approved ($rc_approved_count)</a> | </li>
-				<li><a href='admin.php?page=report-comments&show=pending&mode=list'$pending_link_style>Pending ($rc_pending_count)</a></li>
+				<li><a href='admin.php?page=rc_moderation&mode=list'$all_link_style>All Reports ($rc_all_report_count)</a> | </li>
+				<li><a href='admin.php?page=rc_moderation&show=approved&mode=list'$approved_link_style>Approved ($rc_approved_count)</a> | </li>
+				<li><a href='admin.php?page=rc_moderation&show=pending&mode=list'$pending_link_style>Pending ($rc_pending_count)</a></li>
 			</ul>
 
 			<div class='tablenav'>";
@@ -360,19 +360,19 @@ function confirm_delete() {
 
 				print "
 					<tr id='comment-".$comment->comment_ID."' class='".$class."' valign='top'>
-						<td class='post-title column-comment_id'><strong>Comment #".$comment->comment_ID." - Reported ".$reported_count." $times</strong><a href='admin.php?page=report-comments&mode=report&comment_id=".$comment->comment_ID."' title='View reports'>View Reports</a>
+						<td class='post-title column-comment_id'><strong>Comment #".$comment->comment_ID." - Reported ".$reported_count." $times</strong><a href='admin.php?page=rc_moderation&mode=report&comment_id=".$comment->comment_ID."' title='View reports'>View Reports</a>
 							<div class='row-actions' style='min-width: 250px'>
 								<span class='publish'>
 								";
 							
 								if ($comment->status == 0)
-									print "<a href='admin.php?page=report-comments&mode=approve&show=".$show."&comment_id=".$comment->comment_ID.$return."' title='Approve'>Approve</a> ";
+									print "<a href='admin.php?page=rc_moderation&mode=approve&show=".$show."&comment_id=".$comment->comment_ID.$return."' title='Approve'>Approve</a> ";
 								else
-									print "<a href='admin.php?page=report-comments&mode=unapprove&show=".$show."&comment_id=".$comment->comment_ID.$return."' title='Unapprove'>Unapprove</a> ";
+									print "<a href='admin.php?page=rc_moderation&mode=unapprove&show=".$show."&comment_id=".$comment->comment_ID.$return."' title='Unapprove'>Unapprove</a> ";
 							
 							print "| </span>
 									<span class='edit'><a href='comment.php?action=editcomment&c=".$comment->comment_ID."&amp;_wpnonce=$nonce' title='Edit/View Comment'>Edit</a> | </span>
-									<span class='delete'><a href='admin.php?page=report-comments&mode=deletecomment&show=".$show."&comment_id=".$comment->comment_ID.$return."' title='Unapprove' onclick=\"return confirm_delete();\">Delete</a></span>
+									<span class='delete'><a href='admin.php?page=rc_moderation&mode=deletecomment&show=".$show."&comment_id=".$comment->comment_ID.$return."' title='Unapprove' onclick=\"return confirm_delete();\">Delete</a></span>
 							</div>
 						</td>
 						<td class='column-comment'>

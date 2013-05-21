@@ -29,7 +29,7 @@ class S2_Form_widget extends WP_Widget {
 			$hide = " link=\"" . __('(Un)Subscribe to Posts', 'subscribe2') . "\"";
 		}
 		$postid = '';
-		if ( !empty($postto) || $postto !== 'home' ) {
+		if ( !empty($postto) ) {
 			$postid = " id=\"" . $postto . "\"";
 		}
 		$size = " size=\"" . $textbox_size . "\"";
@@ -122,6 +122,9 @@ class S2_Form_widget extends WP_Widget {
 		echo "<option value=\"home\"";
 		if ( $postto === 'home' ) { echo " selected=\"selected\""; }
 		echo ">" . __('Use Home Page', 'subscribe2') . "</option>\r\n";
+		echo "<option value=\"self\"";
+		if ( $postto === 'self' ) { echo " selected=\"selected\""; }
+		echo ">" . __('Use Referring Page', 'subscribe2') . "</option>\r\n";
 		$mysubscribe2->pages_dropdown($postto);
 		echo "</select></label></p>\r\n";
 		echo "<p><label for=\"" . $this->get_field_id('js') . "\">" . __('Disable JavaScript', 'subscribe2') . ":\r\n";

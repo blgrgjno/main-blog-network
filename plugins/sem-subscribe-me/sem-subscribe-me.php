@@ -3,8 +3,8 @@
 Plugin Name: Subscribe Me
 Plugin URI: http://www.semiologic.com/software/subscribe-me/
 Description: Widgets that let you display subscribe links to RSS readers such as Google Reader.
-Version: 5.0.2
-Author: Denis de Bernardy
+Version: 5.1.1
+Author: Denis de Bernardy & Mike Koepke
 Author URI: http://www.getsemiologic.com
 Text Domain: sem-subscribe-me
 Domain Path: /lang
@@ -34,6 +34,7 @@ load_plugin_textdomain('sem-subscribe-me', false, dirname(plugin_basename(__FILE
 /**
  * subscribe_me
  *
+ * @property int|string alt_option_name
  * @package Subscribe Me
  **/
 
@@ -258,7 +259,7 @@ class subscribe_me extends WP_Widget {
 				),
 			'google' => array(
 				'name' => __('Google', 'sem-subscribe-me'),
-				'url' => 'http://fusion.google.com/add?feedurl=%enc_feed%',
+				'url' => 'http://www.google.com/ig/add?feedurl=%enc_feed%',
 				),
 			'live' => array(
 				'name' => __('Live', 'sem-subscribe-me'),
@@ -268,19 +269,15 @@ class subscribe_me extends WP_Widget {
 				'name' => __('Netvibes', 'sem-subscribe-me'),
 				'url' => 'http://www.netvibes.com/subscribe.php?url=%enc_feed%',
 				),
-			'newsgator' => array(
-				'name' => 'Newsgator',
-				'button' => 'addnewsgator.gif',
-				'url' => 'http://www.newsgator.com/ngs/subscriber/subext.aspx?url=%enc_feed%',
-				),
 			'yahoo' => array(
 				'name' => __('Yahoo!', 'sem-subscribe-me'),
 				'url' => 'http://add.my.yahoo.com/rss?url=%enc_feed%',
 				),
-			'help' => array(
+/*			'help' => array(
 				'name' => __('What\'s This?', 'sem-subscribe-me'),
 				'url' => 'http://www.semiologic.com/resources/blogging/help-with-feeds/'
 				),
+*/
 			);
 	} # get_extra_services()
 	
@@ -356,13 +353,14 @@ class subscribe_me extends WP_Widget {
 			'text' => __('Subscribe to this site\'s RSS feed.', 'sem-subscribe-me'),
 			);
 	} # defaults()
-	
-	
-	/**
-	 * flush_cache()
-	 *
-	 * @return void
-	 **/
+
+
+    /**
+     * flush_cache()
+     *
+     * @param mixed $in
+     * @return mixed
+     */
 
 	function flush_cache($in = null) {
 		$o = get_option('widget_subscribe_me');
@@ -408,12 +406,13 @@ class subscribe_me extends WP_Widget {
 	 * upgrade_2_x()
 	 *
 	 * @param array $ops
-	 * @return void
+	 * @return array
 	 **/
 
 	function upgrade_2_x($ops) {
 		$ops = !empty($ops['title']) ? array('title' => $ops['title']) : array();
-		
+
+        $changed = false;
 		if ( is_admin() ) {
 			$sidebars_widgets = get_option('sidebars_widgets', array('array_version' => 3));
 		} else {
@@ -445,8 +444,10 @@ class subscribe_me extends WP_Widget {
 /**
  * the_subscribe_links()
  *
+ * @param null $instance
+ * @param string $args
  * @return void
- **/
+ */
 
 function the_subscribe_links($instance = null, $args = '') {
 	if ( is_string($instance) )

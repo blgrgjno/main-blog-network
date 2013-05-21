@@ -5,7 +5,7 @@ Plugin URI: http://strategy11.com/display-widgets/
 Description: Adds checkboxes to each widget to show or hide on site pages.
 Author: Strategy11
 Author URI: http://strategy11.com
-Version: 1.22
+Version: 1.24
 */
 
 load_plugin_textdomain( 'display-widgets', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
@@ -19,6 +19,9 @@ function show_dw_widget($instance){
     $post_id = $wp_query->get_queried_object_id();
     $post_id = dw_get_lang_id($post_id, 'page');
     
+    if(defined('ICL_LANGUAGE_CODE'))
+        $show = isset($instance['lang-'. ICL_LANGUAGE_CODE]) ? ($instance['lang-'. ICL_LANGUAGE_CODE]) : false;
+
     if (is_home()){
         $show = isset($instance['page-home']) ? ($instance['page-home']) : false;
     }else if (is_front_page()){
@@ -66,23 +69,23 @@ function show_dw_widget($instance){
         }
     }
     
-    if(defined('ICL_LANGUAGE_CODE'))
-        $show = isset($instance['lang-'. ICL_LANGUAGE_CODE]) ? ($instance['lang-'. ICL_LANGUAGE_CODE]) : false;
-
     if(!isset($show))
         $show = false;
-    
+        
     $instance['dw_include'] = isset($instance['dw_include']) ? $instance['dw_include'] : (isset($instance['include']) ? $instance['include'] : 0);
-    
+    $instance['dw_logout'] = isset($instance['dw_logout']) ? $instance['dw_logout'] : (isset($instance['logout']) ? $instance['logout'] : 0);
+    $instance['dw_login'] = isset($instance['dw_login']) ? $instance['dw_login'] : (isset($instance['login']) ? $instance['login'] : 0);
+
     if (($instance['dw_include'] and $show == false) or ($instance['dw_include'] == 0 and $show)){
         return false;
     }else{
         global $user_ID;
-        if( (isset($instance['logout']) and $instance['logout'] and $user_ID) or 
-            (isset($instance['login']) and $instance['login'] and !$user_ID)) 
+        if( (isset($instance['dw_logout']) and $instance['dw_logout'] and $user_ID) or 
+            (isset($instance['dw_login']) and $instance['dw_login'] and !$user_ID))
             return false;
             
     }
+
 	return $instance;
 }
 
@@ -100,8 +103,8 @@ function dw_show_hide_widget_options($widget, $return, $instance){
     );
             
     $instance['dw_include'] = isset($instance['dw_include']) ? $instance['dw_include'] : (isset($instance['include']) ? $instance['include'] : 0);
-    $instance['logout'] = isset($instance['logout']) ? $instance['logout'] : 0;
-    $instance['login'] = isset($instance['login']) ? $instance['login'] : 0;
+    $instance['dw_logout'] = isset($instance['dw_logout']) ? $instance['dw_logout'] : (isset($instance['logout']) ? $instance['logout'] : 0);
+    $instance['dw_login'] = isset($instance['dw_login']) ? $instance['dw_login'] : (isset($instance['login']) ? $instance['login'] : 0);
     $instance['other_ids'] = isset($instance['other_ids']) ? $instance['other_ids'] : '';
 ?>   
      <p>
@@ -113,10 +116,10 @@ function dw_show_hide_widget_options($widget, $return, $instance){
     </p>    
 
 <div style="height:150px; overflow:auto; border:1px solid #dfdfdf;">
-    <p><input class="checkbox" type="checkbox" <?php checked($instance['logout'], true) ?> id="<?php echo $widget->get_field_id('logout'); ?>" name="<?php echo $widget->get_field_name('logout'); ?>" value="1" />
-    <label for="<?php echo $widget->get_field_id('logout'); ?>"><?php _e('Show only for Logged-out users', 'display-widgets') ?></label></p>
-    <p><input class="checkbox" type="checkbox" <?php checked($instance['login'], true) ?> id="<?php echo $widget->get_field_id('login'); ?>" name="<?php echo $widget->get_field_name('login'); ?>" value="1" />
-    <label for="<?php echo $widget->get_field_id('login'); ?>"><?php _e('Show only for Logged-in users', 'display-widgets') ?></label></p>
+    <p><input class="checkbox" type="checkbox" <?php checked($instance['dw_logout'], true) ?> id="<?php echo $widget->get_field_id('dw_logout'); ?>" name="<?php echo $widget->get_field_name('dw_logout'); ?>" value="1" />
+    <label for="<?php echo $widget->get_field_id('dw_logout'); ?>"><?php _e('Show only for Logged-out users', 'display-widgets') ?></label></p>
+    <p><input class="checkbox" type="checkbox" <?php checked($instance['dw_login'], true) ?> id="<?php echo $widget->get_field_id('dw_login'); ?>" name="<?php echo $widget->get_field_name('dw_login'); ?>" value="1" />
+    <label for="<?php echo $widget->get_field_id('dw_login'); ?>"><?php _e('Show only for Logged-in users', 'display-widgets') ?></label></p>
     
     <h4 onclick="dw_toggle(jQuery(this))" style="cursor:pointer;"><?php _e('Miscellaneous', 'display-widgets') ?> +/-</h4>
     <div class="dw_collapse">
@@ -214,44 +217,65 @@ function dw_update_widget_options($instance, $new_instance, $old_instance){
     
     if($dw_pages){
         foreach ($dw_pages as $page){
-            $instance['page-'. $page->ID] = isset($new_instance['page-'. $page->ID]) ? 1 : 0;
+            if(isset($new_instance['page-'. $page->ID]))
+                $instance['page-'. $page->ID] = 1;
+            else if(isset($instance['page-'. $page->ID]))
+                unset($instance['page-'. $page->ID]);
             unset($page);
         }
     }
     
     foreach ($dw_cats as $cat){
-        $instance['cat-'. $cat->cat_ID] = isset($new_instance['cat-'. $cat->cat_ID]) ? 1 : 0;
+        if(isset($new_instance['cat-'. $cat->cat_ID]))
+            $instance['cat-'. $cat->cat_ID] = 1;
+        else if(isset($instance['cat-'. $cat->cat_ID]))
+            unset($instance['cat-'. $cat->cat_ID]);
         unset($cat);
     }
     
     if($dw_cposts){
         foreach ($dw_cposts as $post_key => $custom_post){
-            $instance['type-'. $post_key] = isset($new_instance['type-'. $post_key]) ? 1 : 0;
+            if(isset($new_instance['type-'. $post_key]))
+                $instance['type-'. $post_key] = 1;
+            else if(isset($instance['type-'. $post_key]))
+                unset($instance['type-'. $post_key]);
             unset($custom_post);
         }
     }
     
     if($dw_taxes){
         foreach ($dw_taxes as $tax){
-            $instance['tax-'. $tax] = isset($new_instance['tax-'. $tax]) ? 1 : 0;
+            if(isset($new_instance['tax-'. $tax]))
+                $instance['tax-'. $tax] = 1;
+            else if(isset($instance['tax-'. $tax]))
+                unset($instance['tax-'. $tax]);
             unset($tax);
         }
     }
     
     if($dw_langs){
         foreach($dw_langs as $lang){
-            $instance['lang-'. $lang['language_code']] = isset($new_instance['lang-'. $lang['language_code']   ]) ? 1 : 0;
+            if(isset($new_instance['lang-'. $lang['language_code'] ]))
+                $instance['lang-'. $lang['language_code']] = 1;
+            else if(isset($instance['lang-'. $lang['language_code']]))
+                unset($instance['lang-'. $lang['language_code']]);
             unset($lang);
         }    
     }
-           
+         
     $instance['dw_include'] = $new_instance['dw_include'] ? 1 : 0;
-    $instance['logout'] = isset($new_instance['logout']) ? $new_instance['logout'] : 0;
-    $instance['login'] = isset($new_instance['login']) ? $new_instance['login'] : 0;
+    if(isset($new_instance['dw_logout']))
+        $instance['dw_logout'] =  $new_instance['dw_logout'];
+    if(isset($new_instance['dw_login']))
+        $instance['dw_login'] = $new_instance['dw_login'];
     $instance['other_ids'] = $new_instance['other_ids'] ? $new_instance['other_ids'] : '';
     
-    foreach(array('front', 'home', 'archive', 'single', '404', 'search') as $page)
-        $instance['page-'. $page] = isset($new_instance['page-'. $page]) ? 1 : 0;
+    foreach(array('front', 'home', 'archive', 'single', '404', 'search') as $page){
+        if(isset($new_instance['page-'. $page]))
+            $instance['page-'. $page] = 1;
+        else if(isset($instance['page-'. $page]))
+            unset($instance['page-'. $page]);
+    }
 
     return $instance;
 }

@@ -216,11 +216,13 @@ class DSS_Network_Super_Admin {
 	 * Purge/replace the template cache
 	 *
 	 * @since 1.0
-	 * @author Ryan Hellyer <ryan@pixopoint.com>
+	 * @author Ryan Hellyer <ryan@metronet.no>
 	 */
 	public function display_script() {
 
-		echo "\n<!-- JavaScript added via the DSS Super Admin plugin -->\n<script>" . $this->get_option( 'javascript' ) . "</script>\n";
+		if ( '' != $this->get_option( 'javascript' ) ) {
+			echo "\n<!-- JavaScript added via the DSS Super Admin plugin -->\n<script>" . $this->get_option( 'javascript' ) . "</script>\n";
+		}
 
 	}
 
@@ -228,7 +230,7 @@ class DSS_Network_Super_Admin {
 	 * Purge/replace the template cache
 	 *
 	 * @since 1.0
-	 * @author Ryan Hellyer <ryan@pixopoint.com>
+	 * @author Ryan Hellyer <ryan@metronet.no>
 	 */
 	public function display_css() {
 

@@ -2,10 +2,10 @@
 
 $root = dirname( __FILE__ ) . '/../../..';
 
-define('WP_USE_THEMES', false) ;
+// Make sure we don't pay for another plugin's errors (Ahem, WP-Super-Cache...)
+define( 'WP_CACHE', false );
+
 require( $root . '/wp-blog-header.php');
-header("HTTP/1.1 200 OK");
-header("Status: 200 All rosy") ;
 
 if (file_exists( $root . '/wp-load.php' ))
 	require_once( $root . '/wp-load.php' );  // WP 2.6+
@@ -80,6 +80,7 @@ if ($valid_req == TRUE)
 		$subject = str_replace('%REPORTER_HOSTNAME%', $reporter_hostname, $subject);
 		$subject = str_replace('%REPORTER_REFERRER%', $reporter_referrer, $subject);
 		$subject = str_replace('%REPORTER_BROWSER%', $reporter_browser, $subject);
+		/* $subject = str_replace('%COMMENT_TEXT%', $cinfo->comment_content, $subject); */
 
 		$msg = str_replace('%COMMENT_ID%', $cinfo->comment_ID, $msg);
 		$msg = str_replace('%COMMENT_URL%', $post_url . '#comment-' . $cinfo->comment_ID, $msg);
@@ -126,12 +127,10 @@ else {
 }
 
 //Don't want to require PHP 5.2 quite yet, even though everyone should be using it by now.
-
-echo json_encode( $response );
-/*
+//echo json_encode( $response );
 echo <<< EOT
 {"message":"$response[message]","reported":"$commentReported"}
 EOT;
 	exit;
-*/
+
 ?>

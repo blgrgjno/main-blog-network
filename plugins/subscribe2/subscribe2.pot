@@ -1,21 +1,16 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Copyright (C) 2013 Subscribe2
+# This file is distributed under the same license as the Subscribe2 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-15 17:59+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Project-Id-Version: Subscribe2 8.9\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/Subscribe2\n"
+"POT-Creation-Date: 2013-03-19 20:24:19+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: 8bit\n"
 
 #: admin/send_email.php:46
 msgid "Preview message sent!"
@@ -94,6 +89,7 @@ msgid "Restrict the number of recipients per email to (0 for unlimited)"
 msgstr ""
 
 #: admin/settings.php:165 admin/settings.php:397
+#: classes/class-s2-list-table.php:36
 msgid "Edit"
 msgstr ""
 
@@ -422,7 +418,7 @@ msgid "Show one-click subscription on profile page"
 msgstr ""
 
 #: admin/settings.php:389
-msgid "Set default Subscribe2 page as ID"
+msgid "Set default Subscribe2 page as"
 msgstr ""
 
 #: admin/settings.php:395
@@ -543,6 +539,14 @@ msgstr ""
 
 #: admin/subscribers.php:66
 msgid "Digest Subscription updated for Selected Registered Users!"
+msgstr ""
+
+#: admin/subscribers.php:146 classes/class-s2-admin.php:354
+msgid "Public Subscribers"
+msgstr ""
+
+#: admin/subscribers.php:146 classes/class-s2-admin.php:358
+msgid "Registered Subscribers"
 msgstr ""
 
 #: admin/subscribers.php:158 admin/subscribers.php:180
@@ -702,6 +706,8 @@ msgstr ""
 msgid "Subscribe to new blogs"
 msgstr ""
 
+#. #-#-#-#-#  Subscribe2.pot (Subscribe2 8.9)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
 #: classes/class-s2-admin.php:8 include/widget.php:17
 msgid "Subscribe2"
 msgstr ""
@@ -744,10 +750,6 @@ msgstr ""
 msgid "All Users and Subscribers"
 msgstr ""
 
-#: classes/class-s2-admin.php:354
-msgid "Public Subscribers"
-msgstr ""
-
 #: classes/class-s2-admin.php:355
 msgid "Confirmed"
 msgstr ""
@@ -758,10 +760,6 @@ msgstr ""
 
 #: classes/class-s2-admin.php:357
 msgid "All Registered Users"
-msgstr ""
-
-#: classes/class-s2-admin.php:358
-msgid "Registered Subscribers"
 msgstr ""
 
 #: classes/class-s2-admin.php:444
@@ -913,114 +911,124 @@ msgstr ""
 msgid "Options reset!"
 msgstr ""
 
-#: classes/class-s2-core.php:576
+#: classes/class-s2-core.php:608
 msgid "Plain Text Excerpt Preview"
 msgstr ""
 
-#: classes/class-s2-core.php:578
+#: classes/class-s2-core.php:610
 msgid "Plain Text Full Preview"
 msgstr ""
 
-#: classes/class-s2-core.php:580
+#: classes/class-s2-core.php:612
 msgid "HTML Excerpt Preview"
 msgstr ""
 
-#: classes/class-s2-core.php:582
+#: classes/class-s2-core.php:614
 msgid "HTML Full Preview"
 msgstr ""
 
-#: classes/class-s2-core.php:1175
+#: classes/class-s2-core.php:1216
 msgid "Registered User"
 msgstr ""
 
-#: classes/class-s2-core.php:1180
+#: classes/class-s2-core.php:1221
 msgid "Confirmed Public Subscriber"
 msgstr ""
 
-#: classes/class-s2-core.php:1182
+#: classes/class-s2-core.php:1223
 msgid "Unconfirmed Public Subscriber"
 msgstr ""
 
-#: classes/class-s2-core.php:1219
+#: classes/class-s2-core.php:1260
 msgid "Check here to Subscribe to email notifications for new posts"
 msgstr ""
 
-#: classes/class-s2-core.php:1225
+#: classes/class-s2-core.php:1266
 msgid ""
 "By registering with this blog you are also agreeing to receive email "
 "notifications for new posts but you can unsubscribe at anytime"
 msgstr ""
 
-#: classes/class-s2-core.php:1251
+#: classes/class-s2-core.php:1292
 msgid "Check here to Subscribe to notifications for new posts"
 msgstr ""
 
-#: classes/class-s2-core.php:1341
+#: classes/class-s2-core.php:1382
 msgid "Weekly"
 msgstr ""
 
-#: classes/class-s2-core.php:1475 classes/class-s2-core.php:1476
+#: classes/class-s2-core.php:1516 classes/class-s2-core.php:1517
 msgid "Author"
 msgstr ""
 
-#: classes/class-s2-core.php:1482
+#: classes/class-s2-core.php:1523
 msgid "Posted on"
 msgstr ""
 
-#: classes/class-s2-core.php:1500 classes/class-s2-core.php:1501
+#: classes/class-s2-core.php:1541 classes/class-s2-core.php:1542
 msgid "Posted in"
 msgstr ""
 
-#: classes/class-s2-core.php:1506 classes/class-s2-core.php:1507
+#: classes/class-s2-core.php:1547 classes/class-s2-core.php:1548
 msgid "Tagged as"
 msgstr ""
 
-#: classes/class-s2-core.php:1573
+#: classes/class-s2-core.php:1614
 msgid "Digest Email"
 msgstr ""
 
-#: classes/class-s2-core.php:1583
+#: classes/class-s2-core.php:1624
 msgid "Digest Preview"
 msgstr ""
 
-#: classes/class-s2-frontend.php:52
+#: classes/class-s2-frontend.php:56
 msgid "Enter email address..."
 msgstr ""
 
-#: classes/class-s2-frontend.php:57 classes/class-s2-frontend.php:59
+#: classes/class-s2-frontend.php:61 classes/class-s2-frontend.php:63
 msgid "Your email:"
 msgstr ""
 
-#: classes/class-s2-frontend.php:167
+#: classes/class-s2-frontend.php:171
 msgid "Subscription Confirmation"
 msgstr ""
 
-#: classes/class-s2-frontend.php:169
+#: classes/class-s2-frontend.php:173
 msgid "Unsubscription Confirmation"
 msgstr ""
 
-#: classes/class-s2-frontend.php:208
+#: classes/class-s2-frontend.php:212
 msgid "New Subscription"
 msgstr ""
 
-#: classes/class-s2-frontend.php:210
+#: classes/class-s2-frontend.php:214
 msgid "subscribed to email notifications!"
 msgstr ""
 
-#: classes/class-s2-frontend.php:231
+#: classes/class-s2-frontend.php:235
 msgid "New Unsubscription"
 msgstr ""
 
-#: classes/class-s2-frontend.php:233
+#: classes/class-s2-frontend.php:237
 msgid "unsubscribed from email notifications!"
 msgstr ""
 
-#: classes/class-s2-frontend.php:259
+#: classes/class-s2-frontend.php:263
 msgid "[Un]Subscribe to Posts"
 msgstr ""
 
-#: classes/class-s2-frontend.php:289 classes/class-s2-frontend.php:291
+#: classes/class-s2-frontend.php:293 classes/class-s2-frontend.php:295
 msgid "Subscribe to this blog"
+msgstr ""
+
+#: classes/class-s2-list-table.php:55 classes/class-s2-list-table.php:59
+msgctxt "column name"
+msgid "Email"
+msgstr ""
+
+#: classes/class-s2-list-table.php:60
+msgctxt "column name"
+msgid "Date"
 msgstr ""
 
 #: classes/class-s2-list-table.php:85
@@ -1029,6 +1037,37 @@ msgstr ""
 
 #: classes/class-s2-list-table.php:86
 msgid "Toggle"
+msgstr ""
+
+#: classes/class-s2-list-table.php:98
+msgid "1 item"
+msgid_plural "%s items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classes/class-s2-list-table.php:130
+msgid "Go to the first page"
+msgstr ""
+
+#: classes/class-s2-list-table.php:137
+msgid "Go to the previous page"
+msgstr ""
+
+#: classes/class-s2-list-table.php:146
+msgid "Current page"
+msgstr ""
+
+#: classes/class-s2-list-table.php:152
+msgctxt "paging"
+msgid "%1$s of %2$s"
+msgstr ""
+
+#: classes/class-s2-list-table.php:156
+msgid "Go to the next page"
+msgstr ""
+
+#: classes/class-s2-list-table.php:163
+msgid "Go to the last page"
 msgstr ""
 
 #: include/counterwidget.php:7
@@ -1189,12 +1228,40 @@ msgid "Use Home Page"
 msgstr ""
 
 #: include/widget.php:127
+msgid "Use Referring Page"
+msgstr ""
+
+#: include/widget.php:130
 msgid "Disable JavaScript"
 msgstr ""
 
+#: subscribe2.php:36
+msgid "I'm just a plugin, please don't call me directly"
+msgstr ""
+
 #: subscribe2.php:39
-#, php-format
 msgid ""
 "This version of Subscribe2 requires WordPress 3.1 or greater. Please update "
 "%1$s or use an older version of %2$s."
+msgstr ""
+
+#: subscribe2.php:51
+msgid ""
+"Subscribe2 cannot be activated as a network plugin. Please activate it at on "
+"a site level"
+msgstr ""
+
+#. #-#-#-#-#  Subscribe2.pot (Subscribe2 8.9)  #-#-#-#-#
+#. Plugin URI of the plugin/theme
+#. #-#-#-#-#  Subscribe2.pot (Subscribe2 8.9)  #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid "http://subscribe2.wordpress.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Notifies an email list when new entries are posted."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Matthew Robinson"
 msgstr ""

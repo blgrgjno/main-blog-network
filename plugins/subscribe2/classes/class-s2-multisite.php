@@ -97,7 +97,7 @@ class s2_multisite {
 			$blog_list[$details['blog_id']] = $details;
 		}
 
-		if ( false == is_array( $blog_list ) ) {
+		if ( !is_array($blog_list) ) {
 			return array();
 		}
 
@@ -160,8 +160,8 @@ class s2_multisite {
 			if ( $changed ) {
 				update_option('sidebar_widgets', $sidebars);
 			}
+			restore_current_blog();
 		}
-		restore_current_blog();
 	} // end namechange_subscribe2_widget()
 }
 ?>

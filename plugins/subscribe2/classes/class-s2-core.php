@@ -67,6 +67,9 @@ class s2class {
 	Install our table
 	*/
 	function install() {
+		// load our translations and strings
+		$this->load_translations();
+
 		// include upgrade-functions for maybe_create_table;
 		if ( !function_exists('maybe_create_table') ) {
 			require_once(ABSPATH . 'wp-admin/install-helper.php');
@@ -77,8 +80,8 @@ class s2class {
 			email varchar(64) NOT NULL default '',
 			active tinyint(1) default 0,
 			date DATE default '$date' NOT NULL,
-			ip char(64) NOT NULL default 'admin',
 			time TIME DEFAULT '00:00:00' NOT NULL,
+			ip char(64) NOT NULL default 'admin',
 			conf_date DATE,
 			conf_time TIME,
 			conf_ip char(64),
@@ -109,6 +112,9 @@ class s2class {
 	Upgrade function for the database and settings
 	*/
 	function upgrade() {
+		// load our translations and strings
+		$this->load_translations();
+
 		require(S2PATH . "classes/class-s2-upgrade.php");
 		global $s2_upgrade;
 		$s2_upgrade = new s2class_upgrade;
@@ -124,27 +130,48 @@ class s2class {
 		$s2_upgrade->upgrade_core();
 		if ( version_compare($this->subscribe2_options['version'], '2.3', '<') ) {
 			$s2_upgrade->upgrade23();
+			$this->subscribe2_options['version'] = '2.3';
+			update_option('subscribe2_options', $this->subscribe2_options);
 		}
 		if ( version_compare($this->subscribe2_options['version'], '5.1', '<') ) {
 			$s2_upgrade->upgrade51();
+			$this->subscribe2_options['version'] = '5.1';
+			update_option('subscribe2_options', $this->subscribe2_options);
 		}
 		if ( version_compare($this->subscribe2_options['version'], '5.6', '<') ) {
 			$s2_upgrade->upgrade56();
+			$this->subscribe2_options['version'] = '5.6';
+			update_option('subscribe2_options', $this->subscribe2_options);
 		}
 		if ( version_compare($this->subscribe2_options['version'], '5.9', '<') ) {
 			$s2_upgrade->upgrade59();
+			$this->subscribe2_options['version'] = '5.9';
+			update_option('subscribe2_options', $this->subscribe2_options);
 		}
 		if ( version_compare($this->subscribe2_options['version'], '6.4', '<') ) {
 			$s2_upgrade->upgrade64();
+			$this->subscribe2_options['version'] = '6.4';
+			update_option('subscribe2_options', $this->subscribe2_options);
 		}
 		if ( version_compare($this->subscribe2_options['version'], '7.0', '<') ) {
 			$s2_upgrade->upgrade70();
+			$this->subscribe2_options['version'] = '7.0';
+			update_option('subscribe2_options', $this->subscribe2_options);
 		}
 		if ( version_compare($this->subscribe2_options['version'], '8.5', '<') ) {
 			$s2_upgrade->upgrade85();
+			$this->subscribe2_options['version'] = '8.5';
+			update_option('subscribe2_options', $this->subscribe2_options);
 		}
 		if ( version_compare($this->subscribe2_options['version'], '8.6', '<') ) {
 			$s2_upgrade->upgrade86();
+			$this->subscribe2_options['version'] = '8.6';
+			update_option('subscribe2_options', $this->subscribe2_options);
+		}
+		if ( version_compare($this->subscribe2_options['version'], '8.8', '<') ) {
+			$s2_upgrade->upgrade88();
+			$this->subscribe2_options['version'] = '8.8';
+			update_option('subscribe2_options', $this->subscribe2_options);
 		}
 
 		$this->subscribe2_options['version'] = S2VERSION;
@@ -157,10 +184,14 @@ class s2class {
 	Reset our options
 	*/
 	function reset() {
+		// load our translations and strings
+		$this->load_translations();
+
 		delete_option('subscribe2_options');
 		wp_clear_scheduled_hook('s2_digest_cron');
 		unset($this->subscribe2_options);
 		require(S2PATH . "include/options.php");
+		$this->subscribe2_options['version'] = S2VERSION;
 		update_option('subscribe2_options', $this->subscribe2_options);
 	} // end reset()
 
@@ -204,6 +235,10 @@ class s2class {
 	function mail($recipients = array(), $subject = '', $message = '', $type = 'text') {
 		if ( empty($recipients) || '' == $message ) { return; }
 
+		// Replace any escaped html symbols in subject then apply filter
+		$subject = strip_tags(html_entity_decode($subject, ENT_QUOTES));
+		$subject = apply_filters('s2_email_subject', $subject);
+
 		if ( 'html' == $type ) {
 			$headers = $this->headers('html');
 			if ( 'yes' == $this->subscribe2_options['stylesheet'] ) {
@@ -218,10 +253,6 @@ class s2class {
 			$message = wordwrap(strip_tags($message), $this->word_wrap, "\n");
 			$mailtext = apply_filters('s2_plain_email', $message);
 		}
-
-		// Replace any escaped html symbols in subject then apply filter
-		$subject = strip_tags(html_entity_decode($subject, ENT_QUOTES));
-		$subject = apply_filters('s2_email_subject', $subject);
 
 		// Construct BCC headers for sending or send individual emails
 		$bcc = '';
@@ -320,8 +351,13 @@ class s2class {
 			}
 		}
 
-		$header['From'] = $this->myname . " <" . $this->myemail . ">";
-		$header['Reply-To'] = $this->myname . " <" . $this->myemail . ">";
+		if ( function_exists('mb_encode_mimeheader') ) {
+			$header['From'] = mb_encode_mimeheader($this->myname, 'UTF-8', 'Q') . " <" . $this->myemail . ">";
+			$header['Reply-To'] = mb_encode_mimeheader($this->myname, 'UTF-8', 'Q') . " <" . $this->myemail . ">";
+		} else {
+			$header['From'] = $this->myname. " <" . $this->myemail . ">";
+			$header['Reply-To'] = $this->myname . " <" . $this->myemail . ">";
+		}
 		$header['Return-path'] = "<" . $this->myemail . ">";
 		$header['Precedence'] = "list\nList-Id: " . html_entity_decode(get_option('blogname'), ENT_QUOTES) . "";
 		if ( $type == 'html' ) {
@@ -372,7 +408,7 @@ class s2class {
 	function publish($post, $preview = '') {
 		if ( !$post ) { return $post; }
 
-		if ( $this->s2_mu ) {
+		if ( $this->s2_mu && !apply_filters('s2_allow_site_switching', $this->site_switching) ) {
 			global $switched;
 			if ( $switched ) { return; }
 		}
@@ -437,6 +473,7 @@ class s2class {
 			}
 
 			// lets collect our subscribers
+			$public = array();
 			if ( !$check ) {
 				// if this post is assigned to an excluded
 				// category, or is a private post then
@@ -723,16 +760,16 @@ class s2class {
 			$check = $wpdb->get_var($wpdb->prepare("SELECT user_email FROM $wpdb->users WHERE user_email=%s", $this->email));
 			if ( $check ) { return; }
 			if ( $confirm ) {
-				$wpdb->get_results($wpdb->prepare("UPDATE $this->public SET active='1', ip=%s WHERE CAST(email as binary)=%s", $this->ip, $email));
+				$wpdb->query($wpdb->prepare("UPDATE $this->public SET active='1', ip=%s WHERE CAST(email as binary)=%s", $this->ip, $email));
 			} else {
-				$wpdb->get_results($wpdb->prepare("UPDATE $this->public SET date=CURDATE(), time=CURTIME() WHERE CAST(email as binary)=%s", $email));
+				$wpdb->query($wpdb->prepare("UPDATE $this->public SET date=CURDATE(), time=CURTIME() WHERE CAST(email as binary)=%s", $email));
 			}
 		} else {
 			if ( $confirm ) {
 				global $current_user;
-				$wpdb->get_results($wpdb->prepare("INSERT INTO $this->public (email, active, date, time, ip) VALUES (%s, %d, CURDATE(), CURTIME(), %s)", $email, 1, $current_user->user_login));
+				$wpdb->query($wpdb->prepare("INSERT INTO $this->public (email, active, date, time, ip) VALUES (%s, %d, CURDATE(), CURTIME(), %s)", $email, 1, $current_user->user_login));
 			} else {
-				$wpdb->get_results($wpdb->prepare("INSERT INTO $this->public (email, active, date, time, ip) VALUES (%s, %d, CURDATE(), CURTIME(), %s)", $email, 0, $this->ip));
+				$wpdb->query($wpdb->prepare("INSERT INTO $this->public (email, active, date, time, ip) VALUES (%s, %d, CURDATE(), CURTIME(), %s)", $email, 0, $this->ip));
 			}
 		}
 	} // end add()
@@ -744,7 +781,7 @@ class s2class {
 		global $wpdb;
 
 		if ( !is_email($email) ) { return false; }
-		$wpdb->get_results($wpdb->prepare("DELETE FROM $this->public WHERE CAST(email as binary)=%s", $email));
+		$wpdb->query($wpdb->prepare("DELETE FROM $this->public WHERE CAST(email as binary)=%s", $email));
 	} // end delete()
 
 	/**
@@ -760,9 +797,9 @@ class s2class {
 		if ( false === $status ) { return false; }
 
 		if ( '0' == $status ) {
-			$wpdb->get_results($wpdb->prepare("UPDATE $this->public SET active='1', conf_date=CURDATE(), conf_time=CURTIME(), conf_ip=%s WHERE CAST(email as binary)=%s", $this->ip, $email));
+			$wpdb->query($wpdb->prepare("UPDATE $this->public SET active='1', conf_date=CURDATE(), conf_time=CURTIME(), conf_ip=%s WHERE CAST(email as binary)=%s", $this->ip, $email));
 		} else {
-			$wpdb->get_results($wpdb->prepare("UPDATE $this->public SET active='0', conf_date=CURDATE(), conf_time=CURTIME(), conf_ip=%s WHERE CAST(email as binary)=%s", $this->ip, $email));
+			$wpdb->query($wpdb->prepare("UPDATE $this->public SET active='0', conf_date=CURDATE(), conf_time=CURTIME(), conf_ip=%s WHERE CAST(email as binary)=%s", $this->ip, $email));
 		}
 	} // end toggle()
 
@@ -926,6 +963,14 @@ class s2class {
 		if ( !isset($r['author']) )
 			$r['author'] = '';
 
+		// collect all subscribers for compulsory categories
+		$compulsory = explode(',', $this->subscribe2_options['compulsory']);
+		foreach ( explode(',', $r['cats']) as $cat ) {
+			if ( in_array($cat, $compulsory) ) {
+				$r['cats'] = '';
+			}
+		}
+
 		$JOIN = ''; $AND = '';
 		// text or HTML subscribers
 		if ( 'all' != $r['format'] ) {
@@ -980,9 +1025,10 @@ class s2class {
 	Function to ensure email is compliant with internet messaging standards
 	*/
 	function sanitize_email($email) {
+		$email = trim($email);
 		if ( !is_email($email) ) { return; }
 
-		// ensure that domain is in lowercase as per internet email standards
+		// ensure that domain is in lowercase as per internet email standards http://www.ietf.org/rfc/rfc5321.txt
 		list($name, $domain) = explode('@', $email, 2);
 		return $name . "@" . strtolower($domain);
 	} // end sanitize_email()
@@ -1596,7 +1642,7 @@ class s2class {
 	Subscribe2 constructor
 	*/
 	function s2init() {
-		global $wpdb, $table_prefix, $wp_version, $wpmu_version;
+		global $wpdb, $wp_version, $wpmu_version;
 		// load the options
 		$this->subscribe2_options = get_option('subscribe2_options');
 		// if SCRIPT_DEBUG is true, use dev scripts
@@ -1629,7 +1675,7 @@ class s2class {
 		add_action('init', array(&$this, 'load_strings'));
 
 		// do we need to install anything?
-		$this->public = $table_prefix . "subscribe2";
+		$this->public = $wpdb->prefix . "subscribe2";
 		if ( $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $this->public)) != $this->public ) { $this->install(); }
 		//do we need to upgrade anything?
 		if ( $this->subscribe2_options === false || is_array($this->subscribe2_options) && $this->subscribe2_options['version'] !== S2VERSION ) {
@@ -1754,6 +1800,24 @@ class s2class {
 		}
 	} // end s2init()
 
+	/**
+	PHP4 Constructor
+	Can be erased when support for WordPress 3.1 is dropped
+	*/
+	function s2class() {
+		$this->__construct();
+	} // end s2class()
+
+	/**
+	PHP5 Constructor
+	Allows dynamic variable setting
+	*/
+	function __construct() {
+		$this->word_wrap = apply_filters('s2_word_wrap', 80);
+		$this->excerpt_length = apply_filters('s2_excerpt_length', 55);
+		$this->site_switching = apply_filters('s2_allow_site_switching', false);
+	} // end __construct()
+
 /* ===== our variables ===== */
 	// cache variables
 	var $subscribe2_options = array();
@@ -1782,8 +1846,9 @@ class s2class {
 	var $action = '';
 	var $email = '';
 	var $message = '';
-	var $word_wrap = 80;
-	var $excerpt_length = 55;
+	var $word_wrap;
+	var $excerpt_length;
+	var $site_switching;
 
 	// some messages
 	var $please_log_in = '';

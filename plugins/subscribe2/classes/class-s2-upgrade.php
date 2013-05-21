@@ -49,7 +49,6 @@ class s2class_upgrade {
 				delete_option($option);
 			}
 		}
-		return;
 	} // end upgrade23()
 
 	function upgrade51() {
@@ -86,7 +85,6 @@ class s2class_upgrade {
 				$wpdb->get_results($wpdb->prepare("UPDATE $mysubscribe2->public SET email=%s WHERE CAST(email as binary)=%s", $new_email, $email));
 			}
 		}
-		return;
 	} // end upgrade59()
 
 	function upgrade64() {
@@ -103,24 +101,88 @@ class s2class_upgrade {
 		$mysubscribe2->subscribe2_options['remind_email'] = preg_replace($regex, $replace, $mysubscribe2->subscribe2_options['remind_email']);
 		$mysubscribe2->subscribe2_options['remind_subject'] = preg_replace($regex, $replace, $mysubscribe2->subscribe2_options['remind_subject']);
 
-		$users = $mysubscribe2->get_all_registered('ID');
-		foreach ( $users as $user_ID ) {
-			$check_format = get_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_format'), true);
-			// if user is already registered update format remove 's2_excerpt' field and update 's2_format'
-			if ( 'html' == $check_format ) {
-				delete_user_meta($user_ID, 's2_excerpt');
-			} elseif ( 'text' == $check_format ) {
-				update_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_format'), get_user_meta($user_ID, 's2_excerpt'));
-				delete_user_meta($user_ID, 's2_excerpt');
+		if ( version_compare($mysubscribe2->wp_release, '3.5', '<') ) {
+			$users = $mysubscribe2->get_all_registered('ID');
+			foreach ( $users as $user_ID ) {
+				$check_format = get_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_format'), true);
+				// if user is already registered update format remove 's2_excerpt' field and update 's2_format'
+				if ( 'html' == $check_format ) {
+					delete_user_meta($user_ID, 's2_excerpt');
+				} elseif ( 'text' == $check_format ) {
+					update_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_format'), get_user_meta($user_ID, 's2_excerpt'));
+					delete_user_meta($user_ID, 's2_excerpt');
+				}
+				$subscribed = get_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_subscribed'), true);
+				if ( strstr($subscribed, '-1') ) {
+					// make sure we remove '-1' from any settings
+					$old_cats = explode(',', $subscribed);
+					$pos = array_search('-1', $old_cats);
+					unset($old_cats[$pos]);
+					$cats = implode(',', $old_cats);
+					update_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_subscribed'), $cats);
+				}
 			}
-			$subscribed = get_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_subscribed'), true);
-			if ( strstr($subscribed, '-1') ) {
-				// make sure we remove '-1' from any settings
-				$old_cats = explode(',', $subscribed);
-				$pos = array_search('-1', $old_cats);
-				unset($old_cats[$pos]);
-				$cats = implode(',', $old_cats);
-				update_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_subscribed'), $cats);
+		} else {
+			$args = array(
+				'relation' => 'AND',
+				'meta_query' => array(
+					array('key' => $mysubscribe2->get_usermeta_keyname('s2_format'),
+					'value' => 'html')
+				),
+				'meta_query' => array(
+					array('key' => 's2_excerpt',
+					'compare' => 'EXISTS')
+				)
+			);
+
+			$user_query = new WP_User_Query( $args );
+			$users = $user_query->get_results();
+			if ( !empty($users) ) {
+				foreach ($users as $user) {
+					delete_user_meta($user->ID, 's2_excerpt');
+				}
+			}
+
+			$args = array(
+				'relation' => 'AND',
+				'meta_query' => array(
+					array('key' => $mysubscribe2->get_usermeta_keyname('s2_format'),
+					'value' => 'text')
+				),
+				'meta_query' => array(
+					array('key' => 's2_excerpt',
+					'compare' => 'EXISTS')
+				)
+			);
+
+			$user_query = new WP_User_Query( $args );
+			$users = $user_query->get_results();
+			if ( !empty($users) ) {
+				foreach ($users as $user) {
+					update_user_meta($user->ID, $mysubscribe2->get_usermeta_keyname('s2_format'), get_user_meta($user->ID, 's2_excerpt'));
+					delete_user_meta($user->ID, 's2_excerpt');
+				}
+			}
+
+			$args = array(
+				'meta_query' => array(
+					array('key' => $mysubscribe2->get_usermeta_keyname('s2_subscribed'),
+					'value' => '-1',
+					'compare' => 'LIKE')
+				)
+			);
+
+			$user_query = new WP_User_Query( $args );
+			$users = $user_query->get_results();
+			if ( !empty($users) ) {
+				foreach ($users as $user) {
+					$subscribed = get_user_meta($user->ID, $mysubscribe2->get_usermeta_keyname('s2_subscribed'), true);
+					$old_cats = explode(',', $subscribed);
+					$pos = array_search('-1', $old_cats);
+					unset($old_cats[$pos]);
+					$cats = implode(',', $old_cats);
+					update_user_meta($user->ID, $mysubscribe2->get_usermeta_keyname('s2_subscribed'), $cats);
+				}
 			}
 		}
 
@@ -171,23 +233,37 @@ class s2class_upgrade {
 				}
 			}
 		}
-		return;
 	} // end upgrade64()
 
 	function upgrade70() {
 		global $mysubscribe2;
-		$users = $mysubscribe2->get_all_registered('ID');
+		if ( version_compare($mysubscribe2->wp_release, '3.5', '<') ) {
+			$users = $mysubscribe2->get_all_registered('ID');
 			foreach ( $users as $user_ID ) {
-			$check_authors = get_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_authors'), true);
-			if ( empty($check_authors) ) {
-				update_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_authors'), '');
+				$check_authors = get_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_authors'), true);
+				if ( empty($check_authors) ) {
+					update_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_authors'), '');
+				}
+			}
+		} else {
+			$args = array(
+				'meta_query' => array(
+					array('key' => $mysubscribe2->get_usermeta_keyname('s2_authors'), 'compare' => 'NOT EXISTS')
+				)
+			);
+
+			$user_query = new WP_User_Query( $args );
+			$users = $user_query->get_results();
+			if ( !empty($users) ) {
+				foreach ($users as $user) {
+					update_user_meta($user->ID, $mysubscribe2->get_usermeta_keyname('s2_authors'), '');
+				}
 			}
 		}
-		return;
 	} // end upgrade70()
 
 	function upgrade85() {
-		global $wpdb;
+		global $mysubscribe2, $wpdb;
 
 		// include upgrade-functions for maybe_add_column;
 		if ( !function_exists('maybe_add_column') ) {
@@ -197,7 +273,6 @@ class s2class_upgrade {
 
 		// update postmeta field to a protected name, from version 8.5
 		$wpdb->query( "UPDATE $wpdb->postmeta SET meta_key = '_s2mail' WHERE meta_key = 's2mail'" );
-		return;
 	} // end upgrade85()
 
 	function upgrade86() {
@@ -213,14 +288,55 @@ class s2class_upgrade {
 
 		// remove unnecessary table data
 		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key = 's2_cat'" );
-		if ( strpos($subscribed, ',') === 0 ) {
+
+		$sql = "SELECT ID FROM $wpdb->users INNER JOIN $wpdb->usermeta ON ( $wpdb->users.ID = $wpdb->usermeta.user_id) WHERE ( $wpdb->usermeta.meta_key = '" . $mysubscribe2->get_usermeta_keyname('s2_subscribed') . "' AND $wpdb->usermeta.meta_value LIKE ',%' )";
+		$users = $wpdb->get_results($sql);
+		foreach ( $users as $user ) {
 			// make sure we remove leading ',' from this setting
+			$subscribed = get_user_meta($user->ID, $mysubscribe2->get_usermeta_keyname('s2_subscribed'), true);
 			$old_cats = explode(',', $subscribed);
 			unset($old_cats[0]);
 			$cats = implode(',', $old_cats);
-			update_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_subscribed'), $cats);
+			update_user_meta($user->ID, $mysubscribe2->get_usermeta_keyname('s2_subscribed'), $cats);
 		}
-		return;
 	} // end upgrade86()
+
+	function upgrade88() {
+		// to ensure compulsory category collects all users we need there to be s2_subscribed meta-keys for all users
+		global $mysubscribe2;
+
+		if ( version_compare($mysubscribe2->wp_release, '3.5', '<') ) {
+			$all_registered = $mysubscribe2->get_all_registered('ID');
+			if ( !empty($all_registered) ) {
+				foreach ( $all_registered as $user_ID ) {
+					$check_subscribed = get_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_subscribed'), true);
+					if ( empty($check_subscribed) ) {
+						update_user_meta($user_ID, $mysubscribe2->get_usermeta_keyname('s2_subscribed'), '');
+					}
+				}
+			}
+		} else {
+			$args = array(
+				'meta_query' => array(
+					array('key' => $mysubscribe2->get_usermeta_keyname('s2_subscribed'), 'compare' => 'NOT EXISTS')
+				)
+			);
+
+			$user_query = new WP_User_Query( $args );
+			$users = $user_query->get_results();
+			if ( !empty($users) ) {
+				foreach ($users as $user) {
+					update_user_meta($user->ID, $mysubscribe2->get_usermeta_keyname('s2_subscribed'), '');
+				}
+			}
+		}
+
+		// check the time column again as the upgrade86() function contained a bug
+		// include upgrade-functions for maybe_add_column;
+		if ( !function_exists('maybe_add_column') ) {
+			require_once(ABSPATH . 'wp-admin/install-helper.php');
+		}
+		maybe_add_column($mysubscribe2->public, 'time', "ALTER TABLE $mysubscribe2->public ADD time TIME DEFAULT '00:00:00' NOT NULL AFTER date");
+	} // end upgrade88()
 }
 ?>

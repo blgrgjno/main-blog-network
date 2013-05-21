@@ -43,7 +43,7 @@ if ( isset($_POST['s2_admin']) && 'user' == $_POST['s2_admin'] ) {
 					delete_user_meta($user_ID, $this->get_usermeta_keyname('s2_cat') . $cat);
 				}
 			}
-			delete_user_meta($user_ID, $this->get_usermeta_keyname('s2_subscribed'));
+			update_user_meta($user_ID, $this->get_usermeta_keyname('s2_subscribed'), '');
 		} elseif ( $cats == 'digest' ) {
 			$all_cats = $this->all_cats(false, 'ID');
 			foreach ( $all_cats as $cat ) {

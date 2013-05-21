@@ -34,13 +34,17 @@ class s2_frontend extends s2class {
 			// both form input actions
 			$this->input_form_action = "<input type=\"submit\" name=\"subscribe\" value=\"" . esc_attr($subscribe_button_value) . "\" />&nbsp;<input type=\"submit\" name=\"unsubscribe\" value=\"" . esc_attr($unsubscribe_button_value) . "\" />";
 		}
+
 		// if ID is provided, get permalink
-		if ( $id ) {
-			$url = get_permalink( $id );
+		$action = '';
+		if ( is_numeric($id) ) {
+			$action = " action=\"" . get_permalink( $id ) . "\"";
+		} elseif ( $id === 'home' ) {
+			$action = " action=\"" . get_site_url() . "\"";
+		} elseif ( $id === 'self' ) {
+			$action = '';
 		} elseif ( $this->subscribe2_options['s2page'] > 0 ) {
-			$url = get_permalink( $this->subscribe2_options['s2page'] );
-		} else {
-			$url = get_site_url();
+			$action = " action=\"" . get_permalink( $this->subscribe2_options['s2page'] ) . "\"";
 		}
 
 		// allow remote setting of email in form
@@ -54,9 +58,9 @@ class s2_frontend extends s2class {
 
 		// build default form
 		if ( $nojs == 'true' ) {
-			$this->form = "<form method=\"post\" action=\"" . $url . "\"><input type=\"hidden\" name=\"ip\" value=\"" . $_SERVER['REMOTE_ADDR'] . "\" /><p><label for=\"s2email\">" . __('Your email:', 'subscribe2') . "</label><br /><input type=\"text\" name=\"email\" id=\"s2email\" value=\"" . $value . "\" size=\"" . $size . "\" /></p><p>" . $this->input_form_action . "</p></form>";
+			$this->form = "<form method=\"post\"" . $action . "><input type=\"hidden\" name=\"ip\" value=\"" . $_SERVER['REMOTE_ADDR'] . "\" /><p><label for=\"s2email\">" . __('Your email:', 'subscribe2') . "</label><br /><input type=\"text\" name=\"email\" id=\"s2email\" value=\"" . $value . "\" size=\"" . $size . "\" /></p><p>" . $this->input_form_action . "</p></form>";
 		} else {
-			$this->form = "<form method=\"post\" action=\"" . $url . "\"><input type=\"hidden\" name=\"ip\" value=\"" . $_SERVER['REMOTE_ADDR'] . "\" /><p><label for=\"s2email\">" . __('Your email:', 'subscribe2') . "</label><br /><input type=\"text\" name=\"email\" id=\"s2email\" value=\"" . $value . "\" size=\"" . $size . "\" onfocus=\"if (this.value == '" . $value . "') {this.value = '';}\" onblur=\"if (this.value == '') {this.value = '" . $value . "';}\" /></p><p>" . $this->input_form_action . "</p></form>\r\n";
+			$this->form = "<form method=\"post\"" . $action . "><input type=\"hidden\" name=\"ip\" value=\"" . $_SERVER['REMOTE_ADDR'] . "\" /><p><label for=\"s2email\">" . __('Your email:', 'subscribe2') . "</label><br /><input type=\"text\" name=\"email\" id=\"s2email\" value=\"" . $value . "\" size=\"" . $size . "\" onfocus=\"if (this.value == '" . $value . "') {this.value = '';}\" onblur=\"if (this.value == '') {this.value = '" . $value . "';}\" /></p><p>" . $this->input_form_action . "</p></form>\r\n";
 		}
 		$this->s2form = $this->form;
 

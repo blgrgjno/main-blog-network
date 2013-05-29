@@ -41,12 +41,13 @@ class DSS_Statistics {
 		// Load tracking codes for non logged-in users
 		if ( !is_user_logged_in() ) {
 			add_action( 'wp_footer',          array( $this, 'webtrends' ) );
+
+			add_action( 'wp_footer',          array( $this, 'pingdom' ) );
+			add_action( 'admin_footer',       array( $this, 'pingdom' ) );
 		}
 
 		add_action( 'wp_footer',          array( $this, 'google_analytics' ) );
 		add_action( 'admin_footer',       array( $this, 'google_analytics' ) );
-		add_action( 'wp_footer',          array( $this, 'pingdom' ) );
-		add_action( 'admin_footer',       array( $this, 'pingdom' ) );
 
 	}
 

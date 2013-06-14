@@ -19,8 +19,10 @@ Special thanks to:
 
 Translations included for:
 
+* Bengali
 * Czech
 * Dutch
+* Farsi
 * Finnish
 * French
 * German
@@ -29,6 +31,7 @@ Translations included for:
 * Persian
 * Polish
 * Portuguese (Brazil)
+* Spanish
 * Swedish
 
 
@@ -38,6 +41,9 @@ Translations included for:
 1. Log out, log in again using the email address associated with your WordPress account.
 
 == Changelog ==
+= 4.6 =
+* Add Spanish translation, props Javier Martínez of http://culturageek.com
+
 = 4.5 =
 * Don't attempt to override authentication if a WP_User object exists. Fixes compat with Jetpack (and potentially other auth-related plugins)
 

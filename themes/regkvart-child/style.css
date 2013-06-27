@@ -15,8 +15,11 @@ Version:        0.1.0
 #access { background: #dddddd;background: -moz-linear-gradient(#eeeeee, #dddddd) repeat scroll 0 0 transparent; margin-top: 2px;}
 #access a { color: #333333; }
 #access ul li:first-child { padding-left: 10%; }
+#access ul li li:first-child {
+	padding-left: 0;
+}
 #menu-meny.menu { 
-    display: inline; 
+	display: inline; 
 }
 
 #site-title { display: none; }
@@ -24,11 +27,34 @@ Version:        0.1.0
 #regkvart-container img { border: 1px solid #ccc; }
 
 #branding img#regjeringen_header {
-    margin-top: 20px;
-    border: none;
-    margin: 0 auto;
+	margin-top: 20px;
+	border: none;
+	margin: 0 auto;
 }
 #branding img { width: 69.9%; margin: 0 auto; }
 .singular.page .hentry { padding-top: 0px; }
 #searchform {display: none;} 
 
+#branding #regkvart-image {
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+/* Adding sidebar back in */
+.single #author-info {
+	background: #f9f9f9;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	margin: 2.2em 0% 0 0%;
+	padding: 20px 35.4%;
+}
+#respond {
+	width: auto;
+}
+.commentlist {
+	width: auto;
+}
+.commentlist > li.comment {
+	margin: 0px 0px 20px 102px;
+	width: auto;
+}

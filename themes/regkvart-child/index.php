@@ -44,9 +44,6 @@ get_header(); ?>
 				</article><!-- #post-0 -->
 
 			<?php endif; ?>
-			<div id="test">
-				<p>123 test</p>
-			</div>
 
 			</div><!-- #content -->
 		</div><!-- #primary -->

@@ -1,16 +1,13 @@
-/*
-Theme Name: Maintenance mode theme
-Theme URI: http://metronet.no/
-Author: Metronet
+/*   
+Theme Name: DSS Maintenance
+Theme URI: http://blogg.regjeringen.no/
+Description: Maintenance theme for DSS network
+Author: Ryan Hellyer / Metronet
 Author URI: http://metronet.no/
-Description: Maintenance theme
+Template: dss-framework
 Version: 1.0
-License: GNU General Public License
-License URI: license.txt
-
+Tags: DSS Framework Child Theme
 */
 
-h1{
-	display: block;
-	margin-bottom: 10px,
-}
+@import url("../dss-framework/style.css");
+

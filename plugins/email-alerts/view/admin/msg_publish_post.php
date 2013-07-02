@@ -4,4 +4,6 @@
 
 <?php echo sprintf( __( 'Approved by: %1$s (%2$s)', 'email-alerts' ), $acting_admin_name, $acting_admin_email ); ?>
 
+<?php echo $comment_as_html; ?><br /><br />
+
 <p><small><?php _e( '(Email Alerts plugin)', 'email-alerts' ); ?></small></p>

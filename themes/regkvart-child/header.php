@@ -70,7 +70,7 @@
 			$header_image = get_header_image();
 			if ( ! empty( $header_image ) ) : ?>
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-				<img id="regkvart-image" title="Foto: Cornelius Poppe, Scanpi" alt="Foto: Cornelius Poppe, Scanpix" src="<?php header_image(); ?>" width="<?php echo HEADER_IMAGE_WIDTH; ?>" height="<?php echo HEADER_IMAGE_HEIGHT; ?>" alt="" />
+				<img id="regkvart-image" title="Foto: Cornelius Poppe, Scanpix" alt="Foto: Cornelius Poppe, Scanpix" src="<?php header_image(); ?>" width="<?php echo HEADER_IMAGE_WIDTH; ?>" height="<?php echo HEADER_IMAGE_HEIGHT; ?>" alt="" />
 			</a>
 			<?php endif; // end check for removed header image ?>
 		</div>

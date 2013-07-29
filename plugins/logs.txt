@@ -1,15 +1,40 @@
-Time: 1372687254
-Comment ID: 62
-Meta: 1 
-Hash: 6d631483c3ebbf1d6734c1ba82e94a75
 
-Time: 1372687277
-Comment ID: 62
-Meta: 1 
-Hash: 6d631483c3ebbf1d6734c1ba82e94a75
+Action: upvote_comment
+Upvote: 18
+Downvote: 
 
-Time: 1372687282
-Comment ID: 62
-Meta: 1 
-Hash: 6d631483c3ebbf1d6734c1ba82e94a75
+
+Action: downvote_comment
+Upvote: 18
+Downvote: 1
+
+
+Action: downvote_comment
+Upvote: 18
+Downvote: 2
+
+
+Action: downvote_comment
+Upvote: 18
+Downvote: 3
+
+
+Action: downvote_comment
+Upvote: 18
+Downvote: 4
+
+
+Action: downvote_comment
+Upvote: 18
+Downvote: 5
+
+
+Action: downvote_comment
+Upvote: 18
+Downvote: 6
+
+
+Action: upvote_comment
+Upvote: 19
+Downvote: 6
 

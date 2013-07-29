@@ -24,7 +24,6 @@
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width" />
-<meta name="DCSext.regj.blogg" content="<?php bloginfo( 'name' ); ?>" />
 <title><?php wp_title( '|', true, 'right' ); ?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
@@ -41,9 +40,6 @@
 
 	// Grab URL of header link
 	$options = get_option( 'dss_super' );
-	if ( ! isset( $options['header-link'] ) ) {
-		$options['header-link'] = '';
-	}
 	if ( '' != $options['header-link'] ) {
 		$header_link = $options['header-link'];
 	} else {
@@ -58,9 +54,8 @@
 	<header id="branding" role="banner">
 		<a href="<?php echo esc_url( $header_link ); ?>">
 			<img id="logo" src="<?php
-				$logo_url = get_template_directory_uri() . '/images/logo.png';
-				$logo_url = apply_filters( 'dss_logo_url', $logo_url );
-				echo $logo_url;
+			$logo_url = get_stylesheet_directory_uri() . '/images/logo.png';
+			echo $logo_url;
 			?>" alt="Regjeringen logo" />
 		</a>
 		<div id="header-content"><?php
@@ -73,19 +68,17 @@
 			$menu_name = 'top-menu';
 			$locations = get_nav_menu_locations();
 			$top_menu_object = wp_get_nav_menu_object( $menu_name );
-			if ( isset( $top_menu_object->term_id ) ) {
-				$top_menu_items = wp_get_nav_menu_items( $top_menu_object->term_id );
-				$top_menu_links = '';
-				$count = 0;
-	
-				foreach ( (array) $top_menu_items as $key => $top_menu_item ) {
-					$title = $top_menu_item->title;
-					$url = $top_menu_item->url;
-					if ( '' != $url ) {
-						$top_menu_links .= '<a class="top-menu-link" id="top-menu-item-' . $count . '" href="' . $url . '">' . $title . "</a>\n";
-					}
-					$count++;
+			$top_menu_items = wp_get_nav_menu_items( $top_menu_object->term_id );
+			$top_menu_links = '';
+			$count = 0;
+
+			foreach ( (array) $top_menu_items as $key => $top_menu_item ) {
+				$title = $top_menu_item->title;
+				$url = $top_menu_item->url;
+				if ( '' != $url ) {
+					$top_menu_links .= '<a class="top-menu-link" id="top-menu-item-' . $count . '" href="' . $url . '">' . $title . "</a>\n";
 				}
+				$count++;
 			}
 			
 			// If no menu specified, then defaults to link to regjeringen.no
@@ -93,7 +86,7 @@
 				$top_menu_links = '<a class="top-menu-link" href="http://regjeringen.no/">regjeringen.no</a>';
 
 			// Display the list of links
-			echo apply_filters( 'dss_top_menu', $top_menu_links );
+			echo apply_filter( 'dss_top_menu', $top_menu_links );
 
 			// Display the search form, only if "Disable Search" plugin is not activated
 			if ( ! class_exists( 'c2c_DisableSearch' ) )
@@ -127,10 +120,9 @@
 				// We need to figure out what the minimum width should be for our featured image.
 				// This result would be the suggested width if the theme were to implement flexible widths.
 				$header_image_width = get_theme_support( 'custom-header', 'width' );
-				$header_url = apply_filters( 'dss_header_url', home_url( '/' ) );
 
 		?>
-		<a id="header-image" href="<?php echo esc_url( $header_url ); ?>">
+		<a id="header-image" href="<?php echo esc_url( home_url( '/' ) ); ?>">
 			<?php
 				// The header image
 				// Check if this is a post or page, if it has a thumbnail, and if it's a big one
@@ -150,8 +142,10 @@
 			echo '</h2></div>';
 		}
 
-		// Hide main menu if set via DSS Super Admin plugin
-		global $super_admin;
+		// 
+		if ( class_exists( 'DSS_Network_Super_Admin' ) ) {
+			$super_admin = new DSS_Network_Super_Admin();
+		}
 		if ( true != $super_admin->get_option( 'hide-main-menu' ) ) : ?>
 		<nav id="access" role="navigation">
 			<h3 class="assistive-text"><?php _e( 'Main menu', 'dss' ); ?></h3>

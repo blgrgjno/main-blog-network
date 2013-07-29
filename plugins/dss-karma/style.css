@@ -1,0 +1,36 @@
+.karma-vote a {
+	background: url(images/sprite.png);
+	width: 13px;
+	height: 13px;
+	display: inline-block;
+	text-indent: -999em;
+}
+.karma-vote a.up-vote {
+	background-position: 0 0px;
+}
+.karma-vote a.down-vote {
+	background-position: 0 -13px;
+}
+.karma-vote:hover a.up-vote {
+	background-position: 0 -26px;
+}
+.karma-vote:hover a.down-vote {
+	background-position: 0 -39px;
+}
+.karma-vote:hover a.up-vote:hover {
+	background-position: 0 -52px;
+}
+.karma-vote:hover a.down-vote:hover {
+	background-position: 0 -65px;
+}
+.karma-vote:hover a.already-upvoted:hover,
+.karma-vote:hover a.already-upvoted:hover,
+.karma-vote:hover a.already-upvoted,
+.karma-vote:hover a.already-upvoted,
+.karma-vote a.already-upvoted,
+.karma-vote a.already-upvoted {
+	background-position: 0 -78px;
+}
+.karma-vote a.already-downvoted {
+	background-position: 0 -91px;
+}

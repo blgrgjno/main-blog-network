@@ -4,8 +4,10 @@
   * Plugin URI: http://freshmuse.com/
   * Description: Allows users to vote on comments, sorting them via AJAX by vote
   * Version: 0.7
-  * Author: A Freshmuse and Zao Joint
-  * Author URI: http://zao.is/
+  * Author: Ryan Hellyer / Metronet / Justin Sainton
+  * Author URI: http://www.metronet.no/
+  *
+  * This code was built based on code provided by Justin Sainton
   **/
 
 /**
@@ -25,10 +27,6 @@
  * - Comments auto sort themselves via AJAX and order themselves based on comment_karma meta value,
  * in descending order
  *
- * Purists will note that we've taken a single-file approach, which means much of our JS is lacking in perceived best practices
- * By that, I mean you're not going to see a lot of wp_enqueue_script() or wp_localize_script().
- * We want to keep this as lean, mean and lightweight as possible.  Single file.  A perk?  It can be used easily as an mu-plugin.
- *
  **/
 class FMZ_Comment_Karma {
 
@@ -37,9 +35,6 @@ class FMZ_Comment_Karma {
 	/**
 	 * Get active object instance
 	 *
-	 * @since 0.7
-	 *
-	 * @access public
 	 * @static
 	 * @return object
 	 */
@@ -60,16 +55,12 @@ class FMZ_Comment_Karma {
 	/**
 	 * Initiates filters and actions for the plugin.
 	 *
-	 * @since 0.7
-	 *
-	 * @access public
 	 * @static
-	 * @return void
 	 */
 	public static function init() {
 
-		add_action( 'wp_ajax_upvote_comment'       , array( __CLASS__, 'ajax_upvote' ) );
-		add_action( 'wp_ajax_nopriv_upvote_comment', array( __CLASS__, 'ajax_upvote' ) );
+		add_action( 'wp_ajax_upvote_comment'       , array( __CLASS__, 'ajax_vote' ) );
+		add_action( 'wp_ajax_nopriv_upvote_comment', array( __CLASS__, 'ajax_vote' ) );
 		add_action( 'wp_enqueue_scripts'           , array( __CLASS__, 'enqueue_jquery' ) );
 		add_action( 'wp_head'                      , array( __CLASS__, 'js' ) );
 		add_action( 'wp_head'                      , array( __CLASS__, 'css' ) );
@@ -79,33 +70,34 @@ class FMZ_Comment_Karma {
 	public function css() {
 		echo '
 		<style>
+			.karma-vote {
+			}
+			.karma-vote a {
+				background: lime url(http://blogg.regjeringen.no/wp-content/plugins/dss-karma/images/sprite.png);
+				width: 13px;
+				height: 13px;
+				display: inline-block;
+				text-indent: -999em;
+			}
 			.already-upvoted {
-				display: block;
-				border: 2px solid red;background: red;margin:5px;padding: 0 15px;
+				background-position: 0 -26px;
 			}
 			.comment-upvote {
-				display: block;
-				border: 2px solid lime;background: #ffeeee;;margin:5px;padding: 0 15px;
+				background-position: 0 0;
 			}
 			.already-downvoted {
-				display: block;
-				border: 2px solid orange;background: red;;margin:5px;padding: 0 15px;
+				background-position: 0 -39px;
 			}
 			.comment-downvote {
-				display: block;
-				border: 2px solid purple;background: #ffeeee;;margin:5px;padding: 0 15px;
+				background-position: 0 -13px;
 			}
 		</style>';
 	}
 
 	/**
 	 * Our only front-end dependency - 99.99% certain it will always be included, but we just don't know for sure now do we?
-	 *
-	 * @since 0.7
-	 *
-	 * @access public
+	 * 
 	 * @static
-	 * @return void
 	 */
 	public static function enqueue_jquery() {
 		wp_enqueue_script( 'jquery' );
@@ -114,13 +106,10 @@ class FMZ_Comment_Karma {
 	/**
 	 * AJAX Handler for the actual upvote button
 	 *
-	 * @since 0.7
-	 *
 	 * @access public
 	 * @static
-	 * @return void
 	 */
-	public static function ajax_upvote() {
+	public static function ajax_vote() {
 
 		$comment_id = absint( $_REQUEST['comment_id'] );
 		$post_id    = absint( $_REQUEST['post_id'] );
@@ -129,26 +118,32 @@ class FMZ_Comment_Karma {
 
 			// Store up-vote votes
 			$up_vote = get_comment_meta( $comment_id, 'up_vote', true );
-			$up_vote++;
+			if ( 'upvote_comment' == $_REQUEST['action'] ) {
+				$up_vote++;
+			}
 			update_comment_meta( $comment_id, 'up_vote', $up_vote );
 
 			// Store down-vote votes
 			$down_vote = get_comment_meta( $comment_id, 'down_vote', true );
+			if ( 'downvote_comment' == $_REQUEST['action'] ) {
+				$down_vote++;
+			}
 			$down_vote++;
 			update_comment_meta( $comment_id, 'down_vote', $down_vote );
 
 			// Log vote talley
-			update_comment_meta( $comment_id, 'votes_from_a', true );
+			update_comment_meta( $comment_id, 'votes_from_' . self::get_user_hash(), true );
 
 			$karma = $up_vote / ( $up_vote + $down_vote );
 			$status['status_code'] = wp_update_comment( array( 'comment_ID' => $comment_id, 'comment_karma' => $karma ) );
 			$status['karma']       = $karma;
-
-$meta = get_comment_meta( $comment_id, 'votes_from_a', true );
+// Temporary logging code
+$meta = get_comment_meta( $comment_id, 'votes_from_' . self::get_user_hash(), true );
 $path = '/var/www/dss/wp-content/plugins/logs.txt';
 $file = file_get_contents( $path );
 file_put_contents( $path, $file . "Time: " . time() . "\nComment ID: " . $comment_id . "\nMeta: " . $meta . " \nHash: " . self::get_user_hash() . "\n\n" );
-
+/*
+*/
 		} else {
 			$status['status_code'] = '-1';
 			$status['reason']      = apply_filters( 'fmz_error_message_user_limit', __( 'This user has reached their limit for this comment' ), $comment_id );
@@ -160,10 +155,6 @@ file_put_contents( $path, $file . "Time: " . time() . "\nComment ID: " . $commen
 	/**
 	 * Returns URL for Upvote functionality
 	 *
-	 * @since 0.7
-	 * @param $comment_id int Comment ID
-	 *
-	 * @access public
 	 * @static
 	 * @return string URL for upvote function
 	 */
@@ -172,9 +163,9 @@ file_put_contents( $path, $file . "Time: " . time() . "\nComment ID: " . $commen
 			'fmz_get_upvote_url',
 			add_query_arg(
 				array(
-					'action' => 'upvote_comment',
+					'action'     => 'upvote_comment',
 					'comment_id' => get_comment_ID(),
-					'post_id' => get_the_ID()
+					'post_id'    => get_the_ID()
 				),
 				admin_url( 'admin-ajax.php' )
 			)
@@ -184,25 +175,26 @@ file_put_contents( $path, $file . "Time: " . time() . "\nComment ID: " . $commen
 	/**
 	 * Returns URL for Downvote functionality
 	 *
-	 * @since 0.7
-	 * @param $comment_id int Comment ID
-	 *
-	 * @access public
 	 * @static
 	 * @return string URL for upvote function
 	 */
-	public static function get_downvote_url( $comment_id ) {
-
-		return apply_filters( 'fmz_get_downvote_url', add_query_arg( array( 'action' => 'downvote_comment', 'comment_id' => $comment_id ), admin_url( 'admin-ajax.php' ) ) );
+	public static function get_downvote_url() {
+		return apply_filters(
+			'fmz_get_downvote_url',
+			add_query_arg(
+				array(
+					'action'     => 'downvote_comment',
+					'comment_id' => get_comment_ID(),
+					'post_id'    => get_the_ID()
+				),
+				admin_url( 'admin-ajax.php' )
+			)
+		);
 	}
 
 	/**
 	 * Returns Upvote button for comments
 	 *
-	 * @since 0.7
-	 * @param $comment_id int Comment ID
-	 *
-	 * @access public
 	 * @static
 	 * @return string URL for upvote function
 	 */
@@ -216,21 +208,22 @@ file_put_contents( $path, $file . "Time: " . time() . "\nComment ID: " . $commen
 			$voted = 'comment-upvote';
 			$text = __( 'Vote for this comment' );
 		}
-
-		return get_comment_ID() . ' : ' . self::get_vote_from_machine( get_comment_ID() ) . ' <a class="' . $voted . '" href="' . esc_url( self::get_upvote_url() ) . '">' . $text . '</a>';
+		
+		$string = '<a class="up-vote ' . $voted . '" href="' . esc_url( self::get_upvote_url() ) . '">' . $text . '</a>';
+		if ( '' != get_comment_meta( get_comment_ID(), 'up_vote', true ) ) {
+			$string .= ' (' . get_comment_meta( get_comment_ID(), 'up_vote', true ) . ')';
+		}
+		
+		return $string;
 	}
 
 	/**
 	 * Returns Downvote button for comments
 	 *
-	 * @since 0.7
-	 * @param $comment_id int Comment ID
-	 *
-	 * @access public
 	 * @static
 	 * @return string URL for upvote function
 	 */
-	public static function display_downvote_button( $comment_id ) {
+	public static function display_downvote_button() {
 
 		// Set class for link (based on whether user has voted previously or not)
 		if ( true == self::get_vote_from_machine( get_comment_ID() ) ) {
@@ -241,17 +234,19 @@ file_put_contents( $path, $file . "Time: " . time() . "\nComment ID: " . $commen
 			$text = __( 'Vote against this comment' );
 		}
 
-		return get_comment_ID() . ' : ' . self::get_vote_from_machine( get_comment_ID() ) . ' <a class="' . $voted . '" href="' . esc_url( self::get_downvote_url( $comment_id ) ) . '">' . $text . '</a>';
+		$string = '<a class="down-vote ' . $voted . '" href="' . esc_url( self::get_downvote_url() ) . '">' . $text . '</a>';
+		if ( '' != get_comment_meta( get_comment_ID(), 'down_vote', true ) ) {
+			$string .= ' (' . get_comment_meta( get_comment_ID(), 'down_vote', true ) . ')';
+		}
+		
+		return $string;
 	}
 
 	/**
 	 * Logs a vote for a specific comment from a specific commenter
 	 * Used for preventing same user repeatedly voting for a comment
 	 *
-	 * @since 0.7
 	 * @param int    $comment_id Comment ID
-	 *
-	 * @access public
 	 * @static
 	 * @return bool Whether or not user has voted
 	 */
@@ -265,6 +260,8 @@ file_put_contents( $path, $file . "Time: " . time() . "\nComment ID: " . $commen
 	
 	/*
 	 * Get the hash for a particular user
+	 *
+	 * @return str Hash based on known user data
 	 */
 	public function get_user_hash() {
 		$ip = isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : '';
@@ -280,9 +277,6 @@ file_put_contents( $path, $file . "Time: " . time() . "\nComment ID: " . $commen
 	 * Handles the actual front-end interaction.
 	 * Presumes that we actually have
 	 *
-	 * @since 0.7
-	 *
-	 * @access public
 	 * @static
 	 * @return void
 	 */
@@ -295,26 +289,13 @@ file_put_contents( $path, $file . "Time: " . time() . "\nComment ID: " . $commen
 			}
 		</style>
 		<script>
-			(function( $ ){
-				$.fn.karmaSort = function( prefix, lst ) {
-					for ( var x = 0; x < lst.length; x++ ) {
-						var new_placement = $( '#' + prefix + lst[ x ] ).hide();
-						$( this ).append( new_placement );
-						new_placement.fadeIn( 'fast' );
-					}
-				};
-			})( jQuery );
-
 			( function( window, $ ) {
 				var document = window.document;
-
 				var comment_karma = function() {
-
 					var self = this;
-
 					$(document).ready(function($){
 
-						$( 'a.comment-upvote' ).on( 'click', function(e){
+						$( '.karma-vote a' ).on( 'click', function(e){
 							var $this = $( this ), parent = $this.parents( 'ol' );
 							var href_value = $(this).attr("href");
 
@@ -355,7 +336,12 @@ file_put_contents( $path, $file . "Time: " . time() . "\nComment ID: " . $commen
 
 FMZ_Comment_Karma::get_instance();
 
-function fmz_vote_buttons( $comment_id ) {
-	echo FMZ_Comment_Karma::display_upvote_button( $comment_id );
-	echo FMZ_Comment_Karma::display_downvote_button( $comment_id );
+/*
+ * Vote buttons
+ */
+function fmz_vote_buttons() {
+	echo '<div class="karma-vote">';
+	echo FMZ_Comment_Karma::display_upvote_button();
+	echo FMZ_Comment_Karma::display_downvote_button();
+	echo '</div>';
 }

@@ -2,8 +2,8 @@
 Contributors: jim912
 Tags: sitemap, post, page, seo, cms
 Requires at least: 2.3.1
-Tested up to: 3.4
-Stable tag: 1.1.6
+Tested up to: 3.6
+Stable tag: 1.1.7
 
 Auto generator of a customizable and designed sitemap page.
 
@@ -29,6 +29,9 @@ When you use WordPress as CMS of the Web site, you can expect the **effect of SE
 * Use or not caching sitemap content.
 
 = Latest change =
+* **1.1.7**
+ * Compatible up to WordPress 3.6
+
 * **1.1.6**
  * Compatible up to WordPress 3.4
 

@@ -15,7 +15,7 @@ Class se_admin {
 		add_action('admin_head', array(&$this, 'se_options_style'));
 		add_action('admin_menu', array(&$this, 'se_add_options_panel'));
 
-        }
+	}
 
 	function se_add_options_panel() {
 		global $wp_version;
@@ -24,8 +24,7 @@ Class se_admin {
 	}
 
 	//build admin interface
-	function se_option_page()
-	{
+	function se_option_page() {
 		global $wpdb, $table_prefix, $wp_version;
 
 			$new_options = array(
@@ -52,25 +51,37 @@ Class se_admin {
 
 			);
 
-		if(isset($_POST['action']) && $_POST['action'] == "save")
-		{
+		if(isset($_POST['action']) && $_POST['action'] == "save") {
 			echo "<div class=\"updated fade\" id=\"limitcatsupdatenotice\"><p>" . __('Your default search settings have been <strong>updated</strong> by Search Everything. </p><p> What are you waiting for? Go check out the new search results!', 'SearchEverything') . "</p></div>";
 			update_option("se_options", $new_options);
 
 		}
 
-		if(isset($_POST['action']) && $_POST['action'] == "reset")
-		{
+		if(isset($_POST['action']) && $_POST['action'] == "reset") {
 			echo "<div class=\"updated fade\" id=\"limitcatsupdatenotice\"><p>" . __('Your default search settings have been <strong>updated</strong> by Search Everything. </p><p> What are you waiting for? Go check out the new search results!', 'SearchEverything') . "</p></div>";
 			delete_option("se_options", $new_options);
 		}
 
-		// Announce SE+
-		echo "<div class=\"updated fade\" id=\"seplusnotice\"><p>" . __('<strong>Search Everything Plus</strong> is being developed and it\'s going to be awesome! <a href="http://wpsearchplugin.com/get-notified/">Signup now</a> and get notified when it\'s available.', 'SearchEverything') . "</p></div>";
-
 		$options = get_option('se_options');
 
 		?>
+
+	<div class="error" id="seplus">
+		<h3>Well, we tried...</h3>
+
+		<p>It took a few years of kick-starting the Search Everything Plus project and it being subverted by new full-time projects at Sprout Venture before realizing it had to stop. Our goal of fixing WordPress search with SE+ needed too much focus, something we couldn't sacrifice because of growing client projects. After a year of trying and nothing awesome to show we decided to cease all planning and development on the Search Everything Plus plugin/service. </p>
+
+		<p>But our goal of fixing WordPress search isn't lost.</p>
+
+		<p>For the last few months we've tested out numerous search solutions for WordPress and we found one. <a href="http://s-v.me/Q8wb">Swiftype</a> offers many of the features you requested for SE+ and their service was something we had only hoped to build. Instead of competing we decided to partner.</p>
+
+		<p>The <a href="http://s-v.me/Q8wb">Swiftype Search plugin</a> replaces the standard WordPress search with a better, more relevant search engine, and in doing so offloads the performance burden of search queries from your database to ours. It also gives you detailed insight into what your users are searching for, so you know which keywords to target when customizing your search engine results. The base ranking algorithm is based on industry best-practices and provides more relevant results by default, but we also allow for any result set to be fully customized via our drag-and-drop interface for result reordering. To make customizations you simply create a Swiftype account and install our the <a href="http://s-v.me/Q8wb">Swiftype Search plugin</a>. You can then login to our dashboard to customize results and read through detailed search analytics.</p>
+
+
+		<p>Sincerely,<br/>
+		Dan Cameron<br/>
+		Principal and Janitor, Sprout Venture</p>
+	</div>
 
 	<div class="wrap">
 		<h2><?php _e('Search Everything Version:', 'SearchEverything'); ?> <?php echo $this->version; ?></h2>
@@ -78,7 +89,7 @@ Class se_admin {
 
 				<div style="float: right; margin-bottom:10px; padding:0; " id="top-update" class="submit">
 					<input type="hidden" name="action" value="save" />
-					<input type="submit" value="<?php _e('Update Options', 'SearchEverything') ?>" />
+					<input type="submit" class="button"value="<?php _e('Update Options', 'SearchEverything') ?>" />
 				</div>
 
 
@@ -296,7 +307,7 @@ Class se_admin {
 
 		<p class="submit">
 			<input type="hidden" name="action" value="save" />
-			<input type="submit" value="<?php _e('Update Options', 'SearchEverything') ?>" />
+			<input type="submit" class="button"value="<?php _e('Update Options', 'SearchEverything') ?>" />
 		</p>
 	</form>
 
@@ -305,7 +316,7 @@ Class se_admin {
 		</div>
 		<div style="float: right; margin:0; padding:0; " class="submit">
 			<form method="post">
-				<input name="reset" type="submit" value="<?php _e('Reset Button', 'SearchEverything') ?>" />
+				<input name="reset" type="submit" class="button"value="<?php _e('Reset Button', 'SearchEverything') ?>" />
 				<input type="hidden" name="action" value="reset" />
 			</form>
 		<div style="clear:both;"></div>
@@ -333,7 +344,7 @@ Class se_admin {
 							<form method="get" id="searchform" action="<?php bloginfo($cap = version_compare('2.2', $wp_version, '<') ? 'url' : 'home'); ?>">
 							<p class="srch submit">
 								<input type="text" class="srch-txt" value="<?php echo (isset($S)) ? wp_specialchars($s, 1) : ''; ?>" name="s" id="s" size="30" />
-								<input type="submit" class="SE5_btn" id="searchsubmit" value="<?php _e('Run Test Search', 'SearchEverything'); ?>" />
+								<input type="submit" class="button"class="SE5_btn" id="searchsubmit" value="<?php _e('Run Test Search', 'SearchEverything'); ?>" />
 							</p>
 			      			</form>
 						</td>

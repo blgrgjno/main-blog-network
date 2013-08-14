@@ -3,7 +3,7 @@
 Plugin Name: Subscribe Me
 Plugin URI: http://www.semiologic.com/software/subscribe-me/
 Description: Widgets that let you display subscribe links to RSS readers such as Google Reader.
-Version: 5.1.1
+Version: 5.2
 Author: Denis de Bernardy & Mike Koepke
 Author URI: http://www.getsemiologic.com
 Text Domain: sem-subscribe-me
@@ -39,6 +39,47 @@ load_plugin_textdomain('sem-subscribe-me', false, dirname(plugin_basename(__FILE
  **/
 
 class subscribe_me extends WP_Widget {
+    /**
+   	 * subscribe_me()
+   	 *
+   	 * @return void
+   	 **/
+
+   	function subscribe_me() {
+        add_action('widgets_init', array($this, 'widgets_init'));
+
+        if ( !is_admin() ) {
+        	add_action('wp_print_scripts', array($this, 'scripts'));
+        	add_action('wp_print_styles', array($this, 'styles'));
+        }
+
+        foreach ( array(
+        		'switch_theme',
+        		'update_option_active_plugins',
+        		'update_option_sidebars_widgets',
+        		'generate_rewrite_rules',
+
+        		'flush_cache',
+        		'after_db_upgrade',
+        		) as $hook ) {
+        	add_action($hook, array($this, 'flush_cache'));
+        }
+
+        register_activation_hook(__FILE__, array($this, 'flush_cache'));
+        register_deactivation_hook(__FILE__, array($this, 'flush_cache'));
+
+   		$widget_ops = array(
+   			'classname' => 'subscribe_me',
+   			'description' => __('Subscribe links to RSS readers such as Google Reader', 'sem-subscribe-me'),
+   			);
+   		$control_ops = array(
+   			'width' => 330,
+   			);
+
+   		$this->init();
+   		$this->WP_Widget('subscribe_me', __('Subscribe Me', 'sem-subscribe-me'), $widget_ops, $control_ops);
+   	} # subscribe_me()
+
 	/**
 	 * init()
 	 *
@@ -96,26 +137,7 @@ class subscribe_me extends WP_Widget {
 		register_widget('subscribe_me');
 	} # widgets_init()
 	
-	
-	/**
-	 * subscribe_me()
-	 *
-	 * @return void
-	 **/
 
-	function subscribe_me() {
-		$widget_ops = array(
-			'classname' => 'subscribe_me',
-			'description' => __('Subscribe links to RSS readers such as Google Reader', 'sem-subscribe-me'),
-			);
-		$control_ops = array(
-			'width' => 330,
-			);
-		
-		$this->init();
-		$this->WP_Widget('subscribe_me', __('Subscribe Me', 'sem-subscribe-me'), $widget_ops, $control_ops);
-	} # subscribe_me()
-	
 	
 	/**
 	 * widget()
@@ -464,25 +486,6 @@ function the_subscribe_links($instance = null, $args = '') {
 } # the_subscribe_links()
 
 
-add_action('widgets_init', array('subscribe_me', 'widgets_init'));
+$subscribe_me = new subscribe_me();
 
-if ( !is_admin() ) {
-	add_action('wp_print_scripts', array('subscribe_me', 'scripts'));
-	add_action('wp_print_styles', array('subscribe_me', 'styles'));
-}
-
-foreach ( array(
-		'switch_theme',
-		'update_option_active_plugins',
-		'update_option_sidebars_widgets',
-		'generate_rewrite_rules',
-		
-		'flush_cache',
-		'after_db_upgrade',
-		) as $hook ) {
-	add_action($hook, array('subscribe_me', 'flush_cache'));
-}
-
-register_activation_hook(__FILE__, array('subscribe_me', 'flush_cache'));
-register_deactivation_hook(__FILE__, array('subscribe_me', 'flush_cache'));
 ?>

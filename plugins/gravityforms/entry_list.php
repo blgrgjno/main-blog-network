@@ -33,6 +33,13 @@ class GFEntryList{
 
         echo GFCommon::get_remote_message();
         $action = RGForms::post("action");
+        $filter = rgget("filter");
+        $search = rgget("s");
+        $page_index = empty($_GET["paged"]) ? 0 : intval($_GET["paged"]) - 1;
+        $star = $filter == "star" ? 1 : null; // is_numeric(RGForms::get("star")) ? intval(RGForms::get("star")) : null;
+        $read = $filter == "unread" ? 0 : null; //is_numeric(RGForms::get("read")) ? intval(RGForms::get("read")) : null;
+        $status = in_array($filter, array("trash", "spam")) ? $filter : "active";
+
         $update_message = "";
         switch($action){
             case "delete" :
@@ -46,7 +53,8 @@ class GFEntryList{
                 check_admin_referer('gforms_entry_list', 'gforms_entry_list');
 
                 $bulk_action = !empty($_POST["bulk_action"]) ? $_POST["bulk_action"] : $_POST["bulk_action2"];
-                $leads = $_POST["lead"];
+                $select_all = rgpost("all_entries");
+                $leads = empty($select_all) ? $_POST["lead"] : GFFormsModel::get_lead_ids($form_id, $search, $star, $read, null, null, $status);
 
                 $entry_count = count($leads) > 1 ? sprintf(__("%d entries", "gravityforms"), count($leads)) : __("1 entry", "gravityforms");
 
@@ -105,29 +113,23 @@ class GFEntryList{
             break;
         }
 
-        $filter = rgget("filter");
+
         if(rgpost("button_delete_permanently")){
             RGFormsModel::delete_leads_by_form($form_id, $filter);
         }
 
         $sort_field = empty($_GET["sort"]) ? 0 : $_GET["sort"];
         $sort_direction = empty($_GET["dir"]) ? "DESC" : $_GET["dir"];
-        $search = RGForms::get("s");
-        $page_index = empty($_GET["paged"]) ? 0 : intval($_GET["paged"]) - 1;
-        
-        $star = $filter == "star" ? 1 : null; // is_numeric(RGForms::get("star")) ? intval(RGForms::get("star")) : null;
-        $read = $filter == "unread" ? 0 : null; //is_numeric(RGForms::get("read")) ? intval(RGForms::get("read")) : null;
-
-        $page_size = apply_filters("gform_entry_page_size", apply_filters("gform_entry_page_size_{$form_id}", 20, $form_id), $form_id);
-        $first_item_index = $page_index * $page_size;
 
         $form = RGFormsModel::get_form_meta($form_id);
         $sort_field_meta = RGFormsModel::get_field($form, $sort_field);
         $is_numeric = $sort_field_meta["type"] == "number";
 
-        $status = in_array($filter, array("trash", "spam")) ? $filter : "active";
+        $page_size = apply_filters("gform_entry_page_size", apply_filters("gform_entry_page_size_{$form_id}", 20, $form_id), $form_id);
+        $first_item_index = $page_index * $page_size;
+
         $leads = RGFormsModel::get_leads($form_id, $sort_field, $sort_direction, $search, $first_item_index, $page_size, $star, $read, $is_numeric, null, null, $status);
-        $lead_count = RGFormsModel::get_lead_count($form_id, $search, $star, $read);
+        $lead_count = RGFormsModel::get_lead_count($form_id, $search, $star, $read, null, null, $status);
 
         $summary = RGFormsModel::get_form_counts($form_id);
         $active_lead_count = $summary["total"];
@@ -145,49 +147,20 @@ class GFEntryList{
         $read_qs = $read !== null ? "&read=$read" : "";
         $filter_qs = "&filter=" . $filter;
 
-        // determine which counter to use for paging and set total count
-        switch ($filter)
-        {
-			case "trash" :
-				$display_total = ceil($trash_count / $page_size);
-				$total_lead_count = $trash_count;
-				break;
-			case "spam" :
-				$display_total = ceil($spam_count / $page_size);
-				$total_lead_count = $spam_count;
-				break;
-			case "star" :
-				$display_total = ceil($starred_count / $page_size);
-				$total_lead_count = $starred_count;
-				break;
-			case "unread" :
-				$display_total = ceil($unread_count / $page_size);
-				$total_lead_count = $unread_count;
-				break;
-			default :
-				$display_total = ceil($active_lead_count / $page_size);
-				$total_lead_count = $active_lead_count;
-				break;
-        }
-
+        $display_total = ceil($lead_count / $page_size);
         $page_links = paginate_links( array(
             'base' =>  admin_url("admin.php") . "?page=gf_entries&view=entries&id=$form_id&%_%" . $search_qs . $sort_qs . $dir_qs. $star_qs . $read_qs . $filter_qs,
             'format' => 'paged=%#%',
-            'prev_text' => __('&laquo;'),
-            'next_text' => __('&raquo;'),
+            'prev_text' => __('&laquo;', 'gravityforms'),
+            'next_text' => __('&raquo;', 'gravityforms'),
             'total' => $display_total,
             'current' => $page_index + 1,
             'show_all' => false
         ));
 
-        wp_print_scripts(array("thickbox"));
         wp_print_styles(array("thickbox"));
 
         ?>
-
-        <script src="<?php echo GFCommon::get_base_url() ?>/js/jquery.json-1.3.js?ver=<?php echo GFCommon::$version ?>"></script>
-        <script src="<?php echo includes_url() ?>/js/wp-lists.dev.js" type="text/javascript"></script>
-        <script src="<?php echo includes_url() ?>/js/wp-ajax-response.dev.js" type="text/javascript"></script>
 
         <script type="text/javascript">
 
@@ -296,7 +269,8 @@ class GFEntryList{
                 	paging_total_header.html(total_change + "");
                 	paging_total_footer.html(total_change + "");
 				}
-
+                gformVars.countAllEntries = gformVars.countAllEntries - change;
+                setSelectAllText();
             }
 
             function DeleteLead(lead_id){
@@ -338,6 +312,10 @@ class GFEntryList{
             }
 
             function getLeadIds(){
+                var all = jQuery("#all_entries").val();
+                //compare string, the boolean isn't correct, even when casting to a boolean the 0 is set to true
+                if(all == "1")
+                    return 0;
 
                 var leads = jQuery(".check-column input[name='lead[]']:checked");
                 var leadIds = new Array();
@@ -351,13 +329,16 @@ class GFEntryList{
 
             function BulkResendNotifications(){
 
-                var sendAdmin = jQuery("#notification_admin").is(":checked") ? 1 : 0;
-                var sendUser = jQuery("#notification_user").is(":checked") ? 1 : 0;
+
+                var selectedNotifications = new Array();
+                jQuery(".gform_notifications:checked").each(function(){
+                    selectedNotifications.push(jQuery(this).val());
+                });
                 var leadIds = getLeadIds();
 
                 var sendTo = jQuery('#notification_override_email').val();
 
-                if(!sendAdmin && !sendUser) {
+                if(selectedNotifications.length <=0) {
                     displayMessage("<?php _e("You must select at least one type of notification to resend.", "gravityforms"); ?>", "error", "#notifications_container");
                     return;
                 }
@@ -367,10 +348,11 @@ class GFEntryList{
                 jQuery.post(ajaxurl, {
                     action : "gf_resend_notifications",
                     gf_resend_notifications : '<?php echo wp_create_nonce('gf_resend_notifications'); ?>',
-                    sendAdmin : sendAdmin,
-                    sendUser : sendUser,
+                    notifications: jQuery.toJSON(selectedNotifications),
                     sendTo : sendTo,
                     leadIds : leadIds,
+                    filter: '<?php echo esc_attr(rgget("filter")) ?>',
+                    search: '<?php echo esc_attr(rgget("s")) ?>',
                     formId : '<?php echo $form['id']; ?>'
                     },
                     function(response){
@@ -400,11 +382,15 @@ class GFEntryList{
             function BulkPrint(){
 
                 var leadIds = getLeadIds();
-                var leadsQS = '&lid=' + leadIds.join(',');
+                if(leadIds != 0)
+                    leadIds = leadIds.join(',');
+                var leadsQS = '&lid=' + leadIds;
                 var notesQS = jQuery('#gform_print_notes').is(':checked') ? '&notes=1' : '';
                 var pageBreakQS = jQuery('#gform_print_page_break').is(':checked') ? '&page_break=1' : '';
+                var filterQS = '&filter=<?php echo esc_attr(rgget("filter")) ?>';
+                var searchQS = '&search=<?php echo esc_attr(rgget("s")) ?>';
 
-                var url = '<?php echo site_url() ?>/?gf_page=print-entry&fid=<?php echo $form['id'] ?>' + leadsQS + notesQS + pageBreakQS;
+                var url = '<?php echo trailingslashit(site_url()) ?>?gf_page=print-entry&fid=<?php echo $form['id'] ?>' + leadsQS + notesQS + pageBreakQS + filterQS + searchQS;
                 window.open (url,'printwindow');
 
                 closeModal(true);
@@ -461,7 +447,7 @@ class GFEntryList{
                 if(isInit)
                     jQuery('#notification_override_email').val('');
 
-                if(jQuery('#notification_admin').is(':checked') || jQuery('#notification_user').is(':checked')) {
+                if(jQuery(".gform_notifications:checked").length > 0 ) {
                     jQuery('#notifications_override_settings').slideDown();
                 } else {
                     jQuery('#notifications_override_settings').slideUp(function(){
@@ -470,6 +456,89 @@ class GFEntryList{
                 }
 
             }
+
+            // Select All
+
+            var gformStrings = {
+                "allEntriesOnPageAreSelected" : "<?php printf(__("All %s{0}%s entries on this page are selected.", "gravityforms"), "<strong>", "</strong>") ?>",
+                "selectAll" : "<?php printf(__("Select all %s{0}%s entries.", "gravityforms"), "<strong>", "</strong>") ?>",
+                "allEntriesSelected" : "<?php printf(__("All %s{0}%s entries have been selected.", "gravityforms"), "<strong>", "</strong>") ?>",
+                "clearSelection" : "<?php _e("Clear selection", "gravityforms") ?>"
+            }
+
+            var gformVars = {
+                "countAllEntries" : <?php echo intval($lead_count); ?>,
+                "perPage" : <?php echo intval($page_size); ?>
+            }
+
+            function setSelectAllText(){
+                var tr = getSelectAllText();
+                jQuery("#gform-select-all-message td").html(tr);
+            }
+
+            function getSelectAllText(){
+                var count;
+                count = jQuery("#gf_entry_list tr:visible:not('#gform-select-all-message')").length;
+                return gformStrings.allEntriesOnPageAreSelected.format(count) + " <a href='javascript:void(0)' onclick='selectAllEntriesOnAllPages();'>" + gformStrings.selectAll.format(gformVars.countAllEntries) + "</a>";
+            }
+
+            function getSelectAllTr(){
+                var t = getSelectAllText();
+                var colspan = jQuery("#gf_entry_list").find("tr:first td").length + 1;
+                return "<tr id='gform-select-all-message' style='display:none;background-color:lightyellow;text-align:center;'><td colspan='{0}'>{1}</td></tr>".format(colspan, t);
+            }
+            function toggleSelectAll(visible){
+                if(gformVars.countAllEntries <= gformVars.perPage){
+                    jQuery('#gform-select-all-message').hide();
+                    return;
+                }
+
+                if(visible)
+                    setSelectAllText();
+                jQuery('#gform-select-all-message').toggle(visible);
+            }
+
+
+            function clearSelectAllEntries(){
+                jQuery(".check-column input[type=checkbox]").prop('checked', false);
+                clearSelectAllMessage();
+            }
+
+            function clearSelectAllMessage(){
+                jQuery("#all_entries").val("0");
+                jQuery("#gform-select-all-message").hide();
+                jQuery("#gform-select-all-message td").html('');
+            }
+
+            function selectAllEntriesOnAllPages (){
+                var trHtmlClearSelection;
+                trHtmlClearSelection = gformStrings.allEntriesSelected.format(gformVars.countAllEntries) + " <a href='javascript:void(0);' onclick='clearSelectAllEntries();'>" + gformStrings.clearSelection + "</a>";
+                jQuery("#all_entries").val("1");
+                jQuery("#gform-select-all-message td").html(trHtmlClearSelection);
+            }
+
+            function SetUpSelectAllEntries(){
+
+                if(gformVars.countAllEntries > gformVars.perPage){
+                    var tr = getSelectAllTr();
+                    jQuery("#gf_entry_list").prepend(tr);
+                    jQuery(".headercb").click(function(){
+                        toggleSelectAll(jQuery(this).prop('checked'));
+                    });
+                    jQuery("#gf_entry_list .check-column input[type=checkbox]").click(function(){
+                        clearSelectAllMessage();
+                    })
+                }
+            }
+
+            String.prototype.format = function() {
+                var args = arguments;
+                return this.replace(/{(\d+)}/g, function (match, number) {
+                    return typeof args[number] != 'undefined' ? args[number] : match;
+                });
+            };
+
+            // end Select All
 
             jQuery(document).ready(function(){
                 jQuery("#lead_search").keypress(function(event){
@@ -484,22 +553,20 @@ class GFEntryList{
                 if(action && message)
                     displayMessage(message, 'updated', '#lead_form');
 
-
                 var list = jQuery("#gf_entry_list").wpList( { alt: '<?php echo esc_js(__('Entry List', 'gravityforms')) ?>'} );
-                list.bind('wpListDelEnd', function(e, s){
+                list.bind('wpListDelEnd', function(e, s, list){
 
                     var currentStatus = "<?php echo $filter == "trash" || $filter == "spam" ? $filter : "active" ?>";
                     var filter = "<?php echo $filter ?>";
                     var movingTo = "active";
-                    if(s.target.className.indexOf(':status=trash') != -1)
+                    if(s.data.status == "trash")
                         movingTo = "trash";
-                    else if(s.target.className.indexOf(':status=spam') != -1)
+                    else if(s.data.status == "spam")
                         movingTo = "spam";
-                    else if(s.target.className.indexOf(':status=delete') != -1)
+                    else if(s.data.status == "delete")
                         movingTo = "delete";
 
                     var id = s.data.entry;
-
                     var title = jQuery("#lead_row_" + id);
                     var isUnread = title.hasClass("lead_unread");
                     var isStarred = title.hasClass("lead_starred");
@@ -552,7 +619,9 @@ class GFEntryList{
 						}
                     }
 
-                });;
+                });
+
+                SetUpSelectAllEntries();
             });
 
         </script>
@@ -571,7 +640,7 @@ class GFEntryList{
         <div class="wrap">
 
             <div class="icon32" id="gravity-entry-icon"><br></div>
-            <h2><?php _e("Entries", "gravityforms"); ?> : <?php echo $form["title"] ?> </h2>
+            <h2 class="gf_admin_page_title"><span><?php _e("Entries", "gravityforms") ?></span><span class="gf_admin_page_subtitle"><span class="gf_admin_page_formid">ID: <?php echo $form['id']; ?></span><?php echo $form['title']; ?></span></h2>
 
             <?php RGForms::top_toolbar() ?>
 
@@ -581,6 +650,7 @@ class GFEntryList{
                 <input type="hidden" value="" name="grid_columns" id="grid_columns" />
                 <input type="hidden" value="" name="action" id="action" />
                 <input type="hidden" value="" name="action_argument" id="action_argument" />
+                <input type="hidden" value="" name="all_entries" id="all_entries" />
 
                 <ul class="subsubsub">
                     <li><a class="<?php echo empty($filter) ? "current" : "" ?>" href="?page=gf_entries&view=entries&id=<?php echo $form_id ?>"><?php _e("All", "gravityforms"); ?> <span class="count">(<span id="all_count"><?php echo $active_lead_count ?></span>)</span></a> | </li>
@@ -657,41 +727,57 @@ class GFEntryList{
                         echo apply_filters("gform_entry_apply_button", $apply_button);
 
                         if(in_array($filter, array("trash", "spam"))){
-                            $message = $filter == "trash" ? __("WARNING! This operation cannot be undone. Empty trash? \'Ok\' to empty trash. \'Cancel\' to abort.") : __("WARNING! This operation cannot be undone. Permanently delete all spam? \'Ok\' to delete. \'Cancel\' to abort.");
+                            $message = $filter == "trash" ? __("WARNING! This operation cannot be undone. Empty trash? \'Ok\' to empty trash. \'Cancel\' to abort.", "gravityforms") : __("WARNING! This operation cannot be undone. Permanently delete all spam? \'Ok\' to delete. \'Cancel\' to abort.", "gravityforms");
                             $button_label = $filter == "trash" ? __("Empty Trash", "gravityforms") : __("Delete All Spam", "gravityforms");
                             ?>
                             <input type="submit" class="button" name="button_delete_permanently" value="<?php echo $button_label ?>" onclick="return confirm('<?php echo esc_attr($message) ?>');" />
                             <?php
                         }
                         ?>
+
                         <div id="notifications_modal_container" style="display:none;">
                             <div id="notifications_container">
 
                                 <div id="post_tag" class="tagsdiv">
                                     <div id="resend_notifications_options">
 
-                                        <p class="description"><?php _e("Specify which notifications you would like to resend for the selected entries.", "gravityforms"); ?></p>
+                                        <?php
 
-                                        <?php if(GFCommon::has_admin_notification($form)) { ?>
-                                            <input type="checkbox" name="notification_admin" id="notification_admin" onclick="toggleNotificationOverride();" /> <label for="notification_admin"><?php _e("Admin Notification", "gravityforms"); ?></label> <br /><br />
-                                        <?php } ?>
-                                        <?php if(GFCommon::has_user_notification($form)) { ?>
-                                            <input type="checkbox" name="notification_user" id="notification_user" onclick="toggleNotificationOverride();" /> <label for="notification_user"><?php _e("User Notification", "gravityforms"); ?></label> <br /><br />
-                                        <?php } ?>
+                                        if(!is_array($form["notifications"]) || count($form["notifications"]) <=0){
+                                            ?>
+                                            <p class="description"><?php _e("You cannot resend notifications for these entries because this form does not currently have any notifications configured.", "gravityforms"); ?></p>
 
-                                        <div id="notifications_override_settings" style="display:none;">
+                                            <a href="<?php echo admin_url("admin.php?page=gf_edit_forms&view=settings&subview=notification&id={$form["id"]}") ?>" class="button"><?php _e("Configure Notifications", "gravityforms") ?></a>
+                                        <?php
+                                        }
+                                        else{
+                                            ?>
+                                            <p class="description"><?php _e("Specify which notifications you would like to resend for the selected entries.", "gravityforms"); ?></p>
+                                            <?php
+                                            foreach($form["notifications"] as $notification){
+                                                ?>
+                                                <input type="checkbox" class="gform_notifications" value="<?php echo $notification["id"] ?>" id="notification_<?php echo $notification["id"]?>" onclick="toggleNotificationOverride();" />
+                                                <label for="notification_<?php echo $notification["id"]?>"><?php echo $notification["name"] ?></label> <br /><br />
+                                            <?php
+                                            }
 
-                                            <p class="description" style="padding-top:0; margin-top:0;">You may override the default notification settings
-                                             by entering a comma delimited list of emails to which the selected notifications should be sent.</p>
-                                            <label for="notification_override_email"><?php _e("Send To", "gravityforms"); ?> <?php gform_tooltip("notification_override_email") ?></label><br />
-                                            <input type="text" name="notification_override_email" id="notification_override_email" style="width:99%;" /><br /><br />
+                                            ?>
+                                            <div id="notifications_override_settings" style="display:none;">
 
-                                        </div>
+                                                <p class="description" style="padding-top:0; margin-top:0;">You may override the default notification settings
+                                                    by entering a comma delimited list of emails to which the selected notifications should be sent.</p>
+                                                <label for="notification_override_email"><?php _e("Send To", "gravityforms"); ?> <?php gform_tooltip("notification_override_email") ?></label><br />
+                                                <input type="text" name="notification_override_email" id="notification_override_email" style="width:99%;" /><br /><br />
 
-                                        <input type="button" name="notification_resend" id="notification_resend" value="<?php _e("Resend Notifications", "gravityforms") ?>" class="button" style="" onclick="BulkResendNotifications();"/>
-                                        <span id="please_wait_container" style="display:none; margin-left: 5px;">
-                                            <img src="<?php echo GFCommon::get_base_url()?>/images/loading.gif"> <?php _e("Resending...", "gravityforms"); ?>
-                                        </span>
+                                            </div>
+
+                                            <input type="button" name="notification_resend" id="notification_resend" value="<?php _e("Resend Notifications", "gravityforms") ?>" class="button" style="" onclick="BulkResendNotifications();"/>
+                                            <span id="please_wait_container" style="display:none; margin-left: 5px;">
+                                                <img src="<?php echo GFCommon::get_base_url()?>/images/loading.gif"> <?php _e("Resending...", "gravityforms"); ?>
+                                            </span>
+                                        <?php
+                                        }
+                                        ?>
 
                                     </div>
 
@@ -707,7 +793,7 @@ class GFEntryList{
                         <div id="print_modal_container" style="display:none;">
                             <div id="print_container">
 
-                                <div id="post_tag" class="tagsdiv">
+                                <div class="tagsdiv">
                                     <div id="print_options">
 
                                         <p class="description"><?php _e("Print all of the selected entries at once.", "gravityforms"); ?></p>
@@ -732,7 +818,7 @@ class GFEntryList{
 
                     </div>
 
-                    <?php echo self::display_paging_links("header", $page_links, $first_item_index, $page_size, $total_lead_count);?>
+                    <?php echo self::display_paging_links("header", $page_links, $first_item_index, $page_size, $lead_count);?>
 
                     <div class="clear"></div>
                 </div>
@@ -758,7 +844,7 @@ class GFEntryList{
                         }
                         ?>
                         <th scope="col" align="right" width="50">
-                            <a title="<?php _e("Select Columns" , "gravityforms") ?>" href="<?php echo site_url() ?>/?gf_page=select_columns&id=<?php echo $form_id ?>&TB_iframe=true&height=365&width=600" class="thickbox entries_edit_icon"><?php _e("Edit", "gravityforms") ?></a>
+                            <a title="<?php _e("Select Columns" , "gravityforms") ?>" href="<?php echo trailingslashit(site_url()) ?>?gf_page=select_columns&id=<?php echo $form_id ?>&TB_iframe=true&height=365&width=600" class="thickbox entries_edit_icon"><?php _e("Edit", "gravityforms") ?></a>
                         </th>
                     </tr>
                 </thead>
@@ -781,12 +867,12 @@ class GFEntryList{
                         }
                         ?>
                         <th scope="col" style="width:15px;">
-                            <a href="<?php echo site_url() ?>/?gf_page=select_columns&id=<?php echo $form_id ?>&TB_iframe=true&height=365&width=600" class="thickbox entries_edit_icon"><?php _e("Edit", "gravityforms") ?></a>
+                            <a href="<?php echo trailingslashit(site_url()) ?>?gf_page=select_columns&id=<?php echo $form_id ?>&TB_iframe=true&height=365&width=600" class="thickbox entries_edit_icon"><?php _e("Edit", "gravityforms") ?></a>
                         </th>
                     </tr>
                 </tfoot>
 
-                <tbody class="list:gf_entry user-list" id="gf_entry_list">
+                <tbody data-wp-lists="list:gf_entry" class="user-list" id="gf_entry_list">
                     <?php
                     if(sizeof($leads) > 0){
                         $field_ids = array_keys($columns);
@@ -813,9 +899,9 @@ class GFEntryList{
 
                                 $nowrap_class="entry_nowrap";
                                 foreach($field_ids as $field_id){
-                                    
+
                                     /* maybe move to function */
-                                    
+
                                     $field = RGFormsModel::get_field($form, $field_id);
                                     $value = rgar($lead, $field_id);
 
@@ -864,7 +950,7 @@ class GFEntryList{
                                                                         $value = "<img src='" . GFCommon::get_base_url() . "/images/tick.png'/>";
                                                                         break;
                                                                     }
-                                                                    else if($field["enablePrice"]){
+                                                                    else if(rgar($field,"enablePrice")){
                                                                         $ary = explode("|", $lead[$field_id]);
                                                                         $val = count($ary) > 0 ? $ary[0] : "";
                                                                         $price = count($ary) > 1 ? $ary[1] : "";
@@ -918,7 +1004,7 @@ class GFEntryList{
 
                                         case "date" :
                                             $field = RGFormsModel::get_field($form, $field_id);
-                                            $value = GFCommon::date_display($value, $field["dateFormat"]);
+                                            $value = GFCommon::date_display($value, rgar($field,"dateFormat"));
                                         break;
 
                                         case "radio" :
@@ -943,20 +1029,20 @@ class GFEntryList{
                                                 $value = $userdata->user_login;
                                             }
                                         break;
-                                        
+
                                         case "multiselect":
                                             // add space after comma-delimited values
                                             $value = implode(', ', explode(',', $value));
                                             break;
-                                        
+
                                         default:
                                             $value = esc_html($value);
                                     }
 
                                     $value = apply_filters("gform_entries_field_value", $value, $form_id, $field_id, $lead);
-                                    
+
                                     /* ^ maybe move to function */
-                                    
+
                                     $query_string = "gf_entries&view=entry&id={$form_id}&lid={$lead["id"]}{$search_qs}{$sort_qs}{$dir_qs}{$filter_qs}&paged=" . ($page_index + 1);
                                     if($is_first_column){
                                         ?>
@@ -973,7 +1059,7 @@ class GFEntryList{
                                                         </span>
 
                                                         <span class="edit">
-                                                            <a class='delete:gf_entry_list:lead_row_<?php echo $lead["id"] ?>::status=active&entry=<?php echo $lead["id"] ?>' title="<?php echo _e("Restore this entry", "gravityforms") ?>" href="<?php echo wp_nonce_url("?page=gf_entries", "gf_delete_entry") ?>"><?php _e("Restore", "gravityforms"); ?></a>
+                                                            <a data-wp-lists='delete:gf_entry_list:lead_row_<?php echo $lead["id"] ?>::status=active&entry=<?php echo $lead["id"] ?>' title="<?php echo _e("Restore this entry", "gravityforms") ?>" href="<?php echo wp_nonce_url("?page=gf_entries", "gf_delete_entry") ?>"><?php _e("Restore", "gravityforms"); ?></a>
                                                             <?php echo GFCommon::current_user_can_any("gravityforms_delete_entries") ? "|" : "" ?>
                                                         </span>
 
@@ -983,7 +1069,7 @@ class GFEntryList{
                                                             ?>
                                                             <span class="delete">
                                                                 <?php
-                                                                $delete_link ='<a class="delete:gf_entry_list:lead_row_' . $lead["id"] . '::status=delete&entry=' . $lead["id"] . '" title="' . __("Delete this entry permanently", "gravityforms"). '"  href="' . wp_nonce_url("?page=gf_entries", "gf_delete_entry") . '">' . __("Delete Permanently", "gravityforms") .'</a>';
+                                                                $delete_link ='<a data-wp-lists="delete:gf_entry_list:lead_row_' . $lead["id"] . '::status=delete&entry=' . $lead["id"] . '" title="' . __("Delete this entry permanently", "gravityforms"). '"  href="' . wp_nonce_url("?page=gf_entries", "gf_delete_entry") . '">' . __("Delete Permanently", "gravityforms") .'</a>';
                                                                 echo apply_filters("gform_delete_entry_link", $delete_link);
                                                                 ?>
                                                             </span>
@@ -999,7 +1085,7 @@ class GFEntryList{
                                                         </span>
 
                                                         <span class="unspam">
-                                                            <a class='delete:gf_entry_list:lead_row_<?php echo $lead["id"] ?>::status=unspam&entry=<?php echo $lead["id"] ?>' title="<?php echo _e("Mark this entry as not spam", "gravityforms") ?>" href="<?php echo wp_nonce_url("?page=gf_entries", "gf_delete_entry") ?>"><?php _e("Not Spam", "gravityforms"); ?></a>
+                                                            <a data-wp-lists='delete:gf_entry_list:lead_row_<?php echo $lead["id"] ?>::status=unspam&entry=<?php echo $lead["id"] ?>' title="<?php echo _e("Mark this entry as not spam", "gravityforms") ?>" href="<?php echo wp_nonce_url("?page=gf_entries", "gf_delete_entry") ?>"><?php _e("Not Spam", "gravityforms"); ?></a>
                                                             <?php echo GFCommon::current_user_can_any("gravityforms_delete_entries") ? "|" : "" ?>
                                                         </span>
 
@@ -1009,7 +1095,7 @@ class GFEntryList{
                                                             ?>
                                                             <span class="delete">
                                                                 <?php
-                                                                $delete_link ='<a class="delete:gf_entry_list:lead_row_' . $lead["id"] . '::status=delete&entry=' . $lead["id"] . '" title="' . __("Delete this entry permanently", "gravityforms"). '"  href="' . wp_nonce_url("?page=gf_entries", "gf_delete_entry") . '">' . __("Delete Permanently", "gravityforms") .'</a>';
+                                                                $delete_link ='<a data-wp-lists="delete:gf_entry_list:lead_row_' . $lead["id"] . '::status=delete&entry=' . $lead["id"] . '" title="' . __("Delete this entry permanently", "gravityforms"). '"  href="' . wp_nonce_url("?page=gf_entries", "gf_delete_entry") . '">' . __("Delete Permanently", "gravityforms") .'</a>';
                                                                 echo apply_filters("gform_delete_entry_link", $delete_link);
                                                                 ?>
                                                             </span>
@@ -1032,7 +1118,7 @@ class GFEntryList{
                                                         if(GFCommon::akismet_enabled($form_id)){
                                                             ?>
                                                             <span class="spam">
-                                                                <a class='delete:gf_entry_list:lead_row_<?php echo $lead["id"] ?>::status=spam&entry=<?php echo $lead["id"] ?>' title="<?php _e("Mark this entry as spam", "gravityforms") ?>" href="<?php echo wp_nonce_url("?page=gf_entries", "gf_delete_entry") ?>"><?php _e("Spam", "gravityforms"); ?></a>
+                                                                <a data-wp-lists='delete:gf_entry_list:lead_row_<?php echo $lead["id"] ?>::status=spam&entry=<?php echo $lead["id"] ?>' title="<?php _e("Mark this entry as spam", "gravityforms") ?>" href="<?php echo wp_nonce_url("?page=gf_entries", "gf_delete_entry") ?>"><?php _e("Spam", "gravityforms"); ?></a>
                                                                 <?php echo GFCommon::current_user_can_any("gravityforms_delete_entries") ? "|" : "" ?>
                                                             </span>
 
@@ -1042,7 +1128,7 @@ class GFEntryList{
                                                         {
                                                             ?>
                                                             <span class="trash">
-                                                                <a class='delete:gf_entry_list:lead_row_<?php echo $lead["id"] ?>::status=trash&entry=<?php echo $lead["id"] ?>' title="<?php _e("Move this entry to the trash", "gravityforms") ?>" href="<?php echo wp_nonce_url("?page=gf_entries", "gf_delete_entry") ?>"><?php _e("Trash", "gravityforms"); ?></a>
+                                                                <a data-wp-lists='delete:gf_entry_list:lead_row_<?php echo $lead["id"] ?>::status=trash&entry=<?php echo $lead["id"] ?>' title="<?php _e("Move this entry to the trash", "gravityforms") ?>" href="<?php echo wp_nonce_url("?page=gf_entries", "gf_delete_entry") ?>"><?php _e("Trash", "gravityforms"); ?></a>
                                                             </span>
                                                             <?php
                                                         }
@@ -1172,7 +1258,7 @@ class GFEntryList{
                         ?>
                     </div>
 
-                    <?php echo self::display_paging_links("footer", $page_links, $first_item_index, $page_size, $total_lead_count);?>
+                    <?php echo self::display_paging_links("footer", $page_links, $first_item_index, $page_size, $lead_count);?>
 
                     <div class="clear"></div>
                 </div>
@@ -1182,7 +1268,7 @@ class GFEntryList{
         <?php
     }
 
-    private static function get_icon_url($path){
+    public static function get_icon_url($path){
         $info = pathinfo($path);
         switch(strtolower(rgar($info, "extension"))){
 
@@ -1293,7 +1379,7 @@ class GFEntryList{
 
     }
 
-    private function display_paging_links($which, $page_links, $first_item_index, $page_size, $total_lead_count) {
+    private static function display_paging_links($which, $page_links, $first_item_index, $page_size, $total_lead_count) {
 		//Displaying paging links if appropriate
 		//$which - header or footer, so the items can have unique names
 		if($page_links)
@@ -1322,7 +1408,6 @@ class GFEntryList{
 		}
 		return $paging_html;
     }
-    
 }
 
 ?>

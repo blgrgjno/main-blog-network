@@ -46,6 +46,7 @@
 			<img id="logo" src="<?php echo home_url( '/' ); ?>wp-content/themes/dss-framework/images/logo.png" alt="Regjeringen logo" />
 		</a>
 		<div id="header-content">
+			<a class="top-menu-link" href="http://blogg.regjeringen.no/personvern/">Personvern</a>
 			<a class="top-menu-link" href="http://regjeringen.no/">regjeringen.no</a>
 			<h1 id="site-title"><a href="<?php echo home_url( '/' ); ?>"><?php bloginfo( 'title' ); ?></a></h1>
 			<h2 id="site-description"><?php bloginfo( 'description' ); ?></h2>

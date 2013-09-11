@@ -52,8 +52,8 @@
 
 ?>
 </head>
-
 <body <?php body_class(); ?>>
+
 <div id="page" class="hfeed">
 	<header id="branding" role="banner">
 		<a href="<?php echo esc_url( $header_link ); ?>">
@@ -63,7 +63,8 @@
 				echo $logo_url;
 			?>" alt="Regjeringen logo" />
 		</a>
-		<div id="header-content"><?php
+		<div id="header-content">
+			<a class="top-menu-link" href="http://blogg.regjeringen.no/personvern/">Personvern</a><?php
 
 			/*
 			 * If 'top-menu' menu slug is specified, then it will pull

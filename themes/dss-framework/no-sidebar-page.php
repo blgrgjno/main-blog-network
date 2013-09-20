@@ -14,7 +14,9 @@ get_header(); ?>
 			<div id="content" role="main"><?php
 
 				// Add main-top sidebar
-				dynamic_sidebar( 'main-top' );
+				if ( '1' != dss_get_theme_option( 'main_top_widgets' ) )
+					dynamic_sidebar( 'main-top' );
+
 
 				while ( have_posts() ) : the_post(); ?>
 

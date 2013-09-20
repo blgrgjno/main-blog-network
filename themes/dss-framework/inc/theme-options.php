@@ -207,6 +207,7 @@ function dss_get_default_theme_options() {
 		'theme_layout'      => 'content-sidebar',
 		'footer_text'       => 'Some footer text goes here!',
 		'comments_position' => 'below-comments',
+		'main_top_widgets'  => '',
 	);
 
 	if ( is_rtl() )
@@ -254,6 +255,10 @@ function dss_theme_options_validate( $input ) {
 	// Comments position must be in our array of comment position options
 	if ( isset( $input['comments_position'] ) && array_key_exists( $input['comments_position'], dss_comments_positions() ) )
 		$output['comments_position'] = $input['comments_position'];
+
+	// Comments position must be in our array of comment position options
+	if ( isset( $input['main_top_widgets'] ) )
+		$output['main_top_widgets'] = (bool) $input['main_top_widgets'];
 
 	// Sidebar color must be 3 or 6 hexadecimal characters
 	if ( isset( $input['sidebar_color'] ) && array_key_exists( $input['sidebar_color'], dss_sidebar_color() ) )
@@ -456,6 +461,17 @@ function dss_customize_register( $wp_customize ) {
 		'label'    => __( 'Position of the comments field', 'dss' ),
 		'type'       => 'radio',
 		'choices'    => $choices,
+	) );
+
+	$wp_customize->add_setting( 'dss_theme_options[main_top_widgets]', array(
+		'type'              => 'option',
+		'default'           => $defaults['main_top_widgets'],
+		'sanitize_callback' => 'sanitize_key',
+	) );
+	$wp_customize->add_control( 'dss_theme_options[main_top_widgets]', array(
+		'section'    => 'dss_layout',
+		'label'    => __( 'Display "Main Top" widget area only on front page.', 'dss' ),
+		'type'       => 'checkbox',
 	) );
 
 	// Sidebar colors

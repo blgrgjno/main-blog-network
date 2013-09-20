@@ -1777,6 +1777,9 @@ ul#numeric_pagination li a:hover {
 	margin: 0 0 1.3em 0;
 	padding: 0 0 1.3em 0;
 }
+#content .widget {
+	overflow: auto;
+}
 #secondary .widget {
 	border-bottom: 1px solid #eaeaea;
 }

@@ -11,9 +11,12 @@
 get_header(); ?>
 
 		<div id="primary">
-			<div id="content" role="main">
+			<div id="content" role="main"><?php
 
-				<?php while ( have_posts() ) : the_post(); ?>
+				// Add main-top sidebar
+				dynamic_sidebar( 'main-top' );
+
+				while ( have_posts() ) : the_post(); ?>
 
 					<?php get_template_part( 'content', 'page' ); ?>
 

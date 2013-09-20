@@ -10,9 +10,12 @@
 get_header(); ?>
 
 		<section id="primary">
-			<div id="content" role="main">
+			<div id="content" role="main"><?php
 
-			<?php if ( have_posts() ) : ?>
+				// Add main-top sidebar
+				dynamic_sidebar( 'main-top' );
+
+				if ( have_posts() ) : ?>
 
 				<header class="page-header">
 					<h1 class="page-title"><?php printf( __( 'Search Results for: %s', 'dss' ), '<span>' . get_search_query() . '</span>' ); ?></h1>

@@ -10,9 +10,13 @@
 get_header(); ?>
 
 		<div id="primary">
-			<div id="content" role="main">
+			<div id="content" role="main"><?php
 
-				<?php while ( have_posts() ) : the_post(); ?>
+				// Add main-top sidebar
+				dynamic_sidebar( 'main-top' );
+				echo '<div style="float:left;width:100%;"></div>';
+
+				while ( have_posts() ) : the_post(); ?>
 
 					<nav id="nav-single">
 						<h3 class="assistive-text"><?php _e( 'Post navigation', 'dss' ); ?></h3>

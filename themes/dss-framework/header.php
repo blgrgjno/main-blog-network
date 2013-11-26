@@ -153,6 +153,12 @@
 
 		// Hide main menu if set via DSS Super Admin plugin
 		global $super_admin;
+
+		// Ensure DSS Super Admin is available - or show error
+		if ( NULL == $super_admin ) {
+			wp_die( "</header><div id=\"main\"><pre style=\"color:red\">You must enable the DSS Super Admin plugin</pre>" );
+		}
+
 		if ( true != $super_admin->get_option( 'hide-main-menu' ) ) : ?>
 		<nav id="access" role="navigation">
 			<h3 class="assistive-text"><?php _e( 'Main menu', 'dss' ); ?></h3>

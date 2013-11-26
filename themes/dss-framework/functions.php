@@ -49,6 +49,9 @@ function dss_setup() {
 	 * If you're building a theme based on DSS Framework, use a find and replace
 	 * to change 'dss' to the name of your theme in all the template files.
 	 */
+	$locale = apply_filters( 'theme_locale', get_locale(), 'dss' );
+	load_textdomain( 'dss', WP_LANG_DIR.'/themes/twentyeleven-'.$locale.'.mo' );
+
 	load_theme_textdomain( 'dss', get_template_directory() . '/languages' );
 
 	// This theme styles the visual editor with editor-style.css to match the theme style.

@@ -1,0 +1,35 @@
+@import url("../dss-framework/style.css");
+/*
+ Theme Name:     Prioriteringsutvalget
+ Theme URI:      http://example.com/twenty-thirteen-child/
+ Description:    Twenty Thirteen Child Theme
+ Author:         Gorm
+ Author URI:     http://example.com
+ Template:       dss-framework
+ Version:        1.0.0
+*/
+#logo {
+  height: 91px;
+  width: auto;
+  margin-left: 4em;
+  margin-right: 0.6em;
+  margin-top: 0.3em; }
+
+#header-content {
+  background: none; }
+
+h1#site-title {
+  margin-top: 1.4em;
+  margin-left: 0.5em;
+  margin-bottom: 0; }
+
+#site-description {
+  padding-left: 0.5em;
+  margin-left: 0.5em;
+  width: 45%;
+  line-height: 1.2em;
+  padding-top: 0.1em; }
+
+.top-menu-link {
+  top: 79px;
+  left: 0; }

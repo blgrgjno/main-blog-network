@@ -1,0 +1,455 @@
+/* NEVER EDIT THE CSS FILE DIRECTLY. ALWAYS EDIT .SCSS FILE THEN CONVERT TO CSS */
+/*
+Theme Name:     Ansvarlig Næringsliv
+Theme URI:      http://ansvarlignaringsliv.no
+Description:    Child theme for twentythirteen
+Author:         Gorm
+Author URI:     http://regjeringen.no
+Template:       twentythirteen
+Version:        0.1.0
+*/
+@import url("../twentythirteen/style.css");
+
+body {
+	background: url("img/bkgrbody.png") repeat-x scroll left top #EEEEEE;
+}
+
+#masthead {
+	background: url("img/header.png") no-repeat scroll right top #FFFFFF;
+}
+
+/* breaks */
+$break-large: 1069px;
+$break-small: 643px;
+/* end breaks */
+
+/* colors */
+$bg1-color: rgb(238,238,238);
+$nav-color: rgb(60,136,198);
+$front-header-color: rgb(140,198,62);
+$link-color: #1863A0;
+$header-color: #5E83B2;
+/* end colors */
+
+/* reset twentythirteen */
+.nav-menu .current_page_item > a,
+.nav-menu .current_page_ancestor > a,
+.nav-menu .current-menu-item > a,
+.nav-menu .current-menu-ancestor > a,
+.entry-meta a, .entry-meta a:hover,
+.entry-content a, .comment-content a,
+.format-link .entry-title a,
+.navigation a,
+.comment-author .fn,.comment-author .url,
+.comment-reply-link,.comment-reply-login,
+.widget a, .widget a:hover,
+.comment-author .fn,.comment-author .url,
+.comment-reply-link,.comment-reply-login 
+{
+	color: $link-color;
+}
+
+.page-header {
+	background-color: #fff;
+}
+/* end of reset */
+
+/* hide h1 title and description */
+.site-description, .site-title {
+	font-size: 14px;
+	visibility:hidden;
+	color:transparent; 
+	padding:0;
+	margin:0;
+	position:relative;
+	top: 40px;
+	float:right;
+	z-index: 5;
+}
+
+/* fonts */
+/* woff-fonter: Beteckna medium og bold; en fritt distribuerbar og GPL variant over Futura, modifisert av Nettsmia */
+@font-face {
+  font-family: 'beteckna_medium';
+//  src: url('beteckna_medium.eot');
+  src: url('beteckna_medium.eot?#iefix') format('embedded-opentype'),
+       url('beteckna_medium.woff') format('woff'),
+       url('beteckna_medium.ttf') format('truetype');
+  src: local('BetecknaLowerCase Medium');
+  font-weight: normal;
+  font-style: normal;
+}
+
+$special: beteckna_medium,Myriad,sans-serif;
+html, body, div, span, applet, object, iframe,p, 
+blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, 
+img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, 
+center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, 
+tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure,
+figcaption, footer, header, hgroup {
+	font-family: Georgia,serif;
+	font-size: 14px;
+}
+
+h1 {
+  color: $header-color;
+  font-family: $special;
+  font-size: 32px;
+  font-weight: normal;
+  line-height: 100%;
+}
+
+button, input[type="submit"], input[type="button"], input[type="reset"] {
+	font-size: 16px;
+}
+
+.widget .widget-title,.navigation a,.home #content h2,.icl_lang_sel_current {
+	font-family: $special;
+	font-style: normal;
+}
+.icl_lang_sel_current {
+	font-size: 15px;
+	line-height: 100%;
+	padding-right: 5px;
+}
+
+.navigation a {
+	font-size: 15px;
+}
+
+.widget .widget-title {
+	font-size: 17px;
+	line-height: 21px;
+	font-weight: 400;
+}
+
+.home #content h2 {
+	font-size: 21px;
+}
+/* end fonts */
+
+/* override link colors in theme */
+a, .widget a, .entry-meta a, .entry-meta a:hover {
+	color: $link-color;	
+}
+
+a:hover {
+	background-color: #A9D8FF;
+	color: #0079DC;
+	text-decoration: underline;
+}
+
+/* layout */
+.site { 
+	max-width: 1060px;
+	padding-left: 45px;
+
+	@media screen and (max-width: $break-small) {
+		padding-left: 5px;
+	}
+}
+
+.site {
+	box-shadow: 0 0 5px #8696A4;
+	margin: 0 auto;
+	max-width: 1065px;
+	min-width: 660px;
+	xxpadding: 0 0 0 45px;
+}
+
+#site-navigation {
+	padding-top: 45px;
+}
+
+.sidebar .entry-header, .sidebar .entry-content, .sidebar .entry-summary, .sidebar .entry-meta {
+  padding: 0 376px 0 20px;
+  line-height: 120%;
+}
+
+.entry-title {
+  font-weight: normal;
+  margin: 25px 0;
+}
+/* end layout */
+
+/* general widget */
+.widget {
+	background-color: #fff;
+	font-size: 15px;
+	margin: 10px 25px 20px 25px;
+	padding: 0;
+	word-wrap: break-word;
+
+	/* TODO: this is a terrible way of doing it */	
+	> a,> ol,> ul, > div {
+		margin-left: 12px;
+	}
+	> h3, > img {
+		padding: 0 0;
+	}
+	a:hover {
+		color: $link-color;
+	}
+}
+
+#my_language_list li {
+	display: inline;
+}
+
+.widget {
+	padding-bottom: 12px;
+}
+
+.widget .widget-title {
+	background-color: $nav-color;
+	color: #fff;
+	padding: 6px;
+	padding-top: 4px;
+	height: 27px;
+}
+
+.widget_search {
+	padding-bottom: 25px;
+}
+
+/* Our special widget */
+.widget.ansvarlig {
+	background-color: transparent;
+	position:absolute;
+	top:60px;
+}
+
+/* end general widget */
+
+/* search */
+nav .search-form { 
+	display: none; 
+}
+
+.search-form .search-submit { 
+	display: inline; 
+}
+
+input[type="search"] { 
+	width: 200px; 
+	border: 1px solid #C0C0C0;
+}
+
+.widget_search { 
+	background-color: $bg1-color; 
+}
+/* end search */
+
+/* sidebar / widgets */
+.site-main .sidebar-container {
+	top: 0px;
+	@media screen and (max-width: $break-large) {
+		margin: 0 auto;
+		max-width: 100%;
+		position: absolute;
+	}
+	@media screen and (max-width: $break-small) {
+		margin:0px;
+		width:100%;
+		position:relative;
+	}
+}
+.site-main .sidebar-inner {
+	min-width: 100%;
+	width: 100%;
+}
+.site-main .widget-area { 
+	width: 310px; 
+	/* trying to improve in ipad. Remove padding */
+	@media screen and (max-width: $break-large) {
+		margin-right: 0px;
+	}
+	@media screen and (max-width: 999px) {
+		float:right;
+	}
+	@media screen and (max-width: $break-small) {
+		xxoutline: 1px solid green;
+		margin:0px;
+		width:100%;
+	}
+}
+
+.widget-area { 
+	background-color: $bg1-color; 
+	padding-top:18px;
+}
+/* end sidebar / widgets */
+
+/* site header */
+.site-header .home-link {
+	min-height: 79px;
+	text-align: right;
+	width: 100%;
+}
+/* end site header */
+
+/* navbar */
+.navbar { 
+	background-color: transparent;
+}
+
+#site-navigation {
+	border-bottom: 10px solid $nav-color;
+}
+
+.nav-menu .current_page_item > a, .nav-menu .current_page_ancestor > a, 
+.nav-menu .current-menu-item > a, .nav-menu .current-menu-ancestor > a {
+	color: #fff;
+	background-color: $nav-color;
+}
+
+.nav-menu li a {
+	padding: 5px 10px;
+}
+
+.main-navigation {
+	min-height: 0;
+}
+
+.nav-menu li:hover > a, .nav-menu li a:hover {
+	background-color: $nav-color;
+}
+/* end navbar */
+
+/* search in widget */
+button, input[type="submit"], input[type="button"], input[type="reset"] {
+	background: $nav-color;
+	/*linear-gradient(to bottom, #E05D22 0%, #D94412 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);*/
+	border-color: $nav-color;
+	border-image: none;
+	border-radius: 2px;
+	border-style: none none solid;
+	border-width: medium medium 3px;
+	color: #FFFFFF;
+	display: inline-block;
+	padding: 6px 14px 5px;
+	text-decoration: none;
+}
+
+button:hover, button:focus, input[type="submit"]:hover, input[type="button"]:hover, 
+input[type="reset"]:hover, input[type="submit"]:focus, input[type="button"]:focus, 
+input[type="reset"]:focus {
+	background: $nav-color;
+	outline: medium none;
+}
+/* end search in widget */
+
+/* home page */
+.home {
+	#content {
+		xmargin: 0 auto;
+		xxmax-width: 720px;
+		xxmax-width: 67%;
+		width: 70%;
+		min-width: 30%;
+		@media screen and (max-width: $break-small) {
+			xxmin-width: 50%;
+		}		
+	}
+
+	#content section {
+		display: inline-block;
+		width: 30%;
+		min-width: 330px;
+		margin-right: 20px;
+		padding-top: 0px;
+		margin-top:30px;
+		background-color: $bg1-color;
+		height: 360px;
+		overflow:hidden;
+		@media screen and (max-width: 1069px) {
+			min-width: 300px;
+		}
+		@media screen and (max-width: $break-small) {
+			min-width: 330px;
+			height: auto;
+		}
+	}
+
+	.entry-header,.entry-content,.entry-meta {
+		padding:0;
+	}
+
+	#content h2 {
+		background-color: $front-header-color;
+		padding: 5px 8px;
+		margin:0px;
+	}
+
+	.entry-content img {
+		width: 100%;
+	}
+
+	.entry-header {
+		padding:0;
+		margin:0;
+	}
+
+	img.alignnone {
+		margin: 0;
+		margin-bottom: 5px;
+	}
+
+	.entry-content p {
+		margin:0px;
+		line-height: 120%;
+		padding: 5px 5px 5px 10px;
+	}
+
+	/* fix edit content on frontpage */
+	.entry-content { 
+		position:relative;
+	}
+
+	.entry-meta {
+		clear: none;
+		margin-top: 0px;
+		text-align: right;
+		padding-right: 5px;
+		position:absolute;
+		top: -25px;
+		right:0px;;
+		background-color: rgba(255,255,255,0.7);
+		display: inline;
+		width: 80px;
+	}
+}
+/* end home page */
+
+/* comments */
+.comment-respond {
+	background-color: $bg1-color;
+}
+/* end comments */
+
+/* footer */
+.site-footer {
+	background-color: #fff;
+	margin-top: 45px;
+}
+
+.site-footer a {
+	color: $link-color;
+}
+
+.site-info {
+	border-top: 3px solid $nav-color;
+	padding-bottom: 10px;
+	padding-top: 2px;
+	max-width: 1080px;
+}
+/* end footer */
+
+/* localized styling */
+.lang_en {
+	input[type="search"] {
+		width: 180px;
+	}
+}
+
+/* media queries */

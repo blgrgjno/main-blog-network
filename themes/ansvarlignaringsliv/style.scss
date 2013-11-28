@@ -159,6 +159,10 @@ a:hover {
 
 #site-navigation {
 	padding-top: 45px;
+
+	@media screen and (max-width: $break-small) {
+		padding-top: 35px;
+	}
 }
 
 .sidebar .entry-header, .sidebar .entry-content, .sidebar .entry-summary, .sidebar .entry-meta {
@@ -248,10 +252,11 @@ input[type="search"] {
 		max-width: 100%;
 		position: absolute;
 	}
+	
 	@media screen and (max-width: $break-small) {
-		margin:0px;
-		width:100%;
-		position:relative;
+		margin:0 auto;
+		position:absolute;
+
 	}
 }
 .site-main .sidebar-inner {
@@ -268,9 +273,8 @@ input[type="search"] {
 		float:right;
 	}
 	@media screen and (max-width: $break-small) {
-		xxoutline: 1px solid green;
 		margin:0px;
-		width:100%;
+		xxwidth:100%;
 	}
 }
 
@@ -350,24 +354,37 @@ input[type="reset"]:focus {
 		@media screen and (max-width: $break-small) {
 			xxmin-width: 50%;
 		}		
-	}
 
-	#content section {
-		display: inline-block;
-		width: 30%;
-		min-width: 330px;
-		margin-right: 20px;
-		padding-top: 0px;
-		margin-top:30px;
-		background-color: $bg1-color;
-		height: 360px;
-		overflow:hidden;
-		@media screen and (max-width: 1069px) {
-			min-width: 300px;
-		}
-		@media screen and (max-width: $break-small) {
+		section {
+			display: inline-block;
+			width: 30%;
 			min-width: 330px;
-			height: auto;
+			margin-right: 20px;
+			padding-top: 0px;
+			margin-top:30px;
+			background-color: $bg1-color;
+			height: 360px;
+			overflow:hidden;
+
+			@media screen and (max-width: 1069px) {
+				min-width: 300px;
+			}
+			@media screen and (max-width: $break-small) {
+				min-width: 330px;
+				height: auto;
+			}
+		}
+
+
+		h2 {
+			background-color: $front-header-color;
+			padding: 5px 8px;
+			margin:0px;
+		}
+
+		.entry-header {
+			padding:0;
+			margin:0;
 		}
 	}
 
@@ -375,20 +392,11 @@ input[type="reset"]:focus {
 		padding:0;
 	}
 
-	#content h2 {
-		background-color: $front-header-color;
-		padding: 5px 8px;
-		margin:0px;
-	}
-
 	.entry-content img {
 		width: 100%;
 	}
 
-	.entry-header {
-		padding:0;
-		margin:0;
-	}
+
 
 	img.alignnone {
 		margin: 0;
@@ -453,3 +461,26 @@ input[type="reset"]:focus {
 }
 
 /* media queries */
+@media screen and (max-width: $break-small) {
+	#content .entry-header,
+	#content .entry-content,
+	#content .entry-summary,
+	#content footer.entry-meta,
+	#content .featured-gallery {
+		padding-left: 20px;
+		padding-right: 376px;
+	}	
+
+	/** Override entry-content on home page	 */
+	.home #content .entry-content {
+		padding-right: 0px;
+		padding-left: 0px;
+	}
+
+	#content {
+		.entry-thumbnail img {
+			display: inline;
+		}
+	}
+
+}

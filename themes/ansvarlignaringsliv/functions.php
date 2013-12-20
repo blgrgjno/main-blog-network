@@ -29,7 +29,7 @@ Class My_Recent_Posts_Widget extends WP_Widget_Recent_Posts {
 				<li><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a><br />[<?php the_time( 'd.m.Y'); ?>]</li>
 			<?php endwhile; ?>
 		</ul>
-		<a href="<?php echo $more_posts_url; ?>"><?php _e('Flere nyheter'); ?></a>
+		<a href="<?php echo $more_posts_url; ?>"><?php _e('More news'); ?></a>
 		<?php
 		echo $after_widget;
 		wp_reset_postdata();
@@ -108,6 +108,5 @@ function ansvarlig_body_classes( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'ansvarlig_body_classes' );
-
 ?>
 

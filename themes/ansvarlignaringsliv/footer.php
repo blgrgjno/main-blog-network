@@ -17,7 +17,7 @@
 			<div class="site-info">
 				<?php //do_action( 'twentythirteen_credits' ); ?>
 				<!-- <a href="<?php echo esc_url( __( 'http://wordpress.org/', 'twentythirteen' ) ); ?>" title="<?php esc_attr_e( 'Semantic Personal Publishing Platform', 'twentythirteen' ); ?>"><?php printf( __( 'Proudly powered by %s', 'twentythirteen' ), 'WordPress' ); ?></a>-->
-			 OECDs kontaktpunkt - Postboks 8114 Dep - N-0032 Oslo - Akersgata 44 - 0180 Oslo - <a href="mailto:oecdncp@mfa.no">oecdncp@mfa.no</a>
+			 <?php _e( 'NCP Norway - PO box 8114 Dep - N-0032 Oslo, Norway - Akersgata 44 - 0180 Oslo - <a href="mailto:oecdncp@mfa.no">oecdncp@mfa.no</a>', 'dss' ); ?>
 			</div><!-- .site-info -->
 		</footer><!-- #colophon -->
 	</div><!-- #page -->

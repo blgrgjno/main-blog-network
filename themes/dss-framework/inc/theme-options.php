@@ -267,6 +267,9 @@ function dss_theme_options_validate( $input ) {
 	// Sanitize theme heading
 	$output['theme_heading'] = wp_kses( $input['theme_heading'], '', '' );
 
+	// sanitize theme sender
+	$output['theme_sender'] = wp_kses( $input['theme_sender'], '', '' );
+
 	// Sanitize footer text
 	$output['footer_text'] = wp_kses( $input['footer_text'], dss_allowed_html(), '' );
 
@@ -510,6 +513,19 @@ function dss_customize_register( $wp_customize ) {
 			'priority' => 10,
 		)
 	);
+
+	$wp_customize->add_setting( 'dss_theme_options[theme_sender]', array(
+		'default'    => 'dep',
+		'type'       => 'option',
+		'capability' => 'edit_theme_options',
+	) );
+	$wp_customize->add_control( 'dss_theme_options[theme_sender]', array(
+		'section'    => 'header_image',
+		'label'      => __( 'Header text', 'dss' ),
+		'type'       => 'text',
+	) );
+
+
 	$wp_customize->add_setting(
 		'dss_theme_options[heading_text]',
 		array(

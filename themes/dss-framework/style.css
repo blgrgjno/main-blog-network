@@ -471,11 +471,21 @@ a:hover {
 	height: auto;
 	margin-bottom: 0.6em;
 }
+.riksvapen #logo {
+	width: 5.5%;
+	margin: 1%;
+	margin-left: 5%;
+
+}
 #header-content {
 	background: url(images/logo-white.png) no-repeat 440px 15px;
 	float: left;
 	width: 87%;
 	min-height: 92px;
+}
+/* Remove header content background if using riksvaapen for styling */
+.riksvapen #header-content {
+	background: none;
 }
 
 /* Government link */
@@ -487,6 +497,12 @@ a:hover {
 	color: #00418d;
 	font-size: 9px;
 	float: right;
+}
+.riksvapen .top-menu-link {
+	top:80px;
+	left:0em; 
+}
+@media (max-width: 450px) {
 }
 
 /* Search Form */
@@ -528,6 +544,12 @@ h1#site-title {
 	color: #00418d;
 	background-size: 100%;
 }
+.riksvapen h1#site-title {
+	margin-top: 1.8em;
+	margin-left: 0.5em;
+	margin-bottom: 0;	
+}
+
 #site-title a {
 	width: 100%;
 	color: #00418d;
@@ -543,7 +565,17 @@ h1#site-title {
 	padding: 0 0 0 4%;
 	color: #333;
 	font-size: 0.8em;
+	max-width: 50%;
 }
+.riksvapen #site-description {
+	padding-left: 0.5em;
+	margin-left: 0.5em;
+	width: 45%;
+	line-height: 1.2em;
+	padding-top: 0.1em;
+	min-width: 220px;
+}
+
 #header-image {
 	float: left;
 	width: 100%;
@@ -2542,6 +2574,23 @@ p.comment-form-comment {
 
 }
 @media (max-width: 450px) {
+	/* move links to top on small devices, if using riksvapen branding */
+	.riksvapen .top-menu-link {
+		top:4px;
+	}
+	/* site-description can now get wide */
+	#site-description {
+		max-width: 100%;
+		position:relative;
+		left: -25px;
+	}	
+	/* decrease title font-size */
+	#site-title a {
+		font-size: 18px;
+		position:relative;
+		left:-25px;
+		top:5px;
+	}
 	#content .gallery-columns-2 .gallery-item {
 		width: 45%;
 		padding-right: 4%;
@@ -2559,6 +2608,7 @@ p.comment-form-comment {
 		margin-left: 0 !important;
 	}
 }
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
 	body {
 		padding: 0;
@@ -2569,7 +2619,6 @@ p.comment-form-comment {
 	#branding {
 		border-top: none;
 	}
-
 }
 
 

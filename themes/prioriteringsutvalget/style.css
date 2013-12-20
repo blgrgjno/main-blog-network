@@ -8,15 +8,21 @@
  Template:       dss-framework
  Version:        1.0.0
 */
-#logo {
-  height: 91px;
-  width: auto;
-  margin-left: 4em;
-  margin-right: 0.6em;
-  margin-top: 0.3em; }
+#content {
+  margin-top: 1.6em; }
 
-#header-content {
-  background: none; }
+#main {
+  overflow: hidden;
+  position: relative; }
+
+#secondary {
+  padding-bottom: 9999px;
+  margin-bottom: -9999px; }
+
+.home .entry-header {
+  display: none; }
+.home #content {
+  margin-top: 0.5em; }
 
 h1#site-title {
   margin-top: 1.4em;
@@ -28,8 +34,18 @@ h1#site-title {
   margin-left: 0.5em;
   width: 45%;
   line-height: 1.2em;
-  padding-top: 0.1em; }
+  padding-top: 0.1em;
+  min-width: 220px; }
 
-.top-menu-link {
-  top: 79px;
-  left: 0; }
+/* override Kontakt Oss contact headers */
+.page-id-17 .entry-content h2 {
+  margin: 0px; }
+
+@media screen and (max-width: 800px) {
+  #secondary {
+    /* turn off background+padding when secondary is cleared */
+    background-color: white !important;
+    padding: 0px; }
+
+  #main #content {
+    margin: 20px 7.6%; } }

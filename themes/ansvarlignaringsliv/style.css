@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("../twentythirteen/style.css");
+@import url("style-nr.css");
 /* NEVER EDIT THE CSS FILE DIRECTLY. ALWAYS EDIT .SCSS FILE THEN CONVERT TO CSS */
 /*
 Theme Name:     Ansvarlig Næringsliv
@@ -11,10 +11,24 @@ Template:       twentythirteen
 Version:        0.1.0
 */
 body {
-  background: url("img/bkgrbody.png") repeat-x scroll left top #eeeeee; }
+  background: url("img/bkgrbody.png") repeat-x scroll left top #eeeeee;
+  min-width: 1025px; }
 
 #masthead {
-  background: url("img/header.png") no-repeat scroll right top white; }
+  background: url("img/oecd2013_headerN.png") no-repeat scroll right top white;
+  xxbackground-size: 100% auto;
+  xxbackground: none; }
+
+.lang_en #masthead {
+  background: url("img/oecd2013_headerE.png") no-repeat scroll right top white; }
+
+.header-logo {
+  max-width: 90%;
+  position: relative;
+  display: block;
+  padding-top: 0px;
+  margin-right: auto;
+  margin-left: auto; }
 
 /* breaks */
 /* end breaks */
@@ -77,6 +91,14 @@ h1 {
   font-weight: normal;
   line-height: 100%; }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: beteckna_medium, Myriad, sans-serif; }
+
 button, input[type="submit"], input[type="button"], input[type="reset"] {
   font-size: 16px; }
 
@@ -113,31 +135,41 @@ a:hover {
 /* layout */
 .site {
   max-width: 1060px;
-  padding-left: 45px; }
-  @media screen and (max-width: 643px) {
-    .site {
-      padding-left: 5px; } }
+  padding-left: 45px;
+  min-width: 1065px;
+  /*@media screen and (max-width: $break-small) {
+  	padding-left: 5px;
+  }*/ }
 
 .site {
   box-shadow: 0 0 5px #8696A4;
   margin: 0 auto;
   max-width: 1065px;
-  min-width: 660px;
-  xxpadding: 0 0 0 45px; }
+  border: 0; }
 
 #site-navigation {
-  padding-top: 45px; }
-  @media screen and (max-width: 643px) {
-    #site-navigation {
-      padding-top: 35px; } }
+  padding-top: 75px;
+  /*@media screen and (max-width: $break-small) {
+  	padding-top: 35px;
+  }*/ }
 
 .sidebar .entry-header, .sidebar .entry-content, .sidebar .entry-summary, .sidebar .entry-meta {
   padding: 0 376px 0 20px;
-  line-height: 120%; }
+  line-height: 120%;
+  /*@media screen and (max-width: 999px) {
+  	padding:0px;
+  	max-width: 100%;
+  	padding-right: 45%;
+  }*/ }
 
 .entry-title {
   font-weight: normal;
   margin: 25px 0; }
+
+/* Images doesn't align well for some reason with this set to 60px in default theme */
+.entry-content img.alignleft,
+.entry-content .wp-caption.alignleft {
+  margin-left: 0; }
 
 /* end layout */
 /* general widget */
@@ -146,6 +178,9 @@ a:hover {
   font-size: 15px;
   margin: 10px 25px 20px 25px;
   padding: 0;
+  /*@media screen and (max-width: $break-small) {
+  	margin: 10px 0px 20px 0px;
+  }*/
   word-wrap: break-word;
   /* TODO: this is a terrible way of doing it */ }
   .widget > a, .widget > ol, .widget > ul, .widget > div {
@@ -168,14 +203,14 @@ a:hover {
   padding-top: 4px;
   height: 27px; }
 
-.widget_search {
-  padding-bottom: 25px; }
-
 /* Our special widget */
 .widget.ansvarlig {
   background-color: transparent;
   position: absolute;
   top: 60px; }
+
+.socialmedialinks img {
+  padding-right: 10px; }
 
 /* end general widget */
 /* search */
@@ -190,21 +225,30 @@ input[type="search"] {
   border: 1px solid #C0C0C0; }
 
 .widget_search {
-  background-color: #eeeeee; }
+  background-color: #eeeeee;
+  padding-bottom: 25px; }
+
+.widget_search h3 {
+  display: none; }
 
 /* end search */
 /* sidebar / widgets */
 .site-main .sidebar-container {
-  top: 0px; }
-  @media screen and (max-width: 1069px) {
-    .site-main .sidebar-container {
-      margin: 0 auto;
-      max-width: 100%;
-      position: absolute; } }
-  @media screen and (max-width: 643px) {
-    .site-main .sidebar-container {
-      margin: 0 auto;
-      position: absolute; } }
+  top: 0px;
+  	/*
+  	@media screen and (max-width: $break-large) {
+  		margin: 0 auto;
+  		max-width: 100%;
+  		position: absolute;
+  	}
+  	@media screen and (max-width: 999) {
+  
+  	}
+  	
+  	@media screen and (max-width: $break-small) {
+  		margin:0 auto;
+  		position:relative;
+  	}*/ }
 
 .site-main .sidebar-inner {
   min-width: 100%;
@@ -212,17 +256,20 @@ input[type="search"] {
 
 .site-main .widget-area {
   width: 310px;
-  /* trying to improve in ipad. Remove padding */ }
-  @media screen and (max-width: 1069px) {
-    .site-main .widget-area {
-      margin-right: 0px; } }
+  /* trying to improve in ipad. Remove padding */
+  /*
+  @media screen and (max-width: $break-large) {
+  	margin-right: 0px;
+  }
   @media screen and (max-width: 999px) {
-    .site-main .widget-area {
-      float: right; } }
-  @media screen and (max-width: 643px) {
-    .site-main .widget-area {
-      margin: 0px;
-      xxwidth: 100%; } }
+  	float:right;
+  }
+  @media screen and (max-width: $break-small) {
+  	margin:0px;
+  	width: 300px;
+  	float:none;
+  	padding-bottom: 10px;
+  }*/ }
 
 .widget-area {
   background-color: #eeeeee;
@@ -283,14 +330,8 @@ input[type="reset"]:focus {
 .home {
   /* fix edit content on frontpage */ }
   .home #content {
-    xmargin: 0 auto;
-    xxmax-width: 720px;
-    xxmax-width: 67%;
     width: 70%;
     min-width: 30%; }
-    @media screen and (max-width: 643px) {
-      .home #content {
-        xxmin-width: 50%; } }
     .home #content section {
       display: inline-block;
       width: 30%;
@@ -300,14 +341,17 @@ input[type="reset"]:focus {
       margin-top: 30px;
       background-color: #eeeeee;
       height: 360px;
-      overflow: hidden; }
-      @media screen and (max-width: 1069px) {
-        .home #content section {
-          min-width: 300px; } }
-      @media screen and (max-width: 643px) {
-        .home #content section {
-          min-width: 330px;
-          height: auto; } }
+      overflow: hidden;
+      /*
+      			@media screen and (max-width: 1069px) {
+      				min-width: 300px;
+      			}
+      			
+      			@media screen and (max-width: $break-small) {
+      				min-width: 300px;
+      				height: auto;
+      			}
+      			*/ }
     .home #content h2 {
       background-color: #8cc63e;
       padding: 5px 8px;
@@ -366,19 +410,28 @@ input[type="reset"]:focus {
   width: 180px; }
 
 /* media queries */
-@media screen and (max-width: 643px) {
-  #content .entry-header,
-  #content .entry-content,
-  #content .entry-summary,
-  #content footer.entry-meta,
-  #content .featured-gallery {
-    padding-left: 20px;
-    padding-right: 376px; }
+/*
+@media screen and (max-width: $break-small) {
+	#content .entry-header,
+	#content .entry-content,
+	#content .entry-summary,
+	#content footer.entry-meta,
+	#content .featured-gallery {
+		padding-left: 20px;
+		padding-right: 20px;
+	}	
+*/
+/** Override entry-content on home page	 */
+	/*
+	.home #content .entry-content {
+		padding-right: 0px;
+		padding-left: 0px;
+	}
 
-  /** Override entry-content on home page	 */
-  .home #content .entry-content {
-    padding-right: 0px;
-    padding-left: 0px; }
-
-  #content .entry-thumbnail img {
-    display: inline; } }
+	#content {
+		.entry-thumbnail img {
+			display: inline;
+		}
+	}
+}
+*/

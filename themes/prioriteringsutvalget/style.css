@@ -12,12 +12,15 @@
   margin-top: 1.6em; }
 
 #main {
-  overflow: hidden;
-  position: relative; }
+  position: relative;
+  overflow: hidden; }
 
 #secondary {
-  padding-bottom: 9999px;
-  margin-bottom: -9999px; }
+  /* Tried to use "not so faux columns", but 
+  ** causing trouble with anchor tags 
+  **/
+  xxpadding-bottom: 9999px;
+  xxmargin-bottom: -9999px; }
 
 .home .entry-header {
   display: none; }

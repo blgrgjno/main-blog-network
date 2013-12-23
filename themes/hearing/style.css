@@ -1773,9 +1773,9 @@ a.buttonRound{
 /* Front page video area */
 
 #c_front_header {
-	background:url("img/front_bg.jpg") no-repeat scroll 8px 8px #FFFFFF;
+	background:url("img/enklereregler_forside.png") no-repeat scroll 8px 8px #FFFFFF;
 	margin-bottom: 20px;
-	height: 440px;
+	height: 520px;
 	padding:0;
 	position:relative;
 	/*overflow:hidden;*/
@@ -1789,6 +1789,7 @@ a.buttonRound{
 	position: absolute;
 	top: 16px;
 	width: 839px;
+	display:none;
 }
 ul.menu-videos {
 	margin:0;
@@ -1801,6 +1802,7 @@ ul.menu-videos {
 	position: absolute;
 	top: 0;
 	width: 839px;
+	display:none;
 }
 ul.menu-videos li {
 	position: absolute;

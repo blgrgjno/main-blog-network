@@ -208,6 +208,7 @@ function dss_get_default_theme_options() {
 		'footer_text'       => 'Some footer text goes here!',
 		'comments_position' => 'below-comments',
 		'main_top_widgets'  => '',
+		'collapse_comments' => '',
 	);
 
 	if ( is_rtl() )
@@ -259,6 +260,10 @@ function dss_theme_options_validate( $input ) {
 	// Comments position must be in our array of comment position options
 	if ( isset( $input['main_top_widgets'] ) )
 		$output['main_top_widgets'] = (bool) $input['main_top_widgets'];
+
+	// Will add javascript to collapse if comment height > DSS_COMMENT_MAX_HEIGHT
+	if ( isset( $input['collapse_comments'] ) ) 
+		$output['collapse_comments'] = (bool) $input['collapse_comments'];
 
 	// Sidebar color must be 3 or 6 hexadecimal characters
 	if ( isset( $input['sidebar_color'] ) && array_key_exists( $input['sidebar_color'], dss_sidebar_color() ) )
@@ -475,6 +480,17 @@ function dss_customize_register( $wp_customize ) {
 		'section'    => 'dss_layout',
 		'label'    => __( 'Display "Main Top" widget area only on front page.', 'dss' ),
 		'type'       => 'checkbox',
+	) );
+
+	$wp_customize->add_setting( 'dss_theme_options[collapse_comments]', array(
+		'type'				=> 'option',
+		'default'			=> $defaults['collapse_Comments'],
+		'sanitize_callback'	=> 'sanitize_key',
+	) );
+	$wp_customize->add_control( 'dss_theme_options[collapse_comments]', array(
+		'section'			=> 'dss_layout',
+		'label'				=> sprintf( __( 'Collapse comments higher than %dpx', 'dss' ), DSS_COMMENT_MAX_HEIGHT ),
+		'type'				=> 'checkbox',
 	) );
 
 	// Sidebar colors

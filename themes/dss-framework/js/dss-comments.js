@@ -1,8 +1,9 @@
 (function($) {
+
   function prepareElement(el) {
     if ( el && el.height() > DSS_COMMENTS.allowed_height ) {
       el.addClass("dss-comment-truncated", 1000);
-      el.find(".comment-content").append('<div class="dss-comment-expander"><a href="">Expand</a></div>');
+      el.find(".comment-content").append('<div class="dss-comment-expander"><a href="">' + DSS_COMMENTS.expand_str + '</a></div>');
     }
   }
 

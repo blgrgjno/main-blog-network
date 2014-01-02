@@ -18,6 +18,7 @@ if ( ! isset( $content_width ) )
  * Definitions
  */
 define( 'DSS_READ_MORE_LENGTH', 50 );
+define( 'DSS_COMMENT_MAX_HEIGHT', 100 ); // max height in px before collapse
 
 /**
  * Sets up theme defaults and registers support for various WordPress features.

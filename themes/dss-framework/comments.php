@@ -28,6 +28,16 @@
 	<?php // You can start editing here -- including this comment! ?>
 
 	<?php
+	if ( '1' == dss_get_theme_option( 'collapse_comments' ) ) {
+		wp_enqueue_script( 'dss-comments', get_template_directory_uri() . '/js/dss-comments.js', array( ), '20140101', true );
+		$localization_array = array ( 	'style' 				=> get_template_directory_uri() . '/dss-comments.css',
+										'allowed_height' 		=> DSS_COMMENT_MAX_HEIGHT,
+										'expand_str' 			=> __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'dss' )
+									);
+		wp_localize_script( 'dss-comments', 'DSS_COMMENTS', $localization_array );
+	}
+
+
 	if ( 'above-comments' == dss_get_theme_option( 'comments_position' ) ) {
 		comment_form();
 	}

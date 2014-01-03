@@ -470,6 +470,13 @@ input[type="reset"]:focus {
 }
 /* end home page */
 
+/* news list */
+.blog .entry-thumbnail img { 
+	float: left; 
+	margin-right: 1.5em; 
+	//margin-top: 1.5em; 
+}
+
 /* comments */
 .comment-respond {
 	background-color: $bg1-color;

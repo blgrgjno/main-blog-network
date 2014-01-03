@@ -53,7 +53,17 @@ body {
 .page-header {
   background-color: #fff; }
 
-/* end of reset */
+article.hentry {
+  padding: 20px 0px; }
+
+/* clean up the ugly pagenavn */
+.paging-navigation {
+  background-color: #fff; }
+
+/* remove icon */
+.paging-navigation .nav-previous .meta-nav, .paging-navigation .nav-next .meta-nav {
+  display: none; }
+
 /* hide h1 title and description */
 .site-description, .site-title {
   font-size: 14px;
@@ -76,7 +86,7 @@ body {
   font-style: normal; }
 
 html, body, div, span, applet, object, iframe, p,
-blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em,
+blockquote, pre, abbr, acronym, address, big, cite, code, del, dfn, em,
 img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i,
 center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption,
 tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure,
@@ -386,10 +396,16 @@ input[type="reset"]:focus {
 
 /* end home page */
 /* news list */
+/* align thumbnail in news list */
 .blog .entry-thumbnail img {
   float: left;
   margin-right: 1.5em; }
 
+/* remove author and categories */
+.categories-links, .author, .tags-links {
+  display: none; }
+
+/* end news list */
 /* comments */
 .comment-respond {
   background-color: #eeeeee; }

@@ -1,6 +1,8 @@
 <?php
 
 
+
+
 /**
 * Extend Recent Posts Widget
 *
@@ -108,5 +110,10 @@ function ansvarlig_body_classes( $classes ) {
 	return $classes;
 }
 add_filter( 'body_class', 'ansvarlig_body_classes' );
+
+add_filter( 'the_content_more_link', function( $link ) {
+	$link = preg_replace( '|#more-[0-9]+|', '', $link );
+	return $link;
+} );
 ?>
 

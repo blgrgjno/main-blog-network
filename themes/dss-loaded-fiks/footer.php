@@ -22,7 +22,8 @@ if (get_settings( $value['id'] ) === FALSE) { $$value['id'] = @$value['std']; } 
 			_e(' queries.', 'dss-loaded');
 */
 		?>
-		<b>Ansvarlig redaktør</b>: <a href="http://www.regjeringen.no/nb/dep/fad/dep/org/avdelinger/kommunikasjonsenheten/seniorradgiver-frode-jacobsen.html?id=450403">Frode Jacobsen</a> <b>Nettredaktør</b>: <a href="mailto:kaja.falck-ytter@fad.dep.no ">Kaja Falck-Ytter</a>.<br />		<a href="<?php bloginfo('url'); ?>" title="<?php bloginfo('name'); ?>"><?php 
+		<b>Ansvarlig redaktør</b>: <a href="kjersti.bjorgo@kmd.dep.no">Kjersti Bjørgo</a> 
+		<b>Nettredaktør</b>: <a href="mailto:kaja.falck-ytter@fad.dep.no ">Kaja Falck-Ytter</a>.<br />		<a href="<?php bloginfo('url'); ?>" title="<?php bloginfo('name'); ?>"><?php 
 	if (get_bloginfo('name')) {
 		bloginfo('name');
 	} else {
@@ -30,7 +31,7 @@ if (get_settings( $value['id'] ) === FALSE) { $$value['id'] = @$value['std']; } 
 	}
 ?></a> kjører <a href="http://wordpress.org">WordPress</a> og bygger på <a href="http://ajaydsouza.com/wordpress/wpthemes/connections-reloaded/" title="Powered by Connections Reloaded">Connections Reloaded</a>.
 		<br/>
-		<a href="http://fad.dep.no">Fornyings- admininstrajons- og kirkedepartementet</a>
+		<a href="http://fad.dep.no">Kommunal- og moderniseringsdepartementet</a>
 	</small></p>
 	<?php #echo $conrel_footer_stuff; ?>
 	<?php wp_footer(); ?>

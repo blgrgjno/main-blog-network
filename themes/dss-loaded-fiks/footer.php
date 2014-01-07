@@ -31,7 +31,7 @@ if (get_settings( $value['id'] ) === FALSE) { $$value['id'] = @$value['std']; } 
 	}
 ?></a> kjører <a href="http://wordpress.org">WordPress</a> og bygger på <a href="http://ajaydsouza.com/wordpress/wpthemes/connections-reloaded/" title="Powered by Connections Reloaded">Connections Reloaded</a>.
 		<br/>
-		<a href="http://fad.dep.no">Kommunal- og moderniseringsdepartementet</a>
+		<a href="http://kmd.dep.no">Kommunal- og moderniseringsdepartementet</a>
 	</small></p>
 	<?php #echo $conrel_footer_stuff; ?>
 	<?php wp_footer(); ?>

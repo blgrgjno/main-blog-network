@@ -15,9 +15,7 @@ body {
   min-width: 1025px; }
 
 #masthead {
-  background: url("img/oecd2013_headerN.png") no-repeat scroll right top white;
-  xxbackground-size: 100% auto;
-  xxbackground: none; }
+  background: url("img/oecd2013_headerN.png") no-repeat scroll right top white; }
 
 .lang_en #masthead {
   background: url("img/oecd2013_headerE.png") no-repeat scroll right top white; }
@@ -49,6 +47,12 @@ body {
 .comment-author .fn, .comment-author .url,
 .comment-reply-link, .comment-reply-login {
   color: #1863a0; }
+
+ul {
+  list-style-type: disc; }
+
+li {
+  margin-left: 10px; }
 
 .page-header {
   background-color: #fff; }
@@ -92,7 +96,7 @@ center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption,
 tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure,
 figcaption, footer, header, hgroup {
   font-family: Georgia,serif;
-  font-size: 14px; }
+  font-size: 15px; }
 
 h1 {
   color: #5e83b2;
@@ -163,6 +167,21 @@ a:hover {
   	padding-top: 35px;
   }*/ }
 
+/* nagivation */
+.nav-menu .sub-menu, .nav-menu .children {
+  background-color: #c1def5;
+  border: 0; }
+
+ul.nav-menu ul a, .nav-menu ul ul a {
+  color: #000000;
+  margin: 0;
+  width: 200px; }
+
+ul.nav-menu ul a:hover,
+.nav-menu ul ul a:hover {
+  background-color: #3c88c6; }
+
+/* end navigation */
 .sidebar .entry-header, .sidebar .entry-content, .sidebar .entry-summary, .sidebar .entry-meta {
   padding: 0 376px 0 20px;
   line-height: 120%;
@@ -254,7 +273,7 @@ input[type="search"] {
   	@media screen and (max-width: 999) {
   
   	}
-  	
+  
   	@media screen and (max-width: $break-small) {
   		margin:0 auto;
   		position:relative;
@@ -356,7 +375,7 @@ input[type="reset"]:focus {
       			@media screen and (max-width: 1069px) {
       				min-width: 300px;
       			}
-      			
+      
       			@media screen and (max-width: $break-small) {
       				min-width: 300px;
       				height: auto;
@@ -440,7 +459,7 @@ input[type="reset"]:focus {
 	#content .featured-gallery {
 		padding-left: 20px;
 		padding-right: 20px;
-	}	
+	}
 */
 /** Override entry-content on home page	 */
 	/*

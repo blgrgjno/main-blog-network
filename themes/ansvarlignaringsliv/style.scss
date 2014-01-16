@@ -17,8 +17,6 @@ body {
 
 #masthead {
 	background: url("img/oecd2013_headerN.png") no-repeat scroll right top #FFFFFF;
-	xxbackground-size: 100% auto;
-	xxbackground: none;
 }
 
 .lang_en #masthead {
@@ -42,6 +40,7 @@ $break-small: 643px;
 /* colors */
 $bg1-color: rgb(238,238,238);
 $nav-color: rgb(60,136,198);
+$nav-sub-color: #C1DEF5;
 $front-header-color: rgb(140,198,62);
 $link-color: #1863A0;
 $header-color: #5E83B2;
@@ -60,9 +59,16 @@ $header-color: #5E83B2;
 .comment-reply-link,.comment-reply-login,
 .widget a, .widget a:hover,
 .comment-author .fn,.comment-author .url,
-.comment-reply-link,.comment-reply-login 
+.comment-reply-link,.comment-reply-login
 {
 	color: $link-color;
+}
+
+ul {
+	list-style-type: disc;
+}
+li {
+	margin-left: 10px;
 }
 
 .page-header {
@@ -81,13 +87,13 @@ article.hentry {
 /* remove icon */
 .paging-navigation .nav-previous .meta-nav,.paging-navigation .nav-next .meta-nav {
   display: none;
-} 
+}
 
 /* hide h1 title and description */
 .site-description, .site-title {
 	font-size: 14px;
 	visibility:hidden;
-	color:transparent; 
+	color:transparent;
 	padding:0;
 	margin:0;
 	position:relative;
@@ -110,14 +116,14 @@ article.hentry {
 }
 
 $special: beteckna_medium,Myriad,sans-serif;
-html, body, div, span, applet, object, iframe,p, 
-blockquote, pre, abbr, acronym, address, big, cite, code, del, dfn, em, 
-img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, 
-center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, 
+html, body, div, span, applet, object, iframe,p,
+blockquote, pre, abbr, acronym, address, big, cite, code, del, dfn, em,
+img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i,
+center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption,
 tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure,
 figcaption, footer, header, hgroup {
 	font-family: Georgia,serif;
-	font-size: 14px;
+	font-size: 15px;
 }
 
 h1 {
@@ -167,7 +173,7 @@ button, input[type="submit"], input[type="button"], input[type="reset"] {
 
 /* override link colors in theme */
 a, .widget a, .entry-meta a, .entry-meta a:hover {
-	color: $link-color;	
+	color: $link-color;
 }
 
 a:hover {
@@ -177,7 +183,7 @@ a:hover {
 }
 
 /* layout */
-.site { 
+.site {
 	max-width: 1060px;
 	padding-left: 45px;
 	min-width: 1065px;
@@ -201,6 +207,22 @@ a:hover {
 		padding-top: 35px;
 	}*/
 }
+
+/* nagivation */
+.nav-menu .sub-menu, .nav-menu .children {
+  background-color: $nav-sub-color;
+  border:0;
+}
+ul.nav-menu ul a, .nav-menu ul ul a {
+  color: #000000;
+  margin: 0;
+  width: 200px;
+}
+ul.nav-menu ul a:hover,
+.nav-menu ul ul a:hover {
+	background-color: $nav-color;
+}
+/* end navigation */
 
 .sidebar .entry-header, .sidebar .entry-content, .sidebar .entry-summary, .sidebar .entry-meta {
   padding: 0 376px 0 20px;
@@ -237,7 +259,7 @@ a:hover {
 
 	word-wrap: break-word;
 
-	/* TODO: this is a terrible way of doing it */	
+	/* TODO: this is a terrible way of doing it */
 	> a,> ol,> ul, > div {
 		margin-left: 12px;
 	}
@@ -277,21 +299,21 @@ a:hover {
 /* end general widget */
 
 /* search */
-nav .search-form { 
-	display: none; 
+nav .search-form {
+	display: none;
 }
 
-.search-form .search-submit { 
-	display: inline; 
+.search-form .search-submit {
+	display: inline;
 }
 
-input[type="search"] { 
-	width: 200px; 
+input[type="search"] {
+	width: 200px;
 	border: 1px solid #C0C0C0;
 }
 
-.widget_search { 
-	background-color: $bg1-color; 
+.widget_search {
+	background-color: $bg1-color;
 	padding-bottom: 25px;
 }
 .widget_search h3 {
@@ -311,7 +333,7 @@ input[type="search"] {
 	@media screen and (max-width: 999) {
 
 	}
-	
+
 	@media screen and (max-width: $break-small) {
 		margin:0 auto;
 		position:relative;
@@ -321,8 +343,8 @@ input[type="search"] {
 	min-width: 100%;
 	width: 100%;
 }
-.site-main .widget-area { 
-	width: 310px; 
+.site-main .widget-area {
+	width: 310px;
 	/* trying to improve in ipad. Remove padding */
 	/*
 	@media screen and (max-width: $break-large) {
@@ -339,8 +361,8 @@ input[type="search"] {
 	}*/
 }
 
-.widget-area { 
-	background-color: $bg1-color; 
+.widget-area {
+	background-color: $bg1-color;
 	padding-top:18px;
 }
 /* end sidebar / widgets */
@@ -354,7 +376,7 @@ input[type="search"] {
 /* end site header */
 
 /* navbar */
-.navbar { 
+.navbar {
 	background-color: transparent;
 }
 
@@ -362,7 +384,7 @@ input[type="search"] {
 	border-bottom: 10px solid $nav-color;
 }
 
-.nav-menu .current_page_item > a, .nav-menu .current_page_ancestor > a, 
+.nav-menu .current_page_item > a, .nav-menu .current_page_ancestor > a,
 .nav-menu .current-menu-item > a, .nav-menu .current-menu-ancestor > a {
 	color: #fff;
 	background-color: $nav-color;
@@ -396,8 +418,8 @@ button, input[type="submit"], input[type="button"], input[type="reset"] {
 	text-decoration: none;
 }
 
-button:hover, button:focus, input[type="submit"]:hover, input[type="button"]:hover, 
-input[type="reset"]:hover, input[type="submit"]:focus, input[type="button"]:focus, 
+button:hover, button:focus, input[type="submit"]:hover, input[type="button"]:hover,
+input[type="reset"]:hover, input[type="submit"]:focus, input[type="button"]:focus,
 input[type="reset"]:focus {
 	background: $nav-color;
 	outline: medium none;
@@ -424,7 +446,7 @@ input[type="reset"]:focus {
 			@media screen and (max-width: 1069px) {
 				min-width: 300px;
 			}
-			
+
 			@media screen and (max-width: $break-small) {
 				min-width: 300px;
 				height: auto;
@@ -464,7 +486,7 @@ input[type="reset"]:focus {
 	}
 
 	/* fix edit content on frontpage */
-	.entry-content { 
+	.entry-content {
 		position:relative;
 	}
 
@@ -485,13 +507,13 @@ input[type="reset"]:focus {
 
 /* news list */
 /* align thumbnail in news list */
-.blog .entry-thumbnail img { 
-	float: left; 
-	margin-right: 1.5em; 
-	//margin-top: 1.5em; 
+.blog .entry-thumbnail img {
+	float: left;
+	margin-right: 1.5em;
+	//margin-top: 1.5em;
 }
 /* remove author and categories */
-.categories-links,.author,.tags-links { 
+.categories-links,.author,.tags-links {
 	display: none;
 }
 
@@ -538,7 +560,7 @@ input[type="reset"]:focus {
 	#content .featured-gallery {
 		padding-left: 20px;
 		padding-right: 20px;
-	}	
+	}
 */
 
 	/** Override entry-content on home page	 */

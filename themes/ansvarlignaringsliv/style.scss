@@ -67,9 +67,6 @@ $header-color: #5E83B2;
 ul {
 	list-style-type: disc;
 }
-li {
-	margin-left: 10px;
-}
 
 .page-header {
 	background-color: #fff;
@@ -244,6 +241,11 @@ ul.nav-menu ul a:hover,
 .entry-content img.alignleft,
 .entry-content .wp-caption.alignleft {
   margin-left:0;
+}
+
+/* decrease font on caption */
+.wp-caption .wp-caption-text, .entry-caption, .gallery-caption {
+  font-size: 15px;
 }
 /* end layout */
 

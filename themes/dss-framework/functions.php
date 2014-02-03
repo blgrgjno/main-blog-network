@@ -83,7 +83,7 @@ function dss_setup() {
 		// The height and width of our custom header.
 		'width' => apply_filters( 'dss_header_image_width', 976 ),
 		'height' => apply_filters( 'dss_header_image_height', 288 ),
-		'header-text' => false, 
+		'header-text' => false,
 		// Support flexible heights.
 		'flex-height' => true,
 		// Random image rotation by default.
@@ -215,6 +215,7 @@ endif; // dss_admin_header_image
  * @since DSS Framework 1.0
  * @author Ryan Hellyer <ryan@metronet.no>
  */
+if (! function_exists( 'dss_limit_excerpt' ) ):
 function dss_limit_excerpt( $excerpt ) {
 	$excerpt = preg_replace( " (\[.*?\])", '', $excerpt );
 	$excerpt = strip_shortcodes( $excerpt );
@@ -226,6 +227,7 @@ function dss_limit_excerpt( $excerpt ) {
 
 	return $excerpt;
 }
+endif; // dss_limit_excerpt
 add_filter( 'wp_trim_excerpt', 'dss_limit_excerpt' );
 
 /**
@@ -302,7 +304,7 @@ add_action( 'widgets_init', 'dss_widgets_init' );
 if ( ! function_exists( 'dss_content_nav' ) ) :
 /**
  * Display navigation to next/previous pages when applicable
- * 
+ *
  * Note: This function is modified from the Twenty Eleven theme
  *
  * @since DSS Framework 1.0
@@ -328,7 +330,7 @@ endif; // dss_content_nav
  * Pagination code
  * @since 1.0
  * Code developed from the excellent Genesis theme by StudioPress (http://studiopress.com/)
- * 
+ *
  * @since DSS Framework 1.0
  * @author Ryan Hellyer <ryan@metronet.no>
  */
@@ -353,7 +355,7 @@ function dss_pagination( $pages = '', $range = 2 ) {
 	if ( $paged >= 3 ) {
 		$links[] = $paged - 1; $links[] = $paged - 2;
 	}
-	if ( ($paged + 2) <= $max ) { 
+	if ( ($paged + 2) <= $max ) {
 		$links[] = $paged + 2; $links[] = $paged + 1;
 	}
 
@@ -394,7 +396,7 @@ function dss_pagination( $pages = '', $range = 2 ) {
 	if ( !in_array( $max, $links ) ) {
 		if ( !in_array( $max - 1, $links ) )
 			echo '<li>&hellip;</li>' . "\n";
-		
+
 		$current = ( $paged == $max ) ? 'class="active"' : '';
 		printf(
 			'<li %s><a href="%s">%s</a></li>' . "\n",
@@ -431,7 +433,7 @@ function dss_url_grabber() {
 
 /**
  * Count the number of footer sidebars to enable dynamic classes for the footer
- * 
+ *
  * Note: This function is modified from the Twenty Eleven theme
  *
  * @since DSS Framework 1.0
@@ -608,10 +610,10 @@ function dss_categories_to_ignore() {
 /**
  * Adds order class to widgets
  * Useful for targetting individual widgets
- * 
+ *
  * Works by modifying the global array containing the sidebar class names
  * Code adapted from http://konstruktors.com/blog/wordpress/3615-add-widget-order-css-class-sidebar/
- * 
+ *
  * @since 1.0
  * @global array $wp_registered_sidebars
  * @global array $wp_registered_widgets
@@ -636,12 +638,12 @@ function dss_widget_order_class() {
 
 			// Add first widget class
 			if ( 0 == $i ) {
-				$wp_registered_widgets[$widget_id]['classname'] .= ' first-widget'; 
+				$wp_registered_widgets[$widget_id]['classname'] .= ' first-widget';
 			}
 
 			// Add last widget class
 			if ( $number_of_widgets == ( $i + 1 ) ) {
-				$wp_registered_widgets[$widget_id]['classname'] .= ' last-widget'; 
+				$wp_registered_widgets[$widget_id]['classname'] .= ' last-widget';
 			}
 		}
 	}
@@ -650,7 +652,7 @@ add_action( 'init', 'dss_widget_order_class' );
 
 /**
  * Disables the admin panel notice in "Disable Search" plugin
- * 
+ *
  * @since 1.0
  * @author Ryan Hellyer <ryan@pixopoint.com>
  */
@@ -686,14 +688,14 @@ function dss_add_thumbnail_post_class( $classes ) {
 	} else {
 		$classes[] = 'no-thumbnail';
 	}
-	
+
 	return $classes;
 }
 add_filter( 'post_class', 'dss_add_thumbnail_post_class' );
 
 /*
  * Dequeue comment ratings plugin CSS
- * 
+ *
  * @since 1.0
  * @author Ryan Hellyer <ryan@metronet.no>
  */

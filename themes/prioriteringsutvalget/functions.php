@@ -9,5 +9,13 @@ function dss_limit_excerpt( $excerpt_param ) {
 	return $excerpt;
 }
 
+add_filter( 'comment_form_default_fields', 'dss_remove_url_filtered' );
+function dss_remove_url_filtered( $fields ) {
+	if ( isset( $fields['url'] ) ) {
+		unset( $fields['url'] );
+	}
+	return $fields;
+}
+
 ?>
 

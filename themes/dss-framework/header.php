@@ -25,7 +25,7 @@
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <meta name="viewport" content="width=device-width" />
 <meta name="DCSext.regj.blogg" content="<?php bloginfo( 'name' ); ?>" />
-<title><?php wp_title( '|', true, 'right' ); ?></title>
+<title><?php is_home() ? bloginfo('name') : wp_title( '|', true, 'right' ); ?></title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />

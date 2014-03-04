@@ -703,3 +703,28 @@ function dss_dequeue_comment_ratings_css() {
 	wp_dequeue_style( 'comment_ratings' );
 }
 add_action( 'wp_enqueue_scripts', 'dss_dequeue_comment_ratings_css' );
+
+
+/*
+ * Swap admin urls for mapped domains back to the main domain.
+ *
+ * @author Thomas Bensmann <thomas@metronet.no>
+ */
+add_filter( 'admin_url', function( $url, $path, $blog_id = 0 ){
+
+	if ( !is_multisite() || !defined( 'DOMAIN_MAPPING' ) )
+		return $url;
+	
+	$parsed = parse_url( $url );
+	$ms_url = parse_url( get_site_option( 'siteurl' ) );
+	
+	if( !array_key_exists( 'host', $ms_url ) || !array_key_exists( 'host', $parsed ) || $ms_url['host'] == $parsed['host'] )
+		return $url;
+
+	$blog = get_blog_details();
+	$scheme = ( is_ssl() || force_ssl_admin() ? 'https' : 'http' );
+	$new_url = preg_replace("/.*\/\/.*?\/(.*)/", "{$scheme}://{$blog->domain}{$blog->path}$1", $url);
+	
+	return $new_url;
+	
+}, 11, 3);

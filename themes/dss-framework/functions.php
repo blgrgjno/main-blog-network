@@ -714,17 +714,29 @@ add_filter( 'admin_url', function( $url, $path, $blog_id = 0 ){
 
 	if ( !is_multisite() || !defined( 'DOMAIN_MAPPING' ) )
 		return $url;
-	
+
 	$parsed = parse_url( $url );
 	$ms_url = parse_url( get_site_option( 'siteurl' ) );
-	
+
 	if( !array_key_exists( 'host', $ms_url ) || !array_key_exists( 'host', $parsed ) || $ms_url['host'] == $parsed['host'] )
 		return $url;
 
 	$blog = get_blog_details();
 	$scheme = ( is_ssl() || force_ssl_admin() ? 'https' : 'http' );
 	$new_url = preg_replace("/.*\/\/.*?\/(.*)/", "{$scheme}://{$blog->domain}{$blog->path}$1", $url);
-	
+
 	return $new_url;
-	
+
 }, 11, 3);
+
+/*
+ * Fix wp_title behaviour for front pages – also in child themes
+ *
+ * @author Thomas Bensmann <thomas@metronet.no>
+ */
+add_filter( 'wp_title', function ( $title ){
+	if( empty( $title ) && ( is_home() || is_front_page() ) ) {
+		return get_bloginfo( 'name' );
+	}
+	return $title;
+});

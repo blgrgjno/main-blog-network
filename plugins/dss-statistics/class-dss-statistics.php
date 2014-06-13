@@ -103,37 +103,9 @@ s.parentNode.insertBefore(p, s);
 	 * @access public
 	 */
 	public function webtrends() {
-		$webtrends = '<script>
-// WebTrends SmartSource Data Collector Tag v10.2.10
-// Copyright (c) 2012 Webtrends Inc.  All rights reserved.
-// Created: 120607 - support at arena dot no
-window.webtrendsAsyncInit=function(){
-    var dcs=new Webtrends.dcs().init({
-        dcsid:"dcsxsbgdj1000047wsugprn0p_9h5v",
-        domain:"sdc.arena.no",
-        fpcdom:"",
-        onsitedoms:"",
-        timezone:1,
-        adimpressions:true,
-        adsparam:"WT.ac",
-        paidsearchparams:"gclid",
-        trimoffsiteparams:false,
-        fpc:"WT_FPC",
-        i18n:false,
-        offsite:true,
-        anchor:true,
-        javascript:true,
-        download:true,
-        rightclick:true,
-	downloadtypes:"xls,doc,pdf,txt,csv,zip,ini,exe,pps,ppt,bat,mov,avi,wma,wmv,mp3,dot,docx,xlsx,ppsx,pptx,sdv,jpg,rar,gzip",
-        enabled:true
-        }).track();
-};
-(function(){
-    var s=document.createElement("script"); s.async=true; s.src="' . DSSSTATS_URL . '/js/webtrends-120601.js";    
-    var s2=document.getElementsByTagName("script")[0]; s2.parentNode.insertBefore(s,s2);
-}());
-</script>';
+		$webtrends = '<!-- START OF SmartSource Data Collector TAG v10.4.16 -->
+<!-- Copyright (c) 2014 Webtrends Inc. All rights reserved. -->
+<script type="text/javascript" src="https://s.arena.no/dcsriy92i00000slni0mi25ap_2u6h/load.js"></script>';
 
 		echo $webtrends;
 	}
